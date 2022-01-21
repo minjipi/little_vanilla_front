@@ -33,14 +33,84 @@ function Header() {
                   </MenuDropdownAppForm>
                   <MenuDropdownAppSpan>
                     앱 설치 URL 전송을 위하여 휴대폰번호를 입력하며 입력된
-                    정보는 저장되지 않습니다.zzzzzzz
+                    정보는 저장되지 않습니다.
                   </MenuDropdownAppSpan>
                 </MenuDropdownAppLi>
+
+                <MenuDropdownAppLiTwice>
+                  <MenuDropdownAppH2>2. QR코드로 앱설치하기</MenuDropdownAppH2>
+                  <QrImgicon></QrImgicon>
+                </MenuDropdownAppLiTwice>
               </MenuDropdownAppOl>
             </MenuDropdownAppInstallGuide>
           </NavBtnUiDropdown>
+
+          {/* 로그인 회원가입 */}
+          <Fr>
+            <GnbLoginBtn>로그인</GnbLoginBtn>
+            <GnbLoginBtn>회원가입</GnbLoginBtn>
+            <NavBtnUiDropdown>
+              <BtnDropdown>고객센터</BtnDropdown>
+              <MenuDropdown>
+                <CustomerLi>
+                  <CustomerA>공지사항</CustomerA>
+                </CustomerLi>
+                <CustomerLi>
+                  <CustomerA>자주 묻는 질문</CustomerA>
+                </CustomerLi>
+                <CustomerLi>
+                  <CustomerA>메일로 문의</CustomerA>
+                </CustomerLi>
+              </MenuDropdown>
+            </NavBtnUiDropdown>
+          </Fr>
         </InnerW>
       </TopNavigation>
+
+      <SearchHeaderDesktop>
+        <SearchHeaderDesktopBar>
+          <SearchHeaderDesktopLogo>
+            <IconIduslogo>
+              <Iduslogo></Iduslogo>
+            </IconIduslogo>
+          </SearchHeaderDesktopLogo>
+
+          {/* 작품, 클래스 */}
+          <SearchHeaderDesktopServiceNav>
+            <ServiceActive>작품</ServiceActive>
+            <Service>클래스</Service>
+          </SearchHeaderDesktopServiceNav>
+
+          {/* 검색바 */}
+          <SearchInputDesktop>
+            <SearchInputDesktopForm>
+              <HeaderSearch></HeaderSearch>
+              <SearchRelated>
+                <SearchResultUl>
+                  <SearchResultLi>
+                    <SearchResultLiKeyword>첫번재 검색어</SearchResultLiKeyword>
+                  </SearchResultLi>
+                </SearchResultUl>
+              </SearchRelated>
+              {/* 검색 아이콘 */}
+              <HeaderSearchLabel>
+                <SearchInputDesktopSearchButton>
+                  <IdusIconSearch className="fa fa-search" />
+                </SearchInputDesktopSearchButton>
+              </HeaderSearchLabel>
+            </SearchInputDesktopForm>
+          </SearchInputDesktop>
+          {/* 실시간 검색 */}
+          <KeywordTrendingDesktop>
+            <TrendingWordSlider>
+              <TrendingSlideWordA>
+                <TrendingSlideWordEm>1</TrendingSlideWordEm>
+                민지쿠키
+              </TrendingSlideWordA>
+            </TrendingWordSlider>
+          </KeywordTrendingDesktop>
+        </SearchHeaderDesktopBar>
+      </SearchHeaderDesktop>
     </HeaderTag>
   );
 }
@@ -204,6 +274,252 @@ const BtnPoint = styled.button`
 const MenuDropdownAppSpan = styled.span`
   font-size: 10px;
   color: #666;
+`;
+
+const MenuDropdownAppLiTwice = styled.li`
+  float: left;
+  width: 149px;
+  padding: 4px 0;
+  font-size: 11px;
+  color: #666;
+`;
+
+const QrImgicon = styled.img`
+  display: block;
+  width: 112px;
+  height: 112px;
+  background-image: url(https://www.idus.com/resources/dist/images/qrcode.png);
+`;
+
+const Fr = styled.nav`
+display: block;
+float: right;
+}
+`;
+
+const GnbLoginBtn = styled.a`
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 13.5px;
+  font-size: 11px;
+`;
+
+const BtnDropdown = styled.button`
+  height: 20px;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+`;
+
+const MenuDropdown = styled.ul`
+  // display: none;
+  position: absolute;
+  width: auto;
+  margin-top: 3px;
+  margin-left: -33px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 10%);
+
+  border-radius: 4px;
+  border: solid 1px #d9d9d9;
+  z-index: 111;
+  background: #fff;
+`;
+
+const CustomerLi = styled.li`
+  padding: 4px 0;
+  width: 80px;
+  font-size: 11px;
+  color: #666;
+  list-style: none;
+`;
+
+const CustomerA = styled.a`
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+`;
+
+const SearchHeaderDesktop = styled.div`
+  width: 826px;
+  height: 62px;
+  padding: 8px 0 4px;
+`;
+const SearchHeaderDesktopBar = styled.div`
+  width: 1056px;
+  height: 50px;
+  margin: 0 auto;
+  position: relative;
+`;
+const SearchHeaderDesktopLogo = styled.h1`
+  display: inline-block;
+  width: 128px;
+  height: 29px;
+  padding: 0 27px;
+  vertical-align: middle;
+  margin-top: -8px;
+`;
+const IconIduslogo = styled.a`
+  width: 74px;
+  height: 29px;
+  text-decoration: none;
+`;
+const Iduslogo = styled.img`
+  display: block;
+  width: 72.5px;
+  height: 29px;
+  background-image: url(https://www.idus.com/resources/dist/images/logo.svg);
+`;
+
+const SearchHeaderDesktopServiceNav = styled.nav`
+  display: inline-block;
+  vertical-align: middle;
+`;
+
+const ServiceActive = styled.a`
+  color: #ff7b30;
+  font-weight: bold;
+  font-size: 18px;
+  margin-right: 30px;
+  display: inline-block;
+`;
+
+const Service = styled.a`
+  font-size: 18px;
+  color: #666666;
+  margin-right: 30px;
+  display: inline-block;
+`;
+
+const SearchInputDesktop = styled.div`
+  position: relative;
+  margin-right: 24px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #ff7b30;
+  border-radius: 4px;
+  height: 40px;
+`;
+const SearchInputDesktopForm = styled.form`
+  height: 100%;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 4px;
+`;
+const HeaderSearch = styled.input.attrs({
+  placeholder: "설날선물을 검색해보세요",
+})`
+  padding: 0;
+  margin: 0;
+  border: 0 none;
+  text-align: left;
+  text-indent: 12px;
+  font-size: 14px;
+  width: 285px;
+  height: 36px;
+  vertical-align: middle;
+  line-height: 36px;
+`;
+
+const SearchRelated = styled.div`
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+  border-radius: 2px;
+  position: absolute;
+  z-index: 200;
+  background: #ffffff;
+  top: 39px;
+  left: 0;
+  right: 0;
+  padding: 8px 12px 0;
+  max-height: 538px;
+  overflow-y: auto;
+  // display: none;
+`;
+
+const SearchResultUl = styled.ul`
+  list-style: none;
+`;
+
+const SearchResultLi = styled.li`
+  position: relative;
+  cursor: pointer;
+  padding: 11px 0;
+  color: #333333;
+  display: flex;
+  align-items: center;
+`;
+
+const SearchResultLiKeyword = styled.span`
+  list-style: none;
+  // display: block;
+  display: -webkit-box;
+  height: 16.8px;
+  font-size: 12px;
+  line-height: 1.4;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 6px;
+`;
+
+const HeaderSearchLabel = styled.label`
+  display: inline-block;
+  width: 42px;
+  height: 100%;
+  font-weight: bold;
+`;
+const SearchInputDesktopSearchButton = styled.button`
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  border: 0 none;
+  background: none;
+  text-align: center;
+  font-size: 16px;
+  vertical-align: middle;
+`;
+const IdusIconSearch = styled.i`
+  color: #ff7b30;
+  font-size: 24px;
+  line-height: 38px;
+`;
+
+const KeywordTrendingDesktop = styled.div`
+  display: inline-block;
+  vertical-align: middle;
+  height: 21px;
+  position: relative;
+`;
+
+const TrendingWordSlider = styled.button`
+  position: relative;
+  width: 220px;
+  height: 21px;
+  overflow: hidden;
+`;
+
+const TrendingSlideWordA = styled.a`
+  position: absolute;
+  top: 0;
+  color: #666666;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  text-align: left;
+`;
+
+const TrendingSlideWordEm = styled.em`
+  color: #333333;
+  margin-right: 6px;
+  font-weight: bold;
 `;
 
 export default Header;
