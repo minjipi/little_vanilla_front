@@ -8,8 +8,9 @@ import Routing from "./Routing";
 ReactDOM.render(
   <>
     <ThemeProvider theme={theme}>
-      <Routing />
       <GlobalStyles />
+
+      <Routing />
     </ThemeProvider>
   </>,
   document.getElementById("root")
