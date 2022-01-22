@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "../../components/Nav/Header";
-import Footer from "./Footer";
-import MainTop from "./MainTop";
+import Footer from "../../components/Footer/Footer";
 
 function Main() {
   return (

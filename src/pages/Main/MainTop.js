@@ -30,7 +30,7 @@ function MainTop() {
 
 const FullW = styled.div`width`;
 const BannerTitle = styled.section`
-  color: #fff;
+
   position: relative;
   overflow: hidden;
   height: 420px;
@@ -49,6 +49,7 @@ const BannerImg = styled.img`
 const Col = styled.div`
   display: flex;
   -webkit-box-align: center;
+
   width: 1046px;
   height: 100%;
   margin: 0 auto;
@@ -81,6 +82,7 @@ const Title = styled.h1`
   font-weight: bold;
   line-height: 1.5;
   color: #333;
+
   width: 100%;
   z-index: 1;
 `;
