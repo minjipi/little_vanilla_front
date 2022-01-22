@@ -66,21 +66,18 @@ function Header() {
           </Fr>
         </InnerW>
       </TopNavigation>
-
       <SearchHeaderDesktop>
         <SearchHeaderDesktopBar>
           <SearchHeaderDesktopLogo>
             <IconIduslogo>
-              <Iduslogo></Iduslogo>
+              <Iduslogo src="https://www.idus.com/resources/dist/images/logo.svg" />
             </IconIduslogo>
           </SearchHeaderDesktopLogo>
-
           {/* 작품, 클래스 */}
           <SearchHeaderDesktopServiceNav>
             <ServiceActive>작품</ServiceActive>
             <Service>클래스</Service>
           </SearchHeaderDesktopServiceNav>
-
           {/* 검색바 */}
           <SearchInputDesktop>
             <SearchInputDesktopForm>
@@ -109,8 +106,57 @@ function Header() {
               </TrendingSlideWordA>
             </TrendingWordSlider>
           </KeywordTrendingDesktop>
+          {/* 내 정보 */}
+          <SearchHeaderProfileLinkNav>
+            <ProfileA>
+              <IconMypage className="far fa-user" />내 정보
+            </ProfileA>
+            <ProfileCartA>
+              <ProfileBadge>0</ProfileBadge>
+              <IdusIconCart className="fas fa-shopping-cart">
+                {/* <i class="fas fa-shopping-cart"></i> */}
+              </IdusIconCart>
+              장바구니
+            </ProfileCartA>
+          </SearchHeaderProfileLinkNav>
         </SearchHeaderDesktopBar>
       </SearchHeaderDesktop>
+
+      {/* 카테고리 */}
+      <FullGnbScrollDiv>
+        <InnerContainerGnb>
+          <UiGnbUl>
+            <UiGnbMenuLi>
+              <MenuSpan>카테고리</MenuSpan>
+              <UiGnbSubmenuDiv></UiGnbSubmenuDiv>
+            </UiGnbMenuLi>
+
+            <UiGnbMenuLi>
+              <MenuA>홈</MenuA>
+            </UiGnbMenuLi>
+
+            <UiGnbMenuLi>
+              <MenuAactive>오늘의 작품</MenuAactive>
+            </UiGnbMenuLi>
+
+            <UiGnbMenuLi>
+              <MenuA>실시간 구매</MenuA>
+            </UiGnbMenuLi>
+
+            <UiGnbMenuLi>
+              <MenuA>실시간 후기</MenuA>
+            </UiGnbMenuLi>
+
+            <UiGnbMenuLi>
+              <MenuA>작가님 추천</MenuA>
+            </UiGnbMenuLi>
+
+            <UiGnbMenuLi>
+              <MenuA>실시간 추천</MenuA>
+            </UiGnbMenuLi>
+          </UiGnbUl>
+        </InnerContainerGnb>
+      </FullGnbScrollDiv>
     </HeaderTag>
   );
 }
@@ -371,7 +417,6 @@ const Iduslogo = styled.img`
   display: block;
   width: 72.5px;
   height: 29px;
-  background-image: url(https://www.idus.com/resources/dist/images/logo.svg);
 `;
 
 const SearchHeaderDesktopServiceNav = styled.nav`
@@ -520,6 +565,133 @@ const TrendingSlideWordEm = styled.em`
   color: #333333;
   margin-right: 6px;
   font-weight: bold;
+`;
+
+const SearchHeaderProfileLinkNav = styled.nav`
+  display: inline-block;
+  margin-left: 74px;
+`;
+const ProfileA = styled.a`
+  margin-left: 0;
+  display: inline-block;
+  position: relative;
+  font-size: 10px;
+  color: #666666;
+  text-align: center;
+  vertical-align: middle;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 2px;
+  white-space: nowrap;
+  line-height: 1.4;
+`;
+const IconMypage = styled.i`
+  display: block;
+  font-size: 26px;
+  padding: 7px 3px 3px;
+  color: #333333;
+`;
+
+const ProfileCartA = styled.a`
+  display: inline-block;
+  position: relative;
+  margin-left: 20px;
+  font-size: 10px;
+  color: #666666;
+  text-align: center;
+  vertical-align: middle;
+  box-sizing: border-box;
+  border-radius: 2px;
+  white-space: nowrap;
+  line-height: 1.4;
+`;
+
+const ProfileBadge = styled.span`
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  color: #ffffff;
+  background: #ff7b30;
+  text-align: center;
+  line-height: 18px;
+  right: -3px;
+  top: 0;
+`;
+
+const IdusIconCart = styled.i`
+  display: block;
+  font-size: 26px;
+  padding: 7px 3px 3px;
+  color: #333333;
+  font-style: normal;
+`;
+
+const FullGnbScrollDiv = styled.div`
+  border-top: 1px solid #d9d9d9;
+  box-shadow: 0 4px 4px 0 rgb(0 0 0 / 20%), 0 1px 0 0 #d9d9d9;
+  position: absolute;
+  width: 100%;
+  z-index: 99;
+`;
+
+const InnerContainerGnb = styled.div`
+  width: 1056px;
+  margin: 0 auto;
+  position: relative;
+`;
+
+const UiGnbUl = styled.ul`
+  left: 0px;
+  font-size: 0;
+  position: relative;
+  background: #fff;
+  text-align: center;
+`;
+
+const UiGnbMenuLi = styled.li`
+  display: inline-block;
+  font-size: 13px;
+  color: #666;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+`;
+const UiGnbSubmenuDiv = styled.i`
+  display: none;
+  position: absolute;
+  width: 850px;
+  min-height: 100px;
+  top: 38px;
+  left: -64px;
+  z-index: 110;
+  padding: 18px 0;
+  box-shadow: 0 4px 4px 0 #00000033;
+  border: solid 1px #d9d9d9;
+  background-color: #fff;
+  vertical-align: middle;
+  color: #666;
+`;
+
+const MenuSpan = styled.span`
+  display: inline-block;
+  vertical-align: middle;
+  padding: 10px 11px;
+  color: #666;
+`;
+
+const MenuA = styled.a`
+  display: inline-block;
+  vertical-align: middle;
+  padding: 10px 11px;
+  color: #666;
+`;
+
+const MenuAactive = styled.a`
+  display: inline-block;
+  vertical-align: middle;
+  padding: 10px 11px;
+  color: #666;
 `;
 
 export default Header;
