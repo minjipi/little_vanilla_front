@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled, { css } from "styled-components";
 
 function Header() {
-  const [isHover, setIsHover] = useState(false);
+  const [isAppInstallHover, setIsAppInstallHover] = useState(false);
+  const [isCallCenterHover, setIsCallCenterHover] = useState(false);
 
   return (
     <HeaderTag>
@@ -10,12 +11,16 @@ function Header() {
         <InnerW>
           <NavBtnUiDropdown>
             <BtnDropdownReset
-              onMouseOver={() => setIsHover(true)}
-              onMouseOut={() => setIsHover(false)}
+              onMouseOver={() => setIsAppInstallHover(true)}
+              onMouseOut={() => setIsAppInstallHover(false)}
               readOnly
               value="아이디어스 앱 설치하기"
             />
-            <MenuDropdownAppInstallGuide isHover={isHover}>
+            <MenuDropdownAppInstallGuide
+              onMouseOver={() => setIsAppInstallHover(true)}
+              onMouseOut={() => setIsAppInstallHover(false)}
+              isAppInstallHover={isAppInstallHover}
+            >
               <MenuDropdownAppH1>
                 <SpIconImgAppicon />
                 아이디어스를 스마트폰으로 더욱 편리하게 사용하세요.
@@ -50,8 +55,17 @@ function Header() {
             <GnbLoginBtn>로그인</GnbLoginBtn>
             <GnbLoginBtn>회원가입</GnbLoginBtn>
             <NavBtnUiDropdown>
-              <BtnDropdown>고객센터</BtnDropdown>
-              <MenuDropdown>
+              <BtnDropdown
+                onMouseOver={() => setIsCallCenterHover(true)}
+                onMouseOut={() => setIsCallCenterHover(false)}
+              >
+                고객센터
+              </BtnDropdown>
+              <MenuDropdown
+                onMouseOver={() => setIsCallCenterHover(true)}
+                onMouseOut={() => setIsCallCenterHover(false)}
+                isCallCenterHover={isCallCenterHover}
+              >
                 <CustomerLi>
                   <CustomerA>공지사항</CustomerA>
                 </CustomerLi>
@@ -227,10 +241,35 @@ const MenuDropdownAppInstallGuide = styled.section`
   padding: 24px;
   border: 1px solid #333;
   ${(props) =>
-    props.isHover &&
+    props.isAppInstallHover &&
     css`
       display: block;
     `}
+
+  &:before {
+    content: "";
+    position: absolute;
+    border: 6px solid #d9d9d9;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    top: -12px;
+    margin-left: -6px;
+    border-bottom-color: #333;
+    left: 75px;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    border: 4px solid #fff;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    top: -8px;
+    margin-left: -4px;
+    left: 75px;
+  }
 `;
 
 const MenuDropdownAppH1 = styled.h1`
@@ -367,8 +406,9 @@ const BtnDropdown = styled.button`
   justify-content: center;
 `;
 
+// 고객센터drop
 const MenuDropdown = styled.ul`
-  // display: none;
+  display: none;
   position: absolute;
   width: auto;
   margin-top: 3px;
@@ -380,6 +420,36 @@ const MenuDropdown = styled.ul`
   border: solid 1px #d9d9d9;
   z-index: 111;
   background: #fff;
+
+  ${(props) =>
+    props.isCallCenterHover &&
+    css`
+      display: block;
+    `}
+
+  &:before {
+    content: "";
+    position: absolute;
+    border: 6px solid #d9d9d9;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    top: -12px;
+    left: 50%;
+    margin-left: -6px;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    border: 4px solid #fff;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    top: -8px;
+    left: 50%;
+    margin-left: -4px;
+  }
 `;
 
 const CustomerLi = styled.li`
@@ -646,10 +716,15 @@ const InnerContainerGnb = styled.div`
   width: 1056px;
   margin: 0 auto;
   position: relative;
+  transition: height 0.3s ease;
 `;
 
 const UiGnbUl = styled.ul`
   left: 0px;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-size: 0;
   position: relative;
   background: #fff;
