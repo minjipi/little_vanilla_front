@@ -71,7 +71,7 @@ function Header() {
         <SearchHeaderDesktopBar>
           <SearchHeaderDesktopLogo>
             <IconIduslogo>
-              <Iduslogo></Iduslogo>
+              <Iduslogo src="https://www.idus.com/resources/dist/images/logo.svg" />
             </IconIduslogo>
           </SearchHeaderDesktopLogo>
 
@@ -371,7 +371,6 @@ const Iduslogo = styled.img`
   display: block;
   width: 72.5px;
   height: 29px;
-  background-image: url(https://www.idus.com/resources/dist/images/logo.svg);
 `;
 
 const SearchHeaderDesktopServiceNav = styled.nav`
