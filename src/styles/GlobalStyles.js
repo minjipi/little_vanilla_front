@@ -84,9 +84,8 @@ const GlobalStyles = createGlobalStyle`
     input[readonly] {
     border: 0;
     }
-    
+
     i {
-        font-family: 'iconpack-idus' !important;
         speak: never;
         font-style: normal;
         font-weight: normal;
