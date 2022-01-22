@@ -169,6 +169,13 @@ const HeaderTag = styled.header`
   font: inherit;
   vertical-align: baseline;
   display: block;
+
+  &:after {
+    content: "";
+    display: block;
+    width: 100%;
+    padding-bottom: 40px;
+  }
 `;
 const TopNavigation = styled.div`
   border-top: 0 none;
