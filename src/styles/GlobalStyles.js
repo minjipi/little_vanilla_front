@@ -97,6 +97,13 @@ const GlobalStyles = createGlobalStyle`
         -moz-osx-font-smoothing: grayscale;
     }
     
+    ol, ul {
+        list-style: none;
+    }
+
+    article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+        display: block;
+    }
 `;
 
 export default GlobalStyles;
