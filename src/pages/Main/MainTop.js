@@ -30,7 +30,6 @@ function MainTop() {
 
 const FullW = styled.div`width`;
 const BannerTitle = styled.section`
-  color: #fff;
 
   position: relative;
   overflow: hidden;
