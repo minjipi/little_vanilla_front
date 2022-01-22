@@ -8,6 +8,7 @@ function Main() {
   return (
     <>
       <Header />
+      <DimmedBackground></DimmedBackground>
       <Contents>
         <MainTop></MainTop>
       </Contents>
@@ -20,5 +21,13 @@ const Contents = styled.div`
   padding-bottom: 64px;
   background: #fff;
 `;
-
+const DimmedBackground = styled.div`
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: #333;
+  opacity: 0.5;
+  z-index: 150;
+`;
 export default Main;

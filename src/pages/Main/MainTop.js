@@ -28,13 +28,17 @@ function MainTop() {
   );
 }
 
-const FullW = styled.div`width`;
+const FullW = styled.div`
+  width: 100%;
+`;
 const BannerTitle = styled.section`
+  background: rgb(198, 183, 162);
   position: relative;
   overflow: hidden;
   height: 420px;
   margin: 0 auto 40px auto;
   width: 100%;
+  color: #fff;
 `;
 
 const BannerImg = styled.img`
