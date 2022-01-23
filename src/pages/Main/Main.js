@@ -6,7 +6,7 @@ import SlideSection from "./SlideSection/SlideSection";
 import MainTop from "./MainBannerSection/MainTop";
 import WelcomeDeal from "./SlideSection/WelcomeDeal";
 import TodayProduct from "./SlideSection/TodayProduct";
-import productData from "/../../data/productData.json";
+import productData from "../../data/productData.json";
 
 function Main() {
   return (
