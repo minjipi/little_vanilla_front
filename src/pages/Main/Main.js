@@ -2,8 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
-import MainTop from "./MainTop";
 import WelcomeDeal from "./WelcomeDeal/WelcomeDeal";
+import MainTop from "./MainBannerSection/MainTop";
+import MainSlider from "../../components/MainSlider/MainSlider";
 
 function Main() {
   return (

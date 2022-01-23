@@ -521,13 +521,10 @@ const CustomerA = styled.a`
 `;
 
 const SearchHeaderDesktop = styled.div`
-  width: 826px;
-  height: 62px;
   padding: 8px 0 4px;
 `;
 const SearchHeaderDesktopBar = styled.div`
   width: 1056px;
-  height: 50px;
   margin: 0 auto;
   position: relative;
 `;

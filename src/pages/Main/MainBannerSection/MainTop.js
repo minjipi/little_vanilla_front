@@ -39,6 +39,16 @@ const BannerTitle = styled.section`
   margin: 0 auto 40px auto;
   width: 100%;
   color: #fff;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+  }
 `;
 
 const BannerImg = styled.img`
@@ -50,12 +60,24 @@ const BannerImg = styled.img`
 `;
 
 const Col = styled.div`
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-
+  -webkit-align-items: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   width: 1046px;
   height: 100%;
   margin: 0 auto;
+  &:after {
+    content: "";
+    display: table-cell;
+    width: 52%;
+  }
 `;
 
 const ShowroomArticle = styled.article`
