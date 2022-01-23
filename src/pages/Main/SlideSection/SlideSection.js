@@ -1,7 +1,8 @@
 import react, { useState } from "react";
 import styled, { css } from "styled-components";
+import MainSlider from "../../../components/MainSlider/MainSlider";
 
-function WelcomeDeal() {
+function SlideSection(props) {
   const [isAppInstallHover, setIsAppInstallHover] = useState(false);
 
   return (
@@ -9,13 +10,10 @@ function WelcomeDeal() {
       <MainRelatedProductSection>
         <MainRelatedProductSection>
           <LegacySliderStickyparent>
-            <SlickInitialized>
-              <SlickList>
-                <SlickTrack>
-                  <SsScSActive></SsScSActive>
-                </SlickTrack>
-              </SlickList>
-            </SlickInitialized>
+            <MainSlider title={props.title} />
+            <Outer>
+              <Inner>{props.contents}</Inner>
+            </Outer>
           </LegacySliderStickyparent>
         </MainRelatedProductSection>
       </MainRelatedProductSection>
@@ -76,4 +74,15 @@ const SsScSActive = styled.div`
   min-height: 1px;
 `;
 
-export default WelcomeDeal;
+const Outer = styled.div`
+  overflow: hidden;
+`;
+
+const Inner = styled.div`
+  overflow: hidden;
+  width: 100000px;
+  height: 100%;
+  position: relative;
+`;
+
+export default SlideSection;
