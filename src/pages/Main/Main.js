@@ -5,6 +5,9 @@ import Footer from "../../components/Footer/Footer";
 import SlideSection from "./SlideSection/SlideSection";
 import MainTop from "./MainBannerSection/MainTop";
 import WelcomeDeal from "./SlideSection/WelcomeDeal";
+import TodayProduct from "./SlideSection/TodayProduct";
+import productData from "../../data/productData.json";
+
 function Main() {
   return (
     <>
@@ -16,7 +19,10 @@ function Main() {
           title="첫구매, 인기작품 100원부터"
           contents={<WelcomeDeal />}
         />
-        <SlideSection title="오늘의 작품" contents="test2" />
+        <SlideSection
+          title="오늘의 작품"
+          contents={<TodayProduct productData={productData.results} />}
+        />
       </Contents>
       <Footer />
     </>
