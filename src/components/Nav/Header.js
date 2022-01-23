@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 function Header() {
   const [isAppInstallHover, setIsAppInstallHover] = useState(false);
   const [isCallCenterHover, setIsCallCenterHover] = useState(false);
+  const [isCategoryHover, setIsCategoryHover] = useState(false);
 
   return (
     <HeaderTag>
@@ -141,7 +142,60 @@ function Header() {
         <InnerContainerGnb>
           <UiGnbUl>
             <UiGnbMenuLi>
-              <MenuSpan>카테고리</MenuSpan>
+              <MenuSpan
+                onMouseOver={() => setIsCategoryHover(true)}
+                onMouseOut={() => setIsCategoryHover(false)}
+              >
+                카테고리
+              </MenuSpan>
+              <CategorySubmenu
+                onMouseOver={() => setIsCategoryHover(true)}
+                onMouseOut={() => setIsCategoryHover(false)}
+                isCategoryHover={isCategoryHover}
+              >
+                <CategorySubmenuUl>
+                  <CategorySubmenuLi>
+                    <CategorySubmenuA>디저트, 베이커리</CategorySubmenuA>
+                  </CategorySubmenuLi>
+
+                  <CategorySubmenuLi>
+                    <CategorySubmenuA>음료(커피, 차)</CategorySubmenuA>
+                  </CategorySubmenuLi>
+
+                  <CategorySubmenuLi>
+                    <CategorySubmenuA>전통주</CategorySubmenuA>
+                  </CategorySubmenuLi>
+
+                  <CategorySubmenuLi>
+                    <CategorySubmenuA>수제반찬</CategorySubmenuA>
+                  </CategorySubmenuLi>
+
+                  <CategorySubmenuLi>
+                    <CategorySubmenuA>그외 수제먹거리</CategorySubmenuA>
+                  </CategorySubmenuLi>
+
+                  <CategorySubmenuLi>
+                    <CategorySubmenuA>농축수산물</CategorySubmenuA>
+                  </CategorySubmenuLi>
+                  <CategorySubmenuLi>
+                    <CategorySubmenuA>의류</CategorySubmenuA>
+                  </CategorySubmenuLi>
+                </CategorySubmenuUl>
+                <CategorySubmenuUl>
+                  <CategorySubmenuLi>시계</CategorySubmenuLi>
+                  <CategorySubmenuLi>섬유, 퀼트</CategorySubmenuLi>
+                </CategorySubmenuUl>
+
+                <CategorySubmenuUl>
+                  <CategorySubmenuLi>꽃</CategorySubmenuLi>
+                  <CategorySubmenuLi>캔들, 디퓨저, 방향제</CategorySubmenuLi>
+                </CategorySubmenuUl>
+
+                <CategorySubmenuUl>
+                  <CategorySubmenuLi>휴대폰 케이스</CategorySubmenuLi>
+                  <CategorySubmenuLi>전자기기 관련</CategorySubmenuLi>
+                </CategorySubmenuUl>
+              </CategorySubmenu>
               <UiGnbSubmenuDiv></UiGnbSubmenuDiv>
             </UiGnbMenuLi>
 
@@ -150,7 +204,7 @@ function Header() {
             </UiGnbMenuLi>
 
             <UiGnbMenuLi>
-              <MenuAactive>오늘의 작품</MenuAactive>
+              <MenuA>오늘의 작품</MenuA>
             </UiGnbMenuLi>
 
             <UiGnbMenuLi>
@@ -558,7 +612,7 @@ const SearchRelated = styled.div`
   padding: 8px 12px 0;
   max-height: 538px;
   overflow-y: auto;
-  // display: none;
+  display: none;
 `;
 
 const SearchResultUl = styled.ul`
@@ -760,6 +814,83 @@ const MenuSpan = styled.span`
   vertical-align: middle;
   padding: 10px 11px;
   color: #666;
+
+  &:hover {
+    color: #ff7b30;
+  }
+`;
+
+const CategorySubmenu = styled.div`
+  display: none;
+  position: absolute;
+  width: 850px;
+  min-height: 100px;
+  top: 38px;
+  left: -64px;
+  z-index: 110;
+  padding: 18px 0;
+  box-shadow: 0 4px 4px 0 #00000033;
+  border: solid 1px #d9d9d9;
+  background-color: #fff;
+
+  &:after {
+    border: 8px solid #fff;
+    top: -16px;
+    left: 89px;
+  }
+
+  &:before {
+    border: 9px solid #d9d9d9;
+    top: -18px;
+    left: 88px;
+  }
+
+  &:before,
+  :after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+  }
+
+  ${(props) =>
+    props.isCategoryHover &&
+    css`
+      display: block;
+    `}
+`;
+
+const CategorySubmenuUl = styled.ul`
+  color: #333;
+  width: 25%;
+  float: left;
+  text-align: left;
+  border-right: 1px solid #d9d9d9;
+  padding: 0 18px;
+  height: 100%;
+  position: relative;
+`;
+
+const CategorySubmenuLi = styled.li`
+  &:first-child {
+    margin-top: 0;
+  }
+  font-size: 12px;
+  line-height: 24px;
+  margin-top: 8px;
+  padding: 0 12px;
+  position: relative;
+
+  &:hover {
+    background: #faece5;
+  }
+`;
+
+const CategorySubmenuA = styled.a`
+  display: inline-block;
+  width: 100%;
 `;
 
 const MenuA = styled.a`
@@ -767,13 +898,10 @@ const MenuA = styled.a`
   vertical-align: middle;
   padding: 10px 11px;
   color: #666;
-`;
 
-const MenuAactive = styled.a`
-  display: inline-block;
-  vertical-align: middle;
-  padding: 10px 11px;
-  color: #666;
+  &:hover {
+    color: #ff7b30;
+  }
 `;
 
 export default Header;
