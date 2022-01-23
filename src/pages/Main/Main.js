@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
 import MainTop from "./MainTop";
+import WelcomeDeal from "./WelcomeDeal/WelcomeDeal";
 
 function Main() {
   return (
@@ -11,6 +12,7 @@ function Main() {
       <DimmedBackground></DimmedBackground>
       <Contents>
         <MainTop></MainTop>
+        <WelcomeDeal></WelcomeDeal>
       </Contents>
       <Footer />
     </>
