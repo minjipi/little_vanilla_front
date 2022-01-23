@@ -103,6 +103,15 @@ const GlobalStyles = createGlobalStyle`
     article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
         display: block;
     }
+
+    .slick-slider .slick-track, .slick-slider .slick-list {
+        -webkit-transform: translate3d(0, 0, 0);
+        -moz-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+        -o-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+    
 `;
 
 export default GlobalStyles;
