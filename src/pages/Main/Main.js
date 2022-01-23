@@ -2,10 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
-import WelcomeDeal from "./WelcomeDeal/WelcomeDeal";
+import SlideSection from "./SlideSection/SlideSection";
 import MainTop from "./MainBannerSection/MainTop";
-import MainSlider from "../../components/MainSlider/MainSlider";
-
+import WelcomeDeal from "./SlideSection/WelcomeDeal";
 function Main() {
   return (
     <>
@@ -13,7 +12,11 @@ function Main() {
       <DimmedBackground></DimmedBackground>
       <Contents>
         <MainTop></MainTop>
-        <WelcomeDeal></WelcomeDeal>
+        <SlideSection
+          title="첫구매, 인기작품 100원부터"
+          contents={<WelcomeDeal />}
+        />
+        <SlideSection title="오늘의 작품" contents="test2" />
       </Contents>
       <Footer />
     </>
