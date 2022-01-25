@@ -6,7 +6,9 @@ import SlideSection from "./SlideSection/SlideSection";
 import MainTop from "./MainBannerSection/MainTop";
 import WelcomeDeal from "./SlideSection/WelcomeDeal";
 import TodayProduct from "./SlideSection/TodayProduct";
+
 import productData from "../../data/productData.json";
+import welcomeDealData from "../../data/welcomeDealData.json";
 
 function Main() {
   return (
@@ -17,7 +19,7 @@ function Main() {
         <MainTop></MainTop>
         <SlideSection
           title="첫구매, 인기작품 100원부터"
-          contents={<WelcomeDeal />}
+          contents={<WelcomeDeal welcomeDealData={welcomeDealData.results} />}
         />
         <SlideSection
           title="오늘의 작품"

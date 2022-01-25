@@ -1,76 +1,80 @@
 import react, { useState } from "react";
 import styled, { css } from "styled-components";
 
-function WelcomeDeal() {
+function WelcomeDeal(props) {
   return (
     <SsScSActive>
       <div>
         <UiGridMt10>
           <UiGridCols4>
-            <UiGridItem>
-              <BaseCardVertical>
-                <BaseCardVerticalA>
-                  <CardThumbCover>
-                    <CardThumbImg
-                      className="icon-favorite"
-                      src="https://image.idus.com/static/ticketdeal/badge_welcomedeal.png"
-                    />
-                    <CardThumbDiv />
-                    <ProductBookmark>
-                      <ProductBookmarkBtn>
-                        <IconFavorite />
-                      </ProductBookmarkBtn>
-                    </ProductBookmark>
+            {props.welcomeDealData.map((welcomeDeal) => {
+              return (
+                <UiGridItem key={welcomeDeal.id}>
+                  <BaseCardVertical>
+                    <BaseCardVerticalA>
+                      <CardThumbCover>
+                        <CardThumbImg
+                          className="icon-favorite"
+                          src="https://image.idus.com/static/ticketdeal/badge_welcomedeal.png"
+                        />
+                        <CardThumbDiv backImg={welcomeDeal.imageurl} />
+                        <ProductBookmark>
+                          <ProductBookmarkBtn>
+                            <IconFavorite />
+                          </ProductBookmarkBtn>
+                        </ProductBookmark>
 
-                    <CardInfoProductInfo>
-                      <ProductInfoArtistName>
-                        💖빙고씨푸드마스터셰프이슬👨‍
-                      </ProductInfoArtistName>
-                      <ProductInfoName>
-                        [웰컴딜] 2인분 갈릭 버터 새우 밀키트
-                      </ProductInfoName>
-                      <ProductInfoPrice>
-                        <SaleRate> 93% </SaleRate>
-                        <PriceSale>
-                          1000<PriceSaleWon>원</PriceSaleWon>
-                        </PriceSale>
+                        <CardInfoProductInfo>
+                          <ProductInfoArtistName>
+                            {welcomeDeal.writer}
+                          </ProductInfoArtistName>
+                          <ProductInfoName>{welcomeDeal.title}</ProductInfoName>
+                          <ProductInfoPrice>
+                            <SaleRate>{welcomeDeal.priceRate}%</SaleRate>
+                            <PriceSale>
+                              {welcomeDeal.salePrice}
+                              <PriceSaleWon>원</PriceSaleWon>
+                            </PriceSale>
 
-                        <PriceOriginBeforeSale>
-                          <PriceOriginBeforeSaleDel>
-                            13,900원
-                          </PriceOriginBeforeSaleDel>
-                        </PriceOriginBeforeSale>
-                      </ProductInfoPrice>
-                      <ProductInfoBadgeGroup>
-                        <BadgeFood>안전식품</BadgeFood>
-                      </ProductInfoBadgeGroup>
+                            <PriceOriginBeforeSale>
+                              <PriceOriginBeforeSaleDel>
+                                {welcomeDeal.price}원
+                              </PriceOriginBeforeSaleDel>
+                            </PriceOriginBeforeSale>
+                          </ProductInfoPrice>
+                          {welcomeDeal.type === "안전식품" ? (
+                            <ProductInfoBadgeGroup>
+                              <BadgeFood>안전식품</BadgeFood>
+                            </ProductInfoBadgeGroup>
+                          ) : (
+                            <></>
+                          )}
 
-                      <ProductInfoReview>
-                        <ReviewRating>
-                          <UiRatingFr>
-                            <Star className="fas fa-star" />
-                            <Star className="fas fa-star" />
-                            <Star className="fas fa-star" />
-                            <Star className="fas fa-star" />
-                            <Star className="fas fa-star" />
-                          </UiRatingFr>
-                          <ReviewCount>(124)</ReviewCount>
-                        </ReviewRating>
-                        <ReviewComment>
-                          <ReviewCommentBadge>후기</ReviewCommentBadge>
-                          <ReviewCommentComments>
-                            웰컴이벤트류 구입했는데 너무맛있네용~~^^ 포장도 너무
-                            꼼꼼히 해주시고 여는순간 달콤한 쿠키향이 확~ 맛도
-                            너무 좋아서 이가격에 구매한데 괜히 죄송한느낌까지
-                            들어요😭 재구매하러 올께요!!
-                          </ReviewCommentComments>
-                        </ReviewComment>
-                      </ProductInfoReview>
-                    </CardInfoProductInfo>
-                  </CardThumbCover>
-                </BaseCardVerticalA>
-              </BaseCardVertical>
-            </UiGridItem>
+                          <ProductInfoReview>
+                            <ReviewRating>
+                              <UiRatingFr>
+                                <Star className="fas fa-star" />
+                                <Star className="fas fa-star" />
+                                <Star className="fas fa-star" />
+                                <Star className="fas fa-star" />
+                                <Star className="fas fa-star" />
+                              </UiRatingFr>
+                              <ReviewCount>(124)</ReviewCount>
+                            </ReviewRating>
+                            <ReviewComment>
+                              <ReviewCommentBadge>후기</ReviewCommentBadge>
+                              <ReviewCommentComments>
+                                {welcomeDeal.comment}
+                              </ReviewCommentComments>
+                            </ReviewComment>
+                          </ProductInfoReview>
+                        </CardInfoProductInfo>
+                      </CardThumbCover>
+                    </BaseCardVerticalA>
+                  </BaseCardVertical>
+                </UiGridItem>
+              );
+            })}
           </UiGridCols4>
         </UiGridMt10>
       </div>
@@ -122,14 +126,7 @@ const BaseCardVertical = styled.div`
 `;
 
 const BaseCardVerticalA = styled.a`
-  flex-direction: column;
-  border-radius: 2px;
-  transition: all 0.3s;
-  display: block !important;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  margin-left: 16px;
-  margin-top: 16px;
+  -webkit-tap-highlight-color: transparent;
 `;
 
 const CardThumbCover = styled.div`
@@ -149,7 +146,7 @@ const CardThumbImg = styled.img`
 `;
 
 const CardThumbDiv = styled.div`
-  background-image: url(https://image.idus.com/image/files/80a2555dae5d4afebadc9f38aed072f4_512.jpg);
+  background-image: url(${(props) => props.backImg});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 50%;
