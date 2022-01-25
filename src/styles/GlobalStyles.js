@@ -59,16 +59,6 @@ const GlobalStyles = createGlobalStyle`
         list-style: none;
     }
 
-    ul {
-        display: block;
-        list-style-type: disc;
-        margin-block-start: 1em;
-        margin-block-end: 1em;
-        margin-inline-start: 0px;
-        margin-inline-end: 0px;
-        padding-inline-start: 40px;
-    }
-
     div {
         display: block;
     }
@@ -96,10 +86,6 @@ const GlobalStyles = createGlobalStyle`
         -moz-osx-font-smoothing: grayscale;
     }
     
-    ol, ul {
-        list-style: none;
-    }
-
     article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
         display: block;
     }
@@ -112,6 +98,10 @@ const GlobalStyles = createGlobalStyle`
         transform: translate3d(0, 0, 0);
     }
     
+    a, button, .tab, input {
+        -webkit-tap-highlight-color: transparent;
+    }
+
 `;
 
 export default GlobalStyles;
