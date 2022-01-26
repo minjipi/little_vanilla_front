@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
-
+import ProductDetail from "./ProductDetail";
 function Product() {
   return (
     <>
@@ -61,6 +61,7 @@ function Product() {
             </ProductDetailBuyBox>
           </StickyAsideProductD>
         </InnerWMobileFull>
+        <ProductDetail />
       </ContentRel>
       <Footer />
     </>
