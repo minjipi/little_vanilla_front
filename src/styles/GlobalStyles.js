@@ -102,6 +102,11 @@ const GlobalStyles = createGlobalStyle`
         -webkit-tap-highlight-color: transparent;
     }
 
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
 `;
 
 export default GlobalStyles;

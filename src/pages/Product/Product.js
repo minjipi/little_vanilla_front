@@ -34,10 +34,10 @@ function Product() {
               </FieldsetUiControl>
             </ImagePreviewUiSlider>
           </ImgSection>
-          {/*  */}
+
           <StickyAsideProductD>
-            <ProductDetailBuyBox>
-              <ProductDetailBuyBoxOld>
+            <div>
+              <div>
                 <StickyAsideDiv>
                   <ArtistCard>
                     <ArtistCardSplit>
@@ -55,10 +55,126 @@ function Product() {
                     [웰컴딜] 써지컬 우리말기념일목걸이🌙
                   </StickyAsideProducTitle>
 
-                  <ProductDetailInfo />
+                  <div>
+                    <PriceTagD>
+                      <StickyAsideMRight>
+                        <LikeBtn>
+                          <ProductDetailStarTxt1>
+                            <ProductDetailStarTxt2>
+                              <ProductDetailStarTxt2I className="far fa-heart" />
+                            </ProductDetailStarTxt2>
+                            <ProductDetailStarTxt3>
+                              <ProductDetailStarTxt3P>
+                                1,000
+                              </ProductDetailStarTxt3P>
+                            </ProductDetailStarTxt3>
+                          </ProductDetailStarTxt1>
+                        </LikeBtn>
+                        <ProductDetailShareBtn>
+                          <ProductDetailShare>
+                            <ShareIcon className="fas fa-share-alt" />
+                          </ProductDetailShare>
+                        </ProductDetailShareBtn>
+                      </StickyAsideMRight>
+
+                      <ProductDetailSpan>
+                        <PriceTagHilight>
+                          <PriceTagHilightEm>89</PriceTagHilightEm>%
+                        </PriceTagHilight>
+                        <PriceTagStrong>
+                          <Strong>1,000</Strong>원
+                        </PriceTagStrong>
+                        <PriceTagCrossout>9,000원</PriceTagCrossout>
+                      </ProductDetailSpan>
+                      <Maker></Maker>
+                    </PriceTagD>
+                    <PricetagD2>
+                      <MarkR>
+                        <CountUp>750 명</CountUp>
+                        <DarkSpan>구매</DarkSpan>
+                      </MarkR>
+                    </PricetagD2>
+                    <div>
+                      <DataRow>
+                        <DataRowTable>
+                          <DataRowTr>
+                            <TitleTd>적립금</TitleTd>
+                            <ContenetTd>
+                              <span>
+                                최대
+                                <DataRowSpan>35P</DataRowSpan>
+                              </span>
+                            </ContenetTd>
+                          </DataRowTr>
+                        </DataRowTable>
+
+                        <BalloonContent>
+                          <BalloonBtn>
+                            <CloseIcon className="fas fa-times" />
+                          </BalloonBtn>
+                          <PointBal>
+                            <PointBalTable>
+                              <PointBalTr>
+                                <PointBalTd>회원등급 적립률</PointBalTd>
+                                <PointBalTd2> 2% </PointBalTd2>
+                              </PointBalTr>
+                              <PointBalTr>
+                                <PointBalTd> VIP 클럽 추가 적립 </PointBalTd>
+                                <PointBalTd2> +1% </PointBalTd2>
+                              </PointBalTr>
+                              <PointBalTr>
+                                <PointBalTd> 간편 결제 시 </PointBalTd>
+                                <PointBalTd2> +0.5% </PointBalTd2>
+                              </PointBalTr>
+                            </PointBalTable>
+
+                            <div>
+                              <VipSection>
+                                <VipSectionDiv />
+                                <VipSectionTr>
+                                  <VipSectionTd>
+                                    <h4>아이디어스 VIP 클럽</h4>
+                                  </VipSectionTd>
+                                  <VipSectionTdR>
+                                    <VipSectionA>더 알아보기</VipSectionA>
+                                  </VipSectionTdR>
+                                </VipSectionTr>
+                              </VipSection>
+                              <VipSectionDesc>
+                                핸드메이드를 사랑하는 회원님들에게 제공하는 유료
+                                서비스로 작품 금액의 1.0% 추가 적립 및 배송비
+                                무료 혜택을 제공합니다.
+                              </VipSectionDesc>
+                            </div>
+                          </PointBal>
+                        </BalloonContent>
+                      </DataRow>
+                      <DataRow>
+                        <DataRowTable>
+                          <DataRowTr>
+                            <TitleTd>구매후기</TitleTd>
+                            <ContenetTd>
+                              <ReviewRateBox>
+                                <ReviewRateBoxA>
+                                  <ReviewRateDiv>
+                                    <ReviewRateSpan>
+                                      <Star className="fas fa-star" />
+                                    </ReviewRateSpan>
+                                  </ReviewRateDiv>
+                                  <ReviewRateDivLeft></ReviewRateDivLeft>
+                                </ReviewRateBoxA>
+                              </ReviewRateBox>
+                            </ContenetTd>
+                          </DataRowTr>
+                        </DataRowTable>
+                      </DataRow>
+                      <DataRow></DataRow>
+                      <DataRow></DataRow>
+                    </div>
+                  </div>
                 </StickyAsideDiv>
-              </ProductDetailBuyBoxOld>
-            </ProductDetailBuyBox>
+              </div>
+            </div>
           </StickyAsideProductD>
         </InnerWMobileFull>
       </ContentRel>
@@ -246,10 +362,6 @@ const StickyAsideProductD = styled.aside`
   display: block;
 `;
 
-const ProductDetailBuyBox = styled.div``;
-
-const ProductDetailBuyBoxOld = styled.div``;
-
 const StickyAsideDiv = styled.div`
   padding: 16px;
   border-radius: 4px;
@@ -329,8 +441,6 @@ const StickyAsideProducTitle = styled.h2`
   margin-bottom: 12px;
 `;
 
-const ProductDetailInfo = styled.div``;
-
 const PriceTagD = styled.div`
   margin-bottom: 8px;
 `;
@@ -363,8 +473,273 @@ const ProductDetailStarTxt2 = styled.div`
   align-items: center;
 `;
 
+const ProductDetailStarTxt2I = styled.i`
+  font-size: 24px;
+  color: #666666;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+`;
+
 const ProductDetailStarTxt3 = styled.div`
   position: relative;
+`;
+
+const ProductDetailStarTxt3P = styled.p`
+  position: absolute;
+  top: 0;
+  width: 100px;
+  left: -39px;
+  font-size: 10px;
+  line-height: 1;
+  color: #666666;
+`;
+
+const ProductDetailShareBtn = styled.button`
+  margin-left: 16px;
+  margin-right: 4px;
+  margin-top: 2px;
+`;
+
+const ProductDetailShare = styled.div`
+  height: 25px;
+`;
+
+const ShareIcon = styled.i`
+  color: #666;
+  font-size: 24px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+`;
+
+const ProductDetailSpan = styled.span``;
+
+const PriceTagHilight = styled.span`
+  padding-right: 8px;
+  color: #ff4b50;
+  font-size: 24px;
+`;
+
+const PriceTagHilightEm = styled.em`
+  font-size: 24px;
+  font-weight: bold;
+`;
+
+const PriceTagStrong = styled.span`
+  padding-right: 6px;
+  font-size: 24px;
+  color: #333;
+`;
+
+const Strong = styled.strong`
+  font-size: 24px;
+  font-weight: bold;
+`;
+
+const PriceTagCrossout = styled.del`
+  font-size: 14px;
+  color: #999;
+`;
+
+const Maker = styled.div``;
+
+const PricetagD2 = styled.div`
+  height: 20px;
+  margin-bottom: 16px;
+`;
+
+const MarkR = styled.mark`
+  float: right;
+  color: #666666;
+  font-size: 14px;
+  background: none;
+`;
+
+const CountUp = styled.span`
+  color: #666666;
+  font-weight: bold;
+`;
+
+const DarkSpan = styled.span`
+  color: #666666;
+`;
+
+const DataRow = styled.div`
+  padding-bottom: 8px;
+  position: relative;
+`;
+
+const DataRowTable = styled.table`
+  table-layout: fixed;
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+const DataRowTr = styled.tr`
+  color: inherit;
+  font-size: inherit;
+`;
+
+const TitleTd = styled.td`
+  width: 80px;
+  font-size: 14px;
+  color: #666666;
+`;
+
+const ContenetTd = styled.td`
+  color: #333333;
+  font-size: 14px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const DataRowSpan = styled.div`
+  font-weight: bold;
+`;
+
+const BalloonContent = styled.div`
+  //   display: none;
+  width: 220px;
+  position: absolute;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 4px 0 rgb(0 0 0 / 30%);
+  border: solid 1px #666666;
+  background-color: rgba(255, 255, 255, 0.92);
+  left: 120px;
+  top: 0;
+  z-index: 101;
+`;
+
+const BalloonBtn = styled.button`
+  font-size: 12px;
+  text-align: left;
+  display: inline-block;
+  width: 100%;
+  color: #666666;
+  display: none !important;
+`;
+
+const CloseIcon = styled.i`
+  font-family: "idus-icon" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+`;
+
+const PointBal = styled.div`
+  display: initial;
+  font-size: 12px;
+  text-align: left;
+  display: inline-block;
+  width: 100%;
+  color: #666666;
+`;
+
+const PointBalTable = styled.table`
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+`;
+
+const PointBalTr = styled.tr`
+  height: 20px;
+  color: inherit;
+  font-size: inherit;
+`;
+
+const PointBalTd = styled.td`
+  width: 80%;
+  text-align: left;
+  display: table;
+`;
+
+const PointBalTd2 = styled.td`
+  text-align: right;
+  width: 20%;
+`;
+
+const VipSection = styled.table`
+  margin-top: 8px;
+  height: 40px;
+  table-layout: fixed;
+  width: 100%;
+  box-sizing: border-box;
+  table-layout: fixed;
+  width: 100%;
+  // -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+`;
+
+const VipSectionDiv = styled.div`
+  border-top: 1px solid #d9d9d9;
+  color: inherit;
+  font-size: inherit;
+`;
+
+const VipSectionTr = styled.tr`
+  color: inherit;
+  font-size: inherit;
+`;
+
+const VipSectionTd = styled.td`
+  float: left;
+`;
+
+const VipSectionTdR = styled.td`
+  float: right;
+`;
+
+const VipSectionA = styled.a`
+  color: #ff7b30;
+  color: #ff7b30 !important;
+`;
+
+const VipSectionDesc = styled.p`
+  font-size: 12px;
+  color: #999999;
+`;
+
+const ReviewRateBox = styled.div`
+  display: flex;
+`;
+
+const ReviewRateBoxA = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666666;
+`;
+
+const ReviewRateDiv = styled.div`
+  padding-top: 1px;
+`;
+
+const ReviewRateSpan = styled.span`
+  display: flex;
+  margin-bottom: 4px;
+  vertical-align: middle;
+  box-sizing: border-box;
+  line-height: 1.5;
+`;
+
+const Star = styled.i`
+  font-size: 15px;
+  color: #ffc500 !important;
+  display: inline-block;
+  vertical-align: middle;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+`;
+
+const ReviewRateDivLeft = styled.span`
+  margin-left: 3px;
 `;
 
 export default Product;
