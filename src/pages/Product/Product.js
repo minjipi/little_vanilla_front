@@ -54,7 +54,6 @@ function Product() {
                   <StickyAsideProducTitle>
                     [웰컴딜] 써지컬 우리말기념일목걸이🌙
                   </StickyAsideProducTitle>
-
                   <div>
                     <PriceTagD>
                       <StickyAsideMRight>
@@ -101,9 +100,11 @@ function Product() {
                             <TitleTd>적립금</TitleTd>
                             <ContenetTd>
                               <span>
-                                최대
-                                <DataRowSpan>35P</DataRowSpan>
+                                최대 <DataRowSpan>35P</DataRowSpan>
                               </span>
+                              <Balloon>
+                                <BalloonIcon className="fas fa-info-circle"></BalloonIcon>
+                              </Balloon>
                             </ContenetTd>
                           </DataRowTr>
                         </DataRowTable>
@@ -149,6 +150,7 @@ function Product() {
                           </PointBal>
                         </BalloonContent>
                       </DataRow>
+
                       <DataRow>
                         <DataRowTable>
                           <DataRowTr>
@@ -159,18 +161,121 @@ function Product() {
                                   <ReviewRateDiv>
                                     <ReviewRateSpan>
                                       <Star className="fas fa-star" />
+                                      <Star className="fas fa-star" />
                                     </ReviewRateSpan>
                                   </ReviewRateDiv>
-                                  <ReviewRateDivLeft></ReviewRateDivLeft>
+                                  <ReviewRateDivLeft>(116)</ReviewRateDivLeft>
+                                  <ReviewRateDivTop>
+                                    <ReviewRateDivTopI className="fas fa-chevron-right"></ReviewRateDivTopI>
+                                  </ReviewRateDivTop>
                                 </ReviewRateBoxA>
                               </ReviewRateBox>
                             </ContenetTd>
                           </DataRowTr>
                         </DataRowTable>
                       </DataRow>
-                      <DataRow></DataRow>
-                      <DataRow></DataRow>
+
+                      <DataRow>
+                        <DataRowTable>
+                          <DataRowTr>
+                            <TitleTd>배송비</TitleTd>
+                            <ContenetTd>
+                              <span>
+                                2,500 원
+                                <Subcontent>
+                                  {" "}
+                                  (8,000원 이상 무료배송)
+                                </Subcontent>
+                              </span>
+                              <Balloon>
+                                <BalloonIcon className="fas fa-info-circle"></BalloonIcon>
+                              </Balloon>
+                            </ContenetTd>
+                          </DataRowTr>
+                        </DataRowTable>
+                      </DataRow>
+
+                      <DataRow>
+                        <DataRowTable>
+                          <DataRowTr>
+                            <TitleTd>배송 시작</TitleTd>
+                            <ContenetTd>
+                              <DeliveryHeaderDiv>
+                                <DeliveryHeaderP>평균 </DeliveryHeaderP>
+                                <DeliveryHeaderPB>1일</DeliveryHeaderPB>
+                                <DeliveryHeaderPCom>, </DeliveryHeaderPCom>
+                                <DeliveryHeaderP>최대 2일 이내</DeliveryHeaderP>
+                              </DeliveryHeaderDiv>
+                            </ContenetTd>
+                          </DataRowTr>
+                        </DataRowTable>
+                      </DataRow>
+
+                      <DataRow>
+                        <DataRowTable>
+                          <DataRowTr>
+                            <TitleTd>수량</TitleTd>
+                            <ContenetTd>
+                              <span>48 개 남음</span>
+                            </ContenetTd>
+                          </DataRowTr>
+                        </DataRowTable>
+                      </DataRow>
                     </div>
+                  </div>
+                  {/*  */}
+                  <div>
+                    <BuyScrollable>
+                      <div>
+                        mobile-show mobile-ui-close
+                        <SelectGroupTriggerBtn>
+                          "옵션 선택"
+                          <IdusIconArrowDown className="fas fa-chevron-down"></IdusIconArrowDown>
+                        </SelectGroupTriggerBtn>
+                        <QuotaMessageDiv>
+                          <IdusIconIf />
+                          웰컴딜 주문 가능 수량 : 1개
+                        </QuotaMessageDiv>
+                        <OptionScrollableD>
+                          <SelectGroupHeaderD>
+                            <SelectGroupTitleS>
+                              전체 옵션 6개 중 0개 선택
+                            </SelectGroupTitleS>
+                            <SelectGroupBtn>
+                              <SelectGroupCloseIcon className="fas fa-times" />
+                            </SelectGroupBtn>
+                          </SelectGroupHeaderD>
+
+                          <SelectGBodyD>
+                            <SGParentListOl className="complete">
+                              <li>
+                                <span>1. 색상</span>
+                                <AlignRightSpan>실버</AlignRightSpan>
+                                <IdusIconArrowDown className="fas fa-chevron-down" />
+                              </li>
+                              <div></div>
+                            </SGParentListOl>
+
+                            <SGParentListOl className="active">
+                              <li>
+                                <span>2. 목걸이 줄 타입</span>
+                                <AlignRightSpan></AlignRightSpan>
+                                <IdusIconArrowDown className="fas fa-chevron-up" />
+                              </li>
+                              <div></div>
+                              <SGChildList className="active">
+                                <li>
+                                  <span>44cm~50cm(연장체인 타입)</span>
+                                </li>
+                                <li>
+                                  <span>60cm</span>
+                                </li>
+                              </SGChildList>
+                            </SGParentListOl>
+                          </SelectGBodyD>
+                        </OptionScrollableD>
+                      </div>
+                    </BuyScrollable>
                   </div>
                 </StickyAsideDiv>
               </div>
@@ -594,12 +699,27 @@ const ContenetTd = styled.td`
   align-items: center;
 `;
 
-const DataRowSpan = styled.div`
+const DataRowSpan = styled.span`
   font-weight: bold;
 `;
 
+const Balloon = styled.div`
+  position: relative;
+  display: inline-block;
+  height: 18px;
+  margin-left: 8px;
+`;
+
+const BalloonIcon = styled.i`
+  font-size: 18px;
+  color: #666666;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+`;
+
 const BalloonContent = styled.div`
-  //   display: none;
+  // 여기
+  display: none;
   width: 220px;
   position: absolute;
   padding: 16px;
@@ -739,8 +859,243 @@ const Star = styled.i`
   line-height: 1;
 `;
 
-const ReviewRateDivLeft = styled.span`
+const ReviewRateDivLeft = styled.div`
   margin-left: 3px;
 `;
 
+const ReviewRateDivTop = styled.div`
+  margin-top: 2px;
+`;
+
+const ReviewRateDivTopI = styled.i`
+  font-size: 12px;
+  color: #999999;
+`;
+
+const Subcontent = styled.span`
+  font-size: 12px;
+  color: #999999;
+`;
+
+const DeliveryHeaderDiv = styled.div`
+  display: flex;
+  justify-content: left;
+`;
+
+const DeliveryHeaderP = styled.div`
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333333;
+  display: inline-block;
+`;
+
+const DeliveryHeaderPB = styled.div`
+  font-weight: bold;
+  margin-left: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333333;
+  display: inline-block;
+`;
+
+const DeliveryHeaderPCom = styled.div`
+  margin-right: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333333;
+  display: inline-block;
+`;
+
+const BuyScrollable = styled.form`
+  margin-top: 16px;
+  position: relative;
+`;
+
+const SelectGroupTriggerBtn = styled.button`
+  width: 100%;
+  color: #333;
+  //   font-size: 12px;
+  text-align: left;
+  border-color: #666;
+  position: relative;
+  padding: 0 16px;
+  line-height: 30px;
+
+  box-shadow: 0 1px 3px 0 hsl(0deg 0% 86% / 30%);
+  font-weight: 400;
+  box-sizing: border-box;
+  display: inline-block;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  vertical-align: middle;
+
+  transition: border-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+`;
+
+const IdusIconArrowDown = styled.i`
+  font-size: 12px;
+  color: #333;
+  position: absolute;
+  right: 12px;
+  top: 7px;
+`;
+
+const QuotaMessageDiv = styled.div`
+  margin: 10px 0 5px;
+  color: #666666;
+  font-size: 12px;
+`;
+
+const IdusIconIf = styled.i`
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 2px;
+  font-size: 14px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+`;
+
+const OptionScrollableD = styled.div`
+  // 여기
+  display: none;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  border: 1px solid #333;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  background-color: #fff;
+  @media (min-width: 720px) {
+    z-index: 1;
+    top: -68px;
+  }
+`;
+
+const SelectGroupHeaderD = styled.div`
+  position: relative;
+  background: #333;
+`;
+
+const SelectGroupTitleS = styled.span`
+  padding: 8px 12px;
+  display: block;
+  font-size: 12px;
+  color: #fff;
+`;
+
+const SelectGroupBtn = styled.button`
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0 12px;
+  vertical-align: middle;
+  height: 100%;
+`;
+
+const SelectGroupCloseIcon = styled.i`
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: bold;
+  font-size: 12px;
+  color: #fff;
+`;
+
+const SelectGBodyD = styled.div`
+  max-height: 350px;
+  overflow: auto;
+`;
+
+const AlignRightSpan = styled.span``;
+
+const SGParentListOl = styled.ol`
+  margin: 0 12px;
+
+  &.active {
+    border: 1px solid #333;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-top: -2px;
+
+    > li {
+      -webkit-border-radius: 4px 4px 0 0;
+      -moz-border-radius: 4px 4px 0 0;
+      border-radius: 4px 4px 0 0;
+      color: #333;
+      background: #f5f5f5;
+    }
+  }
+
+  @media (min-width: 720px) {
+    margin-top: 11px;
+  }
+
+  > li {
+    position: relative;
+    padding: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #acacac;
+    -webkit-box-shadow: inset 0 -1px 0 0 #d9d9d9;
+    -moz-box-shadow: inset 0 -1px 0 0 #d9d9d9;
+    box-shadow: inset 0 -1px 0 0 #d9d9d9;
+    vertical-align: middle;
+
+    > span {
+      display: inline-block;
+      width: 30%;
+      vertical-align: middle;
+    }
+
+    > ${AlignRightSpan} {
+      width: 60%;
+      font-size: 12px;
+      text-align: right;
+      color: #666;
+      font-weight: normal;
+    }
+  }
+
+  &.complete {
+    > li {
+      color: #666;
+    }
+  }
+`;
+
+const SGChildList = styled.ul`
+  @media (min-width: 720px) {
+    max-height: 140px;
+    overflow-y: scroll;
+  }
+
+  &.active {
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
+  }
+
+  > li {
+    font-size: 12px;
+    color: #333;
+    background: #fff;
+    padding: 12px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-bottom: 1px solid #d9d9d9;
+
+    &:last-child {
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+      border-bottom: 0px;
+    }
+  }
+`;
 export default Product;
