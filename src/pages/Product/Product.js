@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
 import Option from "./Option";
+import ProductDetail from "./ProductDetail";
 
 function Product() {
   const [isOptionVisible, setIsOptionVisible] = useState(false);
@@ -295,6 +296,7 @@ function Product() {
             </div>
           </StickyAsideProductD>
         </InnerWMobileFull>
+        <ProductDetail />
       </ContentRel>
       <Footer />
     </>
