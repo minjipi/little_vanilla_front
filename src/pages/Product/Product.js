@@ -1,9 +1,18 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import styled, { css } from "styled-components";
 import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
+import Option from "./Option";
 import ProductDetail from "./ProductDetail";
+
 function Product() {
+  const [isOptionVisible, setIsOptionVisible] = useState(false);
+
+  const optionData = [
+    { id: 1, title: "옵션1", select: ["값1-1", "값1-2"] },
+    { id: 2, title: "옵션2", select: ["값2-1", "값2-2", "값2-3"] },
+  ];
+
   return (
     <>
       <Header />
@@ -227,53 +236,58 @@ function Product() {
                   <div>
                     <BuyScrollable>
                       <div>
-                        mobile-show mobile-ui-close
-                        <SelectGroupTriggerBtn>
-                          "옵션 선택"
+                        {/* mobile-show mobile-ui-close */}
+                        <SelectGroupTriggerBtn
+                          type="button"
+                          onClick={() => {
+                            setIsOptionVisible(!isOptionVisible);
+                          }}
+                        >
+                          옵션 선택
                           <IdusIconArrowDown className="fas fa-chevron-down"></IdusIconArrowDown>
                         </SelectGroupTriggerBtn>
                         <QuotaMessageDiv>
                           <IdusIconIf />
                           웰컴딜 주문 가능 수량 : 1개
                         </QuotaMessageDiv>
-                        <OptionScrollableD>
+
+                        <OptionScrollableD isOptionVisible={isOptionVisible}>
                           <SelectGroupHeaderD>
                             <SelectGroupTitleS>
                               전체 옵션 6개 중 0개 선택
                             </SelectGroupTitleS>
-                            <SelectGroupBtn>
+
+                            <SelectGroupBtn
+                              type="button"
+                              onClick={() => {
+                                setIsOptionVisible(!isOptionVisible);
+                              }}
+                            >
                               <SelectGroupCloseIcon className="fas fa-times" />
                             </SelectGroupBtn>
                           </SelectGroupHeaderD>
 
                           <SelectGBodyD>
-                            <SGParentListOl className="complete">
-                              <li>
-                                <span>1. 색상</span>
-                                <AlignRightSpan>실버</AlignRightSpan>
-                                <IdusIconArrowDown className="fas fa-chevron-down" />
-                              </li>
-                              <div></div>
-                            </SGParentListOl>
+                            {optionData.map((option) => {
+                              return <Option optionData={option} />;
+                            })}
 
-                            <SGParentListOl className="active">
-                              <li>
-                                <span>2. 목걸이 줄 타입</span>
-                                <AlignRightSpan></AlignRightSpan>
-                                <IdusIconArrowDown className="fas fa-chevron-up" />
-                              </li>
-                              <div></div>
-                              <SGChildList className="active">
-                                <li>
-                                  <span>44cm~50cm(연장체인 타입)</span>
-                                </li>
-                                <li>
-                                  <span>60cm</span>
-                                </li>
-                              </SGChildList>
-                            </SGParentListOl>
+                            {/*  */}
                           </SelectGBodyD>
                         </OptionScrollableD>
+                        <CheckoutProductCostDl>
+                          <span>
+                            <span>
+                              배송비
+                              <b>2,500 원</b>
+                            </span>
+                          </span>
+
+                          <span>
+                            <Subtitle>총 작품금액</Subtitle>
+                            0원
+                          </span>
+                        </CheckoutProductCostDl>
                       </div>
                     </BuyScrollable>
                   </div>
@@ -974,6 +988,12 @@ const OptionScrollableD = styled.div`
     z-index: 1;
     top: -68px;
   }
+
+  ${(props) =>
+    props.isOptionVisible &&
+    css`
+      display: block;
+    `}
 `;
 
 const SelectGroupHeaderD = styled.div`
@@ -1098,4 +1118,54 @@ const SGChildList = styled.ul`
     }
   }
 `;
+
+const Subtitle = styled.span``;
+
+const CheckoutProductCostDl = styled.dl`
+  padding-top: 16px;
+  width: 100%;
+  display: table;
+  vertical-align: middle;
+
+  @media (min-width: 720px) {
+    > *:first-child {
+      display: none;
+    }
+
+    > *:last-child {
+      ${Subtitle} {
+        float: left;
+        font-size: 14px;
+      }
+    }
+  }
+
+  > * {
+    display: table-cell;
+    vertical-align: middle;
+    width: 25%;
+
+    &:first-child {
+      width: 50%;
+      font-size: 14px;
+      color: #666666;
+
+      b {
+        color: #333333;
+        font-weight: bold;
+      }
+    }
+
+    &:last-child {
+      font-size: 20px;
+      font-weight: bold;
+      color: #333333;
+      width: 50%;
+      text-align: right;
+      vertical-align: middle;
+      line-height: 30px;
+    }
+  }
+`;
+
 export default Product;
