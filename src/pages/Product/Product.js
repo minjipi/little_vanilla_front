@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
@@ -7,11 +7,18 @@ import ProductDetail from "./ProductDetail";
 
 function Product() {
   const [isOptionVisible, setIsOptionVisible] = useState(false);
+  const [isSelectVisible, setIsSelectVisible] = useState(0);
 
   const optionData = [
     { id: 1, title: "옵션1", select: ["값1-1", "값1-2"] },
     { id: 2, title: "옵션2", select: ["값2-1", "값2-2", "값2-3"] },
+    { id: 3, title: "옵션3", select: ["값3-1", "값3-2", "값3-3"] },
   ];
+  useEffect(() => {
+    if (isSelectVisible === optionData.length) {
+      setIsOptionVisible(false);
+    }
+  });
 
   return (
     <>
@@ -105,17 +112,19 @@ function Product() {
                     <div>
                       <DataRow>
                         <DataRowTable>
-                          <DataRowTr>
-                            <TitleTd>적립금</TitleTd>
-                            <ContenetTd>
-                              <span>
-                                최대 <DataRowSpan>35P</DataRowSpan>
-                              </span>
-                              <Balloon>
-                                <BalloonIcon className="fas fa-info-circle"></BalloonIcon>
-                              </Balloon>
-                            </ContenetTd>
-                          </DataRowTr>
+                          <tbody>
+                            <DataRowTr>
+                              <TitleTd>적립금</TitleTd>
+                              <ContenetTd>
+                                <span>
+                                  최대 <DataRowSpan>35P</DataRowSpan>
+                                </span>
+                                <Balloon>
+                                  <BalloonIcon className="fas fa-info-circle"></BalloonIcon>
+                                </Balloon>
+                              </ContenetTd>
+                            </DataRowTr>
+                          </tbody>
                         </DataRowTable>
 
                         <BalloonContent>
@@ -124,31 +133,35 @@ function Product() {
                           </BalloonBtn>
                           <PointBal>
                             <PointBalTable>
-                              <PointBalTr>
-                                <PointBalTd>회원등급 적립률</PointBalTd>
-                                <PointBalTd2> 2% </PointBalTd2>
-                              </PointBalTr>
-                              <PointBalTr>
-                                <PointBalTd> VIP 클럽 추가 적립 </PointBalTd>
-                                <PointBalTd2> +1% </PointBalTd2>
-                              </PointBalTr>
-                              <PointBalTr>
-                                <PointBalTd> 간편 결제 시 </PointBalTd>
-                                <PointBalTd2> +0.5% </PointBalTd2>
-                              </PointBalTr>
+                              <tbody>
+                                <PointBalTr>
+                                  <PointBalTd>회원등급 적립률</PointBalTd>
+                                  <PointBalTd2> 2% </PointBalTd2>
+                                </PointBalTr>
+                                <PointBalTr>
+                                  <PointBalTd> VIP 클럽 추가 적립 </PointBalTd>
+                                  <PointBalTd2> +1% </PointBalTd2>
+                                </PointBalTr>
+                                <PointBalTr>
+                                  <PointBalTd> 간편 결제 시 </PointBalTd>
+                                  <PointBalTd2> +0.5% </PointBalTd2>
+                                </PointBalTr>
+                              </tbody>
                             </PointBalTable>
 
                             <div>
                               <VipSection>
                                 <VipSectionDiv />
-                                <VipSectionTr>
-                                  <VipSectionTd>
-                                    <h4>아이디어스 VIP 클럽</h4>
-                                  </VipSectionTd>
-                                  <VipSectionTdR>
-                                    <VipSectionA>더 알아보기</VipSectionA>
-                                  </VipSectionTdR>
-                                </VipSectionTr>
+                                <tbody>
+                                  <VipSectionTr>
+                                    <VipSectionTd>
+                                      <h4>아이디어스 VIP 클럽</h4>
+                                    </VipSectionTd>
+                                    <VipSectionTdR>
+                                      <VipSectionA>더 알아보기</VipSectionA>
+                                    </VipSectionTdR>
+                                  </VipSectionTr>
+                                </tbody>
                               </VipSection>
                               <VipSectionDesc>
                                 핸드메이드를 사랑하는 회원님들에게 제공하는 유료
@@ -162,72 +175,82 @@ function Product() {
 
                       <DataRow>
                         <DataRowTable>
-                          <DataRowTr>
-                            <TitleTd>구매후기</TitleTd>
-                            <ContenetTd>
-                              <ReviewRateBox>
-                                <ReviewRateBoxA>
-                                  <ReviewRateDiv>
-                                    <ReviewRateSpan>
-                                      <Star className="fas fa-star" />
-                                      <Star className="fas fa-star" />
-                                    </ReviewRateSpan>
-                                  </ReviewRateDiv>
-                                  <ReviewRateDivLeft>(116)</ReviewRateDivLeft>
-                                  <ReviewRateDivTop>
-                                    <ReviewRateDivTopI className="fas fa-chevron-right"></ReviewRateDivTopI>
-                                  </ReviewRateDivTop>
-                                </ReviewRateBoxA>
-                              </ReviewRateBox>
-                            </ContenetTd>
-                          </DataRowTr>
+                          <tbody>
+                            <DataRowTr>
+                              <TitleTd>구매후기</TitleTd>
+                              <ContenetTd>
+                                <ReviewRateBox>
+                                  <ReviewRateBoxA>
+                                    <ReviewRateDiv>
+                                      <ReviewRateSpan>
+                                        <Star className="fas fa-star" />
+                                        <Star className="fas fa-star" />
+                                      </ReviewRateSpan>
+                                    </ReviewRateDiv>
+                                    <ReviewRateDivLeft>(116)</ReviewRateDivLeft>
+                                    <ReviewRateDivTop>
+                                      <ReviewRateDivTopI className="fas fa-chevron-right"></ReviewRateDivTopI>
+                                    </ReviewRateDivTop>
+                                  </ReviewRateBoxA>
+                                </ReviewRateBox>
+                              </ContenetTd>
+                            </DataRowTr>
+                          </tbody>
                         </DataRowTable>
                       </DataRow>
 
                       <DataRow>
                         <DataRowTable>
-                          <DataRowTr>
-                            <TitleTd>배송비</TitleTd>
-                            <ContenetTd>
-                              <span>
-                                2,500 원
-                                <Subcontent>
-                                  {" "}
-                                  (8,000원 이상 무료배송)
-                                </Subcontent>
-                              </span>
-                              <Balloon>
-                                <BalloonIcon className="fas fa-info-circle"></BalloonIcon>
-                              </Balloon>
-                            </ContenetTd>
-                          </DataRowTr>
+                          <tbody>
+                            <DataRowTr>
+                              <TitleTd>배송비</TitleTd>
+                              <ContenetTd>
+                                <span>
+                                  2,500 원
+                                  <Subcontent>
+                                    {" "}
+                                    (8,000원 이상 무료배송)
+                                  </Subcontent>
+                                </span>
+                                <Balloon>
+                                  <BalloonIcon className="fas fa-info-circle"></BalloonIcon>
+                                </Balloon>
+                              </ContenetTd>
+                            </DataRowTr>
+                          </tbody>
                         </DataRowTable>
                       </DataRow>
 
                       <DataRow>
                         <DataRowTable>
-                          <DataRowTr>
-                            <TitleTd>배송 시작</TitleTd>
-                            <ContenetTd>
-                              <DeliveryHeaderDiv>
-                                <DeliveryHeaderP>평균 </DeliveryHeaderP>
-                                <DeliveryHeaderPB>1일</DeliveryHeaderPB>
-                                <DeliveryHeaderPCom>, </DeliveryHeaderPCom>
-                                <DeliveryHeaderP>최대 2일 이내</DeliveryHeaderP>
-                              </DeliveryHeaderDiv>
-                            </ContenetTd>
-                          </DataRowTr>
+                          <tbody>
+                            <DataRowTr>
+                              <TitleTd>배송 시작</TitleTd>
+                              <ContenetTd>
+                                <DeliveryHeaderDiv>
+                                  <DeliveryHeaderP>평균 </DeliveryHeaderP>
+                                  <DeliveryHeaderPB>1일</DeliveryHeaderPB>
+                                  <DeliveryHeaderPCom>, </DeliveryHeaderPCom>
+                                  <DeliveryHeaderP>
+                                    최대 2일 이내
+                                  </DeliveryHeaderP>
+                                </DeliveryHeaderDiv>
+                              </ContenetTd>
+                            </DataRowTr>
+                          </tbody>
                         </DataRowTable>
                       </DataRow>
 
                       <DataRow>
                         <DataRowTable>
-                          <DataRowTr>
-                            <TitleTd>수량</TitleTd>
-                            <ContenetTd>
-                              <span>48 개 남음</span>
-                            </ContenetTd>
-                          </DataRowTr>
+                          <tbody>
+                            <DataRowTr>
+                              <TitleTd>수량</TitleTd>
+                              <ContenetTd>
+                                <span>48 개 남음</span>
+                              </ContenetTd>
+                            </DataRowTr>
+                          </tbody>
                         </DataRowTable>
                       </DataRow>
                     </div>
@@ -240,6 +263,7 @@ function Product() {
                         <SelectGroupTriggerBtn
                           type="button"
                           onClick={() => {
+                            setIsSelectVisible(0);
                             setIsOptionVisible(!isOptionVisible);
                           }}
                         >
@@ -268,11 +292,17 @@ function Product() {
                           </SelectGroupHeaderD>
 
                           <SelectGBodyD>
-                            {optionData.map((option) => {
-                              return <Option optionData={option} />;
+                            {optionData.map((option, index) => {
+                              return (
+                                <Option
+                                  key={option.id}
+                                  index={index}
+                                  isSelectVisible={isSelectVisible}
+                                  setIsSelectVisible={setIsSelectVisible}
+                                  optionData={option}
+                                />
+                              );
                             })}
-
-                            {/*  */}
                           </SelectGBodyD>
                         </OptionScrollableD>
                         <CheckoutProductCostDl>

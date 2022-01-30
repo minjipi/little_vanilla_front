@@ -1,38 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 
 function Option(props) {
-  const [isSelectVisible, setIsSelectVisible] = useState(false);
   const [selectedVal, setSelectedVal] = useState("");
 
   return (
-    <SGParentListOl className={isSelectVisible ? "active" : ""}>
+    <SGParentListOl
+      onClick={() => {
+        props.setIsSelectVisible(props.index);
+      }}
+      className={props.isSelectVisible === props.index ? "active" : ""}
+    >
       <li>
         <span>{props.optionData.title}</span>
         <AlignRightSpan>{selectedVal}</AlignRightSpan>
         <IdusIconArrowDown
-          onClick={() => {
-            setIsSelectVisible(!isSelectVisible);
-          }}
           className={
-            isSelectVisible ? "fas fa-chevron-up" : "fas fa-chevron-down"
+            props.isSelectVisible === props.index
+              ? "fas fa-chevron-up"
+              : "fas fa-chevron-down"
           }
         />
       </li>
       <div></div>
-      {isSelectVisible ? (
-        <SGChildList className={isSelectVisible ? "active" : ""}>
+      {props.isSelectVisible === props.index ? (
+        <SGChildList
+          className={props.isSelectVisible === props.index ? "active" : ""}
+        >
           {props.optionData.select.map((select) => {
             return (
-              <li>
-                <span
-                  onClick={() => {
-                    setSelectedVal(select);
-                    setIsSelectVisible(!isSelectVisible);
-                  }}
-                >
-                  {select}
-                </span>
+              <li
+                onClick={(event) => {
+                  setSelectedVal(select);
+                  props.setIsSelectVisible(props.index + 1);
+
+                  event.stopPropagation();
+                }}
+              >
+                <span>{select}</span>
               </li>
             );
           })}
