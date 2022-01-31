@@ -2,18 +2,23 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 
 function Option(props) {
-  const [selectedVal, setSelectedVal] = useState("");
-
   return (
     <SGParentListOl
       onClick={() => {
+        if (props.index > props.isSelectVisible) {
+          return;
+        }
         props.setIsSelectVisible(props.index);
       }}
       className={props.isSelectVisible === props.index ? "active" : ""}
     >
       <li>
         <span>{props.optionData.title}</span>
-        <AlignRightSpan>{selectedVal}</AlignRightSpan>
+        <AlignRightSpan>
+          {props.isSelectedValue.length > props.index
+            ? props.isSelectedValue[props.index].name
+            : ""}
+        </AlignRightSpan>
         <IdusIconArrowDown
           className={
             props.isSelectVisible === props.index
@@ -31,13 +36,19 @@ function Option(props) {
             return (
               <li
                 onClick={(event) => {
-                  setSelectedVal(select);
+                  props.isSelectedValue.push({
+                    id: select.id,
+                    name: select.name,
+                    price: select.price,
+                  });
+
+                  props.setIsSelectedValue(props.isSelectedValue);
                   props.setIsSelectVisible(props.index + 1);
 
                   event.stopPropagation();
                 }}
               >
-                <span>{select}</span>
+                <span>{select.name}</span>
               </li>
             );
           })}
