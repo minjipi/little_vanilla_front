@@ -4,19 +4,73 @@ import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
 import Option from "./Option";
 import ProductDetail from "./ProductDetail";
+import SelectedOption from "./SelectedOption";
 
 function Product() {
   const [isOptionVisible, setIsOptionVisible] = useState(false);
   const [isSelectVisible, setIsSelectVisible] = useState(0);
-
+  const [isTotalValue, setIsTotalValue] = useState([]);
+  const [isSelectedValue, setIsSelectedValue] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   const optionData = [
-    { id: 1, title: "옵션1", select: ["값1-1", "값1-2"] },
-    { id: 2, title: "옵션2", select: ["값2-1", "값2-2", "값2-3"] },
-    { id: 3, title: "옵션3", select: ["값3-1", "값3-2", "값3-3"] },
+    {
+      id: 1,
+      title: "옵션1",
+      select: [
+        { id: 1, name: "값1-1", price: 1000 },
+        { id: 2, name: "값1-2", price: 2000 },
+      ],
+    },
+    {
+      id: 2,
+      title: "옵션2",
+      select: [
+        { id: 3, name: "값2-1", price: 3000 },
+        { id: 4, name: "값2-2", price: 4000 },
+        { id: 5, name: "값2-3", price: 5000 },
+      ],
+    },
+    {
+      id: 3,
+      title: "옵션3",
+      select: [
+        { id: 6, name: "값3-1", price: 6000 },
+        { id: 7, name: "값3-2", price: 7000 },
+        { id: 8, name: "값3-3", price: 8000 },
+      ],
+    },
   ];
   useEffect(() => {
     if (isSelectVisible === optionData.length) {
       setIsOptionVisible(false);
+      const selectedList = [];
+      let same = false;
+
+      isSelectedValue.map((selected) => selectedList.push(selected.id));
+
+      isTotalValue.map((total) => {
+        const totalList = [];
+
+        total.map((val) => totalList.push(val.id));
+
+        if (
+          Object.entries(selectedList).toString() ===
+          Object.entries(totalList).toString()
+        ) {
+          same = true;
+        }
+      });
+
+      if (same === false) {
+        let tempPrice = 0;
+
+        isSelectedValue.map((item) => {
+          console.log(isSelectedValue);
+          tempPrice += item.price;
+        });
+        setTotalPrice(totalPrice + tempPrice);
+        setIsTotalValue(isTotalValue.concat([isSelectedValue]));
+      }
     }
   });
 
@@ -264,6 +318,7 @@ function Product() {
                           type="button"
                           onClick={() => {
                             setIsSelectVisible(0);
+                            setIsSelectedValue([]);
                             setIsOptionVisible(!isOptionVisible);
                           }}
                         >
@@ -284,6 +339,9 @@ function Product() {
                             <SelectGroupBtn
                               type="button"
                               onClick={() => {
+                                if (isSelectVisible === optionData.length) {
+                                  setIsSelectVisible(0);
+                                }
                                 setIsOptionVisible(!isOptionVisible);
                               }}
                             >
@@ -299,12 +357,25 @@ function Product() {
                                   index={index}
                                   isSelectVisible={isSelectVisible}
                                   setIsSelectVisible={setIsSelectVisible}
+                                  isSelectedValue={isSelectedValue}
+                                  setIsSelectedValue={setIsSelectedValue}
                                   optionData={option}
                                 />
                               );
                             })}
                           </SelectGBodyD>
                         </OptionScrollableD>
+
+                        {isTotalValue.map((total) => {
+                          return (
+                            <SelectedOption
+                              totalPrice={totalPrice}
+                              setTotalPrice={setTotalPrice}
+                              val={total}
+                            />
+                          );
+                        })}
+
                         <CheckoutProductCostDl>
                           <span>
                             <span>
@@ -315,7 +386,7 @@ function Product() {
 
                           <span>
                             <Subtitle>총 작품금액</Subtitle>
-                            0원
+                            {totalPrice}원
                           </span>
                         </CheckoutProductCostDl>
                       </div>
@@ -786,7 +857,6 @@ const BalloonBtn = styled.button`
 `;
 
 const CloseIcon = styled.i`
-  font-family: "idus-icon" !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
