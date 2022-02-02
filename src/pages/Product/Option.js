@@ -32,9 +32,10 @@ function Option(props) {
         <SGChildList
           className={props.isSelectVisible === props.index ? "active" : ""}
         >
-          {props.optionData.select.map((select) => {
+          {props.optionData.select.map((select, index) => {
             return (
               <li
+                key={index}
                 onClick={(event) => {
                   props.isSelectedValue.push({
                     id: select.id,

@@ -2,14 +2,20 @@ import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 
 function SelectedOption(props) {
-  const [num, setNum] = useState(1);
   let totalPrice = 0;
+
+  const minusNum = () => {
+    props.isTotalValue[props.index].num =
+      props.isTotalValue[props.index].num - 1;
+    props.setIsTotalValue(props.isTotalValue);
+    props.setTotalPrice(props.totalPrice - totalPrice);
+  };
 
   return (
     <SelectedOptionsD>
       <OptionCardD>
         <p>
-          {props.val.map((val) => {
+          {props.isTotalValue[props.index].selected.map((val) => {
             return <>{val.name + " / "}</>;
           })}
         </p>
@@ -17,14 +23,11 @@ function SelectedOption(props) {
           <OptionCardCounterD>
             <UiMiniBtn
               type="button"
-              className={num === 1 ? "disabled" : ""}
+              className={
+                props.isTotalValue[props.index].num === 1 ? "disabled" : ""
+              }
               onClick={() => {
-                num === 1 ? <></> : setNum(num - 1);
-                num === 1 ? (
-                  <></>
-                ) : (
-                  props.setTotalPrice(props.totalPrice - totalPrice)
-                );
+                props.isTotalValue[props.index].num === 1 ? <></> : minusNum();
               }}
               type="button"
             >
@@ -34,12 +37,14 @@ function SelectedOption(props) {
               type="number"
               min="1"
               max="999"
-              value={num}
-              onChange={(e) => setNum(e.target.value)}
+              value={props.isTotalValue[props.index].num}
+              onChange={(e) => props.isTotalValue[props.index].num}
             />
             <UiMiniBtn
               onClick={() => {
-                setNum(num + 1);
+                props.isTotalValue[props.index].num =
+                  props.isTotalValue[props.index].num + 1;
+                props.setIsTotalValue(props.isTotalValue);
                 props.setTotalPrice(props.totalPrice + totalPrice);
               }}
               type="button"
@@ -50,10 +55,10 @@ function SelectedOption(props) {
           <div>
             <span>
               <b>
-                {props.val.map((item) => {
+                {props.isTotalValue[props.index].selected.map((item) => {
                   totalPrice += item.price;
                 })}
-                {totalPrice * num}
+                {totalPrice * props.isTotalValue[props.index].num}
               </b>
               원
             </span>
