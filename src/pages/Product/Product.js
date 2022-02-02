@@ -7,11 +7,33 @@ import ProductDetail from "./ProductDetail";
 import SelectedOption from "./SelectedOption";
 
 function Product() {
+  const imageData = [
+    {
+      id: 1,
+      url: "https://image.idus.com/image/files/dce257aaf4f74e04a48c2e8c02971e9e_720.png",
+    },
+    {
+      id: 2,
+      url: "https://image.idus.com/image/files/a609304e2bde41cbb1957579bb0d0800_720.png",
+    },
+    {
+      id: 3,
+      url: "https://image.idus.com/image/files/1460c07e980848eaa98b803b854d3f97_720.png",
+    },
+    {
+      id: 4,
+      url: "https://image.idus.com/image/files/8d2e5dd5b1c84cf7a5e4db8ff97cec9d_720.png",
+    },
+  ];
+
   const [isOptionVisible, setIsOptionVisible] = useState(false);
   const [isSelectVisible, setIsSelectVisible] = useState(0);
   const [isTotalValue, setIsTotalValue] = useState([]);
   const [isSelectedValue, setIsSelectedValue] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [isScroll, setIsScroll] = useState(false);
+  const [selectedImg, setSelectedImg] = useState(0);
+  const [imageShow, setImageShow] = useState(imageData);
   const optionData = [
     {
       id: 1,
@@ -40,7 +62,12 @@ function Product() {
       ],
     },
   ];
+
   useEffect(() => {
+    window.addEventListener("scroll", () => {
+      window.pageYOffset > 155 ? setIsScroll(true) : setIsScroll(false);
+    });
+
     if (isSelectVisible === optionData.length) {
       setIsOptionVisible(false);
       const selectedList = [];
@@ -48,16 +75,22 @@ function Product() {
 
       isSelectedValue.map((selected) => selectedList.push(selected.id));
 
-      isTotalValue.map((total) => {
+      isTotalValue.map((total, index) => {
         const totalList = [];
-
-        total.map((val) => totalList.push(val.id));
+        total.selected.map((val) => totalList.push(val.id));
 
         if (
           Object.entries(selectedList).toString() ===
           Object.entries(totalList).toString()
         ) {
           same = true;
+          isTotalValue[index].num = isTotalValue[index].num + 1;
+          setIsTotalValue(isTotalValue);
+          let selectedPrice = 0;
+          isTotalValue[index].selected.map((item) => {
+            selectedPrice += item.price;
+          });
+          setTotalPrice(totalPrice + selectedPrice);
         }
       });
 
@@ -65,12 +98,14 @@ function Product() {
         let tempPrice = 0;
 
         isSelectedValue.map((item) => {
-          console.log(isSelectedValue);
           tempPrice += item.price;
         });
         setTotalPrice(totalPrice + tempPrice);
-        setIsTotalValue(isTotalValue.concat([isSelectedValue]));
+        setIsTotalValue(
+          isTotalValue.concat({ num: 1, selected: isSelectedValue })
+        );
       }
+      setIsSelectVisible(0);
     }
   });
 
@@ -86,26 +121,70 @@ function Product() {
             <ImagePreviewUiSlider>
               <OuterFrame>
                 <ImgViewInnerFrame>
-                  <UiSlider>
-                    <WelcomeDeal src="https://image.idus.com/static/ticketdeal/badge_welcomedeal.png" />
-                  </UiSlider>
+                  {imageShow.map((img, index) => {
+                    return (
+                      <UiSlider
+                        key={index}
+                        style={{
+                          width: "560px",
+                          backgroundImage: "url(" + img.url + ")",
+                        }}
+                      >
+                        <WelcomeDeal src="https://image.idus.com/static/ticketdeal/badge_welcomedeal.png" />
+                      </UiSlider>
+                    );
+                  })}
+
                   <UiSliderNext></UiSliderNext>
                 </ImgViewInnerFrame>
               </OuterFrame>
               <FieldsetUiControl>
                 <BtnPrev>
-                  <ImgListI className="fas fa-chevron-right" />
+                  <ImgListI className="fas fa-chevron-left" />
                 </BtnPrev>
                 <ImgListIndicator>
-                  <IndicatorBtnLi />
+                  {imageData.map((img, index) => {
+                    return (
+                      <li
+                        onClick={() => {
+                          setSelectedImg(index);
+                          if (index > selectedImg) {
+                            for (let i = 0; i < index - selectedImg; i++) {
+                              let shiftedImg = imageShow.shift();
+                              imageShow.push(shiftedImg);
+                              setImageShow(imageShow);
+                            }
+                          } else if (index < selectedImg) {
+                            for (
+                              let i = 0;
+                              i < imageShow.length - (selectedImg - index);
+                              i++
+                            ) {
+                              let shiftedImg = imageShow.shift();
+                              imageShow.push(shiftedImg);
+                              setImageShow(imageShow);
+                            }
+                          }
+                        }}
+                        className={selectedImg === index ? "active" : ""}
+                        key={index}
+                        style={{
+                          backgroundImage: "url(" + img.url + ")",
+                        }}
+                      />
+                    );
+                  })}
                 </ImgListIndicator>
-
-                <BtnNext></BtnNext>
+                <BtnNext>
+                  <ImgListI className="fas fa-chevron-right" />
+                </BtnNext>
               </FieldsetUiControl>
             </ImagePreviewUiSlider>
           </ImgSection>
 
-          <StickyAsideProductD>
+          <StickyAsideProductD
+            className={isScroll ? "product_detail fixed" : "product_detail"}
+          >
             <div>
               <div>
                 <StickyAsideDiv>
@@ -366,12 +445,15 @@ function Product() {
                           </SelectGBodyD>
                         </OptionScrollableD>
 
-                        {isTotalValue.map((total) => {
+                        {isTotalValue.map((total, index) => {
                           return (
                             <SelectedOption
+                              key={index}
+                              index={index}
+                              isTotalValue={isTotalValue}
+                              setIsTotalValue={setIsTotalValue}
                               totalPrice={totalPrice}
                               setTotalPrice={setTotalPrice}
-                              val={total}
                             />
                           );
                         })}
@@ -458,8 +540,7 @@ const ImgViewInnerFrame = styled.ul`
 `;
 
 const UiSlider = styled.li`
-  background-image: url("http://image.idus.com/image/files/8085fa7c4a81475792dcec1d7d9a464f_720.jpg");
-  width: 560px;
+  width: 520px;
   display: list-item;
   background-size: cover;
   background-repeat: no-repeat;
@@ -468,6 +549,10 @@ const UiSlider = styled.li`
   height: auto;
   float: left;
   list-style: none;
+
+  &:first-child {
+    display: block;
+  }
 
   &:after {
     content: "";
@@ -510,22 +595,10 @@ const BtnPrev = styled.button`
   transition: opacity 0.3s ease;
   top: 50%;
   margin-top: -52px;
-  opacity: 0;
+  // opacity: 0;
   display: inline-block;
   vertical-align: middle;
   text-align: center;
-`;
-
-const ImgListIndicator = styled.ul`
-  margin: 0;
-  margin-top: 8px;
-  overflow: hidden;
-  text-align: center;
-  font-size: 0;
-  display: inline-block;
-  vertical-align: middle;
-  padding: 0;
-  border: 0 none;
 `;
 
 const BtnNext = styled.button`
@@ -539,7 +612,7 @@ const BtnNext = styled.button`
   transition: opacity 0.3s ease;
   top: 50%;
   margin-top: -52px;
-  opacity: 0;
+  // opacity: 0;
   display: inline-block;
   vertical-align: middle;
   text-align: center;
@@ -555,32 +628,77 @@ const ImgListI = styled.i`
   -webkit-font-smoothing: antialiased;
 `;
 
-const IndicatorBtnLi = styled.li`
-  background-image: url(http://image.idus.com/image/files/8085fa7c4a81475792dcec1d7d9a464f_720.jpg);
-  margin-left: 0;
-  cursor: pointer;
+const IndicatorBtnLi = styled.li``;
+
+const ImgListIndicator = styled.ul`
+  margin: 0;
+  margin-top: 8px;
+  overflow: hidden;
+  text-align: center;
   font-size: 0;
   display: inline-block;
-  width: 56px;
-  height: 56px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  list-style: none;
+  vertical-align: middle;
+  padding: 0;
+  border: 0 none;
+
+  li {
+    cursor: pointer;
+    font-size: 0;
+    display: inline-block;
+    margin-left: 2px;
+    width: 56px;
+    height: 56px;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &.active {
+      border: 2px solid #ff7b30;
+    }
+  }
 `;
 
 const StickyAsideProductD = styled.aside`
-  padding: 0 !important;
-  box-shadow: none !important;
-  border: none !important;
-  position: absolute;
-  right: 1px;
-  top: 36px;
-  width: 472px;
-  z-index: 98;
-  border-radius: 4px;
+  padding: 12px;
   background-color: #fff;
-  display: block;
+
+  @media (min-width: 720px) {
+    padding: 16px;
+    position: absolute;
+    right: 1px;
+    top: 36px;
+    width: 472px;
+    z-index: 98;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 2px 4px 0 #0000001a;
+    -moz-box-shadow: 0 2px 4px 0 #0000001a;
+    box-shadow: 0 2px 4px 0 #0000001a;
+    border: solid 1px #f5f5f5;
+
+    &.fixed {
+      position: fixed;
+      left: 50%;
+      margin-left: 55px;
+      top: 10px;
+    }
+  }
+
+  &.product_detail {
+    padding: 0 !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
 `;
 
 const StickyAsideDiv = styled.div`
