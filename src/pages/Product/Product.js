@@ -139,7 +139,13 @@ function Product() {
                 </ImgViewInnerFrame>
               </OuterFrame>
               <FieldsetUiControl>
-                <BtnPrev>
+                <BtnPrev
+                  onClick={() => {
+                    setSelectedImg(
+                      (selectedImg + imageData.length - 1) % imageData.length
+                    );
+                  }}
+                >
                   <ImgListI className="fas fa-chevron-left" />
                 </BtnPrev>
                 <ImgListIndicator>
@@ -175,9 +181,18 @@ function Product() {
                     );
                   })}
                 </ImgListIndicator>
-                <BtnNext>
-                  <ImgListI className="fas fa-chevron-right" />
-                </BtnNext>
+
+                {imageData.map((img, index) => {
+                  return (
+                    <BtnNext
+                      onClick={() => {
+                        setSelectedImg((selectedImg + 1) % imageData.length);
+                      }}
+                    >
+                      <ImgListI className="fas fa-chevron-right" />
+                    </BtnNext>
+                  );
+                })}
               </FieldsetUiControl>
             </ImagePreviewUiSlider>
           </ImgSection>
