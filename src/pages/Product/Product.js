@@ -164,7 +164,6 @@ function Product() {
               </OuterFrame>
               <FieldsetUiControl>
                 <BtnPrev
-
                   disabled={isClicked ? "disabled" : ""}
                   onClick={() => {
                     setIsClicked(true);
@@ -186,6 +185,7 @@ function Product() {
                         setIsClicked(false);
                       }
                     );
+                  }}
                 >
                   <ImgListI className="fas fa-chevron-left" />
                 </BtnPrev>
@@ -272,7 +272,6 @@ function Product() {
                 >
                   <ImgListI className="fas fa-chevron-right" />
                 </BtnNext>
-
               </FieldsetUiControl>
             </ImagePreviewUiSlider>
           </ImgSection>
