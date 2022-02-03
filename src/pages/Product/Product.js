@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
 import Option from "./Option";
 import ProductDetail from "./ProductDetail";
 import SelectedOption from "./SelectedOption";
+import $ from "jquery";
 
 function Product() {
   const imageData = [
@@ -25,15 +26,6 @@ function Product() {
       url: "https://image.idus.com/image/files/8d2e5dd5b1c84cf7a5e4db8ff97cec9d_720.png",
     },
   ];
-
-  const [isOptionVisible, setIsOptionVisible] = useState(false);
-  const [isSelectVisible, setIsSelectVisible] = useState(0);
-  const [isTotalValue, setIsTotalValue] = useState([]);
-  const [isSelectedValue, setIsSelectedValue] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [isScroll, setIsScroll] = useState(false);
-  const [selectedImg, setSelectedImg] = useState(0);
-  const [imageShow, setImageShow] = useState(imageData);
   const optionData = [
     {
       id: 1,
@@ -62,6 +54,22 @@ function Product() {
       ],
     },
   ];
+
+  const [isOptionVisible, setIsOptionVisible] = useState(false);
+  const [isSelectVisible, setIsSelectVisible] = useState(0);
+  const [isTotalValue, setIsTotalValue] = useState([]);
+  const [isSelectedValue, setIsSelectedValue] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [isScroll, setIsScroll] = useState(false);
+  const [selectedImg, setSelectedImg] = useState(0);
+  const [imageShow, setImageShow] = useState(imageData);
+  const [isClicked, setIsClicked] = useState(false);
+
+  const nextId = useRef(1);
+
+  const onRemove = (id) => {
+    setIsTotalValue(isTotalValue.filter((total) => total.id !== id));
+  };
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -102,11 +110,28 @@ function Product() {
         });
         setTotalPrice(totalPrice + tempPrice);
         setIsTotalValue(
-          isTotalValue.concat({ num: 1, selected: isSelectedValue })
+          isTotalValue.concat({
+            id: nextId.current,
+            num: 1,
+            selected: isSelectedValue,
+          })
         );
+        nextId.current += 1;
       }
       setIsSelectVisible(0);
     }
+
+    let total = 0;
+    isTotalValue.map((item) => {
+      let temp = 0;
+      item.selected.map((val) => {
+        temp += val.price;
+      });
+      temp = temp * item.num;
+      total += temp;
+    });
+
+    setTotalPrice(total);
   });
 
   return (
@@ -120,11 +145,12 @@ function Product() {
           <ImgSection>
             <ImagePreviewUiSlider>
               <OuterFrame>
-                <ImgViewInnerFrame>
+                <ImgViewInnerFrame id="ImgViewInnerFrame">
                   {imageShow.map((img, index) => {
                     return (
                       <UiSlider
                         key={index}
+                        id={"img_" + img.id}
                         style={{
                           width: "560px",
                           backgroundImage: "url(" + img.url + ")",
@@ -134,17 +160,32 @@ function Product() {
                       </UiSlider>
                     );
                   })}
-
-                  <UiSliderNext></UiSliderNext>
                 </ImgViewInnerFrame>
               </OuterFrame>
               <FieldsetUiControl>
                 <BtnPrev
+
+                  disabled={isClicked ? "disabled" : ""}
                   onClick={() => {
+                    setIsClicked(true);
+
                     setSelectedImg(
                       (selectedImg + imageData.length - 1) % imageData.length
                     );
-                  }}
+
+                    let popedImg = imageShow.pop();
+                    imageShow.unshift(popedImg);
+                    setImageShow(imageShow);
+                    $("#ImgViewInnerFrame").attr("style", "margin-left:-560px");
+
+                    $("#ImgViewInnerFrame").animate(
+                      { marginLeft: "0" },
+                      300,
+                      "linear",
+                      function () {
+                        setIsClicked(false);
+                      }
+                    );
                 >
                   <ImgListI className="fas fa-chevron-left" />
                 </BtnPrev>
@@ -153,23 +194,51 @@ function Product() {
                     return (
                       <li
                         onClick={() => {
-                          setSelectedImg(index);
                           if (index > selectedImg) {
-                            for (let i = 0; i < index - selectedImg; i++) {
-                              let shiftedImg = imageShow.shift();
-                              imageShow.push(shiftedImg);
-                              setImageShow(imageShow);
-                            }
+                            $("#ImgViewInnerFrame").animate(
+                              {
+                                marginLeft:
+                                  "-" + 560 * (index - selectedImg) + "px",
+                              },
+                              300,
+                              "linear",
+                              function () {
+                                $("#ImgViewInnerFrame").attr(
+                                  "style",
+                                  "margin-left:0"
+                                );
+                                for (let i = 0; i < index - selectedImg; i++) {
+                                  let shiftedImg = imageShow.shift();
+                                  imageShow.push(shiftedImg);
+                                  setImageShow(imageShow);
+                                }
+                                setSelectedImg(index);
+                              }
+                            );
                           } else if (index < selectedImg) {
-                            for (
-                              let i = 0;
-                              i < imageShow.length - (selectedImg - index);
-                              i++
-                            ) {
-                              let shiftedImg = imageShow.shift();
-                              imageShow.push(shiftedImg);
+                            setSelectedImg(index);
+
+                            for (let i = 0; i < selectedImg - index; i++) {
+                              let popedImg = imageShow.pop();
+                              imageShow.unshift(popedImg);
                               setImageShow(imageShow);
                             }
+
+                            $("#ImgViewInnerFrame").attr(
+                              "style",
+                              "margin-left:-" +
+                                560 * (selectedImg - index) +
+                                "px"
+                            );
+
+                            $("#ImgViewInnerFrame").animate(
+                              { marginLeft: "0" },
+                              300,
+                              "linear",
+                              function () {
+                                setIsClicked(false);
+                              }
+                            );
                           }
                         }}
                         className={selectedImg === index ? "active" : ""}
@@ -181,18 +250,29 @@ function Product() {
                     );
                   })}
                 </ImgListIndicator>
+                <BtnNext
+                  disabled={isClicked ? "disabled" : ""}
+                  onClick={(e) => {
+                    setIsClicked(true);
 
-                {imageData.map((img, index) => {
-                  return (
-                    <BtnNext
-                      onClick={() => {
+                    $("#ImgViewInnerFrame").animate(
+                      { marginLeft: "-560px" },
+                      300,
+                      "linear",
+                      function () {
+                        $("#ImgViewInnerFrame").attr("style", "margin-left:0");
+                        let shiftedImg = imageShow.shift();
+                        imageShow.push(shiftedImg);
+                        setImageShow(imageShow);
                         setSelectedImg((selectedImg + 1) % imageData.length);
-                      }}
-                    >
-                      <ImgListI className="fas fa-chevron-right" />
-                    </BtnNext>
-                  );
-                })}
+                        setIsClicked(false);
+                      }
+                    );
+                  }}
+                >
+                  <ImgListI className="fas fa-chevron-right" />
+                </BtnNext>
+
               </FieldsetUiControl>
             </ImagePreviewUiSlider>
           </ImgSection>
@@ -469,6 +549,7 @@ function Product() {
                               setIsTotalValue={setIsTotalValue}
                               totalPrice={totalPrice}
                               setTotalPrice={setTotalPrice}
+                              onRemove={onRemove}
                             />
                           );
                         })}
