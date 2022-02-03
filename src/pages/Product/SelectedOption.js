@@ -62,7 +62,12 @@ function SelectedOption(props) {
               </b>
               원
             </span>
-            <UiMiniBtnClose>
+            <UiMiniBtnClose
+              type="button"
+              onClick={() => {
+                props.onRemove(props.isTotalValue[props.index].id);
+              }}
+            >
               <i className="fas fa-times" />
             </UiMiniBtnClose>
           </div>
