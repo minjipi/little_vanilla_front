@@ -1,14 +1,25 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
-import MainSlider from "../../../components/MainSlider/MainSlider";
+import axios from "axios";
 
 function TodayProduct(props) {
+  const [productData, setProductData] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const result = await axios.get("http://localhost:8080/product/list");
+      console.log(result.data);
+      setProductData(result.data.result);
+    }
+    fetchData();
+  }, []);
+
   return (
     <UiGrid>
       <UiGridCols5>
-        {props.productData.map((product) => {
+        {productData.map((product) => {
           return (
-            <UiGridItem key={product.id}>
+            <UiGridItem key={product.idx}>
               <UiCard>
                 <IconFavorite className="icon-favorite" />
                 <UiCardImgcover>
@@ -18,8 +29,9 @@ function TodayProduct(props) {
                   ></UiCardImgcoverA>
                 </UiCardImgcover>
                 <UiCardInfo>
-                  <UiCardInfoLabel>{product.writer}</UiCardInfoLabel>
-                  <UiCardInfoTitle>{product.title}</UiCardInfoTitle>
+                  <UiCardInfoLabel>{product.brandIdx}</UiCardInfoLabel>
+                  <UiCardInfoTitle>{product.name}</UiCardInfoTitle>
+                  <UiCardInfoLabel>{product.salePrice}</UiCardInfoLabel>
                 </UiCardInfo>
                 <UiCardRating>
                   <UiCardVcenter>
@@ -207,4 +219,5 @@ const UiCardComment = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+
 export default TodayProduct;

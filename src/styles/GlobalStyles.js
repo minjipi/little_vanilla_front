@@ -107,6 +107,13 @@ const GlobalStyles = createGlobalStyle`
         border-spacing: 0;
     }
 
+    strong {
+        font-weight: bold;
+    }
+    
+    label {
+        cursor: pointer;
+    }
 `;
 
 export default GlobalStyles;

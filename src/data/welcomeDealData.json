@@ -1,36 +1,33 @@
 {
     "product_count": 100,
     "results": [
-        {
-            "id": 1,
-            "writer": "믿음윤(trustyoon)",
-            "title" : "[설선물세트] 표고의 모든것 1호",
-            "comment" : "어제(목) 주문햇는데 오늘(금) 왔네요! 명절이라 택배양 많을까봐 미리 주문했는데 배송이 빨라서 놀랬어요😁 선물용으로 구입한거라 내용을 확인하려고 했는데 버섯상자가 컵라면처럼 랩핑이 한번 되어있어서 개봉을 고민하다가 뜯어보았네용ㅎㅎ 버섯이 살짝 빈 곳들이 보이긴 하지만 포장이 잘 되어있고 양도 푸짐해보여서 기분이 좋네요!! 선물받으시는 분도 좋아하셨으면 좋겠네요🤗",
-            "imageurl" : "https://image.idus.com/image/files/3fc39b6e770244a2af0ad0e243d53676_512.png",
-            "price" : "9900",
-            "priceRate":"90",
-            "salePrice":"1000",
-            "type": "안전식품"
+        {"idx": 1,
+          "name" : "표고 농장 1호",
+          "brandIdx": 1,
+          "categoryIdx":1,
+          "price":10000,
+          "salePrice":5000,
+          "deliveryType" : "버섯 택배",
+          "isTodayDeal" : "x",
+          "imageurl" : "https://image.idus.com/image/files/3fc39b6e770244a2af0ad0e243d53676_512.png"
           },{
-            "id": 2,
-            "writer": "153베이커리",
-            "title" : "[웰컴딜] 버터쿠키3mix(210g/퍼플상자)",
-            "comment" : "웰컴 이벤트로 구매했어요  발에 각질이 생겨서 사용했는데 이틀만에 바로 좋아졌어요 ㅎㅎ",
-            "imageurl" : "https://image.idus.com/image/files/fdf0c837f21247ac94b4ba86e9706e98_512.jpg",
-            "price" : "11900",
-            "priceRate":"91",
-            "salePrice":"1000",
-            "type": "화장품"
+            "idx": 2,
+            "name" : "[웰컴딜] 버터쿠키3mix(210g/퍼플상자)",
+            "categoryIdx": 1,
+            "price":9000,
+            "salePrice":900,
+            "deliveryType" : "일반 택배",
+            "isTodayDeal" : "x",
+            "imageurl" : "https://image.idus.com/image/files/fdf0c837f21247ac94b4ba86e9706e98_512.jpg"
           },{
-            "id": 3,
-            "writer": "랄라비 (Lala B)",
-            "title" : "[웰컴딜] 랄라 바니 롤티슈커버 (3color)",
-            "comment" : "포장도 너무 정성스럽고 제품도 너무 마음에 들어요",
-            "imageurl" : "https://image.idus.com/image/files/4825f89c59864ec99d9f3d8d5cffb849_512.jpg",
-            "price" : "1200",
-            "priceRate":"92",
-            "salePrice":"1000",
-            "type": "잡화"
+            "idx": 3,
+            "name" : "[웰컴딜] 랄라 바니 롤티슈커버 (3color)",
+            "categoryIdx": 2,
+            "price":10000,
+            "salePrice" : 100,
+            "deliveryType" : "일반 택배",
+            "isTodayDeal" : "x",
+            "imageurl" : "https://image.idus.com/image/files/4825f89c59864ec99d9f3d8d5cffb849_512.jpg"
           }
     ]
   }

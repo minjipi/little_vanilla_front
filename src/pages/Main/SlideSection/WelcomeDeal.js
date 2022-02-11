@@ -9,7 +9,7 @@ function WelcomeDeal(props) {
           <UiGridCols4>
             {props.welcomeDealData.map((welcomeDeal) => {
               return (
-                <UiGridItem key={welcomeDeal.id}>
+                <UiGridItem key={welcomeDeal.idx}>
                   <BaseCardVertical>
                     <BaseCardVerticalA>
                       <CardThumbCover>
@@ -26,11 +26,16 @@ function WelcomeDeal(props) {
 
                         <CardInfoProductInfo>
                           <ProductInfoArtistName>
-                            {welcomeDeal.writer}
+                            {welcomeDeal.brandIdx}
                           </ProductInfoArtistName>
-                          <ProductInfoName>{welcomeDeal.title}</ProductInfoName>
+                          <ProductInfoName>{welcomeDeal.name}</ProductInfoName>
                           <ProductInfoPrice>
-                            <SaleRate>{welcomeDeal.priceRate}%</SaleRate>
+                            <SaleRate>
+                              {((welcomeDeal.price - welcomeDeal.salePrice) /
+                                welcomeDeal.price) *
+                                100}
+                              %
+                            </SaleRate>
                             <PriceSale>
                               {welcomeDeal.salePrice}
                               <PriceSaleWon>원</PriceSaleWon>
@@ -42,7 +47,7 @@ function WelcomeDeal(props) {
                               </PriceOriginBeforeSaleDel>
                             </PriceOriginBeforeSale>
                           </ProductInfoPrice>
-                          {welcomeDeal.type === "안전식품" ? (
+                          {welcomeDeal.categoryIdx === 1 ? (
                             <ProductInfoBadgeGroup>
                               <BadgeFood>안전식품</BadgeFood>
                             </ProductInfoBadgeGroup>
