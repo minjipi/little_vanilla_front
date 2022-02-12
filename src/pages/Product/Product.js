@@ -6,8 +6,27 @@ import Option from "./Option";
 import ProductDetail from "./ProductDetail";
 import SelectedOption from "./SelectedOption";
 import $ from "jquery";
+import axios from "axios";
 
 function Product() {
+  const [data, setData] = useState(null);
+
+  const [calSale, setCalSale] = useState(0);
+
+  useEffect(() => {
+    async function fetchData() {
+      const result = await axios.get("http://localhost:8080/product/1");
+      console.log(result.data.result);
+      setData(result.data.result);
+      setCalSale(
+        ((result.data.result.price - result.data.result.salePrice) /
+          result.data.result.price) *
+          100
+      );
+    }
+    fetchData();
+  }, []);
+
   const imageData = [
     {
       id: 1,
@@ -134,11 +153,14 @@ function Product() {
     setTotalPrice(total);
   });
 
+  if (data === null) {
+    return null;
+  }
+
   return (
     <>
       <Header />
       <DimmedBackground />
-
       <ContentRel>
         <StickyStart />
         <InnerWMobileFull>
@@ -164,7 +186,6 @@ function Product() {
               </OuterFrame>
               <FieldsetUiControl>
                 <BtnPrev
-
                   disabled={isClicked ? "disabled" : ""}
                   onClick={() => {
                     setIsClicked(true);
@@ -186,6 +207,7 @@ function Product() {
                         setIsClicked(false);
                       }
                     );
+                  }}
                 >
                   <ImgListI className="fas fa-chevron-left" />
                 </BtnPrev>
@@ -272,7 +294,6 @@ function Product() {
                 >
                   <ImgListI className="fas fa-chevron-right" />
                 </BtnNext>
-
               </FieldsetUiControl>
             </ImagePreviewUiSlider>
           </ImgSection>
@@ -288,16 +309,14 @@ function Product() {
                       <ArtistCardSplitA>
                         <ArtistCardImg />
                         <ArtistCardLabel>
-                          각인맛집 반지판다
+                          {data.idx}
                           <ArrowR className="fas fa-chevron-right" />
                         </ArtistCardLabel>
                       </ArtistCardSplitA>
                     </ArtistCardSplit>
                     <ArtistCardSplitt />
                   </ArtistCard>
-                  <StickyAsideProducTitle>
-                    [웰컴딜] 써지컬 우리말기념일목걸이🌙
-                  </StickyAsideProducTitle>
+                  <StickyAsideProducTitle>{data.name}</StickyAsideProducTitle>
                   <div>
                     <PriceTagD>
                       <StickyAsideMRight>
@@ -308,7 +327,7 @@ function Product() {
                             </ProductDetailStarTxt2>
                             <ProductDetailStarTxt3>
                               <ProductDetailStarTxt3P>
-                                1,000
+                                {data.salePrice}
                               </ProductDetailStarTxt3P>
                             </ProductDetailStarTxt3>
                           </ProductDetailStarTxt1>
@@ -322,12 +341,12 @@ function Product() {
 
                       <ProductDetailSpan>
                         <PriceTagHilight>
-                          <PriceTagHilightEm>89</PriceTagHilightEm>%
+                          <PriceTagHilightEm>{calSale}</PriceTagHilightEm>%
                         </PriceTagHilight>
                         <PriceTagStrong>
                           <Strong>1,000</Strong>원
                         </PriceTagStrong>
-                        <PriceTagCrossout>9,000원</PriceTagCrossout>
+                        <PriceTagCrossout>{data.price}</PriceTagCrossout>
                       </ProductDetailSpan>
                       <Maker></Maker>
                     </PriceTagD>
@@ -724,8 +743,6 @@ const ImgListI = styled.i`
   -webkit-font-smoothing: antialiased;
 `;
 
-const IndicatorBtnLi = styled.li``;
-
 const ImgListIndicator = styled.ul`
   margin: 0;
   margin-top: 8px;
@@ -1047,7 +1064,6 @@ const BalloonIcon = styled.i`
 `;
 
 const BalloonContent = styled.div`
-  // 여기
   display: none;
   width: 220px;
   position: absolute;
@@ -1288,7 +1304,6 @@ const IdusIconIf = styled.i`
 `;
 
 const OptionScrollableD = styled.div`
-  // 여기
   display: none;
   position: absolute;
   width: 100%;
