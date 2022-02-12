@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import axios from "axios";
 
 function TodayProduct(props) {
-  const [productData, setProductData] = useState(null);
+  const [productData, setProductData] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -19,13 +19,16 @@ function TodayProduct(props) {
       <UiGridCols5>
         {productData.map((product) => {
           return (
-            <UiGridItem key={product.idx}>
+            <UiGridItem
+              onClick={() => (window.location.href = "/product/" + product.idx)}
+              key={product.idx}
+            >
               <UiCard>
                 <IconFavorite className="icon-favorite" />
                 <UiCardImgcover>
                   <UiCardImgcoverA
                     imageurl={product.imageurl}
-                    href="/w/product/b650c945-f531-485b-afd9-ee0706c9cb73"
+                    href={"/product/" + product.idx}
                   ></UiCardImgcoverA>
                 </UiCardImgcover>
                 <UiCardInfo>

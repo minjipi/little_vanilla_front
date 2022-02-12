@@ -11,17 +11,21 @@ import axios from "axios";
 function Product() {
   const [data, setData] = useState(null);
 
+  const [calSale, setCalSale] = useState(0);
+
   useEffect(() => {
     async function fetchData() {
       const result = await axios.get("http://localhost:8080/product/1");
-      console.log(result.data);
-      setData(result.data);
+      console.log(result.data.result);
+      setData(result.data.result);
+      setCalSale(
+        ((result.data.result.price - result.data.result.salePrice) /
+          result.data.result.price) *
+          100
+      );
     }
     fetchData();
   }, []);
-
-  const calSale =
-    ((data.result.price - data.result.salePrice) / data.result.price) * 100;
 
   const imageData = [
     {
@@ -148,6 +152,10 @@ function Product() {
 
     setTotalPrice(total);
   });
+
+  if (data === null) {
+    return null;
+  }
 
   return (
     <>
@@ -301,16 +309,14 @@ function Product() {
                       <ArtistCardSplitA>
                         <ArtistCardImg />
                         <ArtistCardLabel>
-                          {data.result.idx}
+                          {data.idx}
                           <ArrowR className="fas fa-chevron-right" />
                         </ArtistCardLabel>
                       </ArtistCardSplitA>
                     </ArtistCardSplit>
                     <ArtistCardSplitt />
                   </ArtistCard>
-                  <StickyAsideProducTitle>
-                    {data.result.name}
-                  </StickyAsideProducTitle>
+                  <StickyAsideProducTitle>{data.name}</StickyAsideProducTitle>
                   <div>
                     <PriceTagD>
                       <StickyAsideMRight>
@@ -321,7 +327,7 @@ function Product() {
                             </ProductDetailStarTxt2>
                             <ProductDetailStarTxt3>
                               <ProductDetailStarTxt3P>
-                                {data.result.salePrice}
+                                {data.salePrice}
                               </ProductDetailStarTxt3P>
                             </ProductDetailStarTxt3>
                           </ProductDetailStarTxt1>
@@ -340,7 +346,7 @@ function Product() {
                         <PriceTagStrong>
                           <Strong>1,000</Strong>원
                         </PriceTagStrong>
-                        <PriceTagCrossout>{data.result.price}</PriceTagCrossout>
+                        <PriceTagCrossout>{data.price}</PriceTagCrossout>
                       </ProductDetailSpan>
                       <Maker></Maker>
                     </PriceTagD>
