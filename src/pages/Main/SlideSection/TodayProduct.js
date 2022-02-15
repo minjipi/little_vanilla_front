@@ -7,7 +7,7 @@ function TodayProduct(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const result = await axios.get("http://localhost:8080/product/list");
+      const result = await axios.get("http://localhost:8080/product/lists");
       console.log(result.data);
       setProductData(result.data.result);
     }
@@ -19,15 +19,15 @@ function TodayProduct(props) {
       <UiGridCols5>
         {productData.map((product) => {
           return (
-            <UiGridItem
-              onClick={() => (window.location.href = "/product/" + product.idx)}
-              key={product.idx}
-            >
+            <UiGridItem key={product.idx}>
               <UiCard>
                 <IconFavorite className="icon-favorite" />
                 <UiCardImgcover>
                   <UiCardImgcoverA
-                    imageurl={product.imageurl}
+                    imageurl={
+                      "http://localhost:8080/product/display?fileName=" +
+                      product.filename
+                    }
                     href={"/product/" + product.idx}
                   ></UiCardImgcoverA>
                 </UiCardImgcover>
