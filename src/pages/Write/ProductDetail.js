@@ -5,25 +5,6 @@ function Product() {
   return (
     <InnerWMobileFull>
       <ProductDetailNoticeBox>
-        <VipBanner>
-          <BannerWrapper>
-            <BannerDesc>
-              배송비 내지 마세요! <br />월 2,500원으로
-              <strong>무제한 무료배송</strong>
-            </BannerDesc>
-            <VipCashback />
-            <TimeCounter />
-            <VipClubBtn>VIP 클럽 알아보기</VipClubBtn>
-          </BannerWrapper>
-        </VipBanner>
-        <InfoLabel>
-          <InfoLabelTitle>배송시작</InfoLabelTitle>
-          <span>
-            <InfoText>평균</InfoText>
-            <InfoTextBold>2일</InfoTextBold>
-            <InfoTextComma>/</InfoTextComma> <InfoText>최대 4일 이내</InfoText>
-          </span>
-        </InfoLabel>
         <DeliveryGraphWrapper>
           <DeliveryGraphBox>
             <div>
@@ -74,12 +55,6 @@ function Product() {
           </DeliveryGraphBox>
         </DeliveryGraphWrapper>
         <ProductDetailNoticeBoxDivider />
-        <InfoLabel>
-          <InfoLabelTitle>수량</InfoLabelTitle>
-          <span>
-            <InfoText>17 개 남음</InfoText>
-          </span>
-        </InfoLabel>
       </ProductDetailNoticeBox>
       <DataTriggerDetail />
       <FixPosition />

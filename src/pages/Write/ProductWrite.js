@@ -7,12 +7,73 @@ import $ from "jquery";
 import axios from "axios";
 
 function ProductWrite() {
-  const [calSale, setCalSale] = useState(0);
-  const [isOptionVisible, setIsOptionVisible] = useState(false);
-
   const [isScroll, setIsScroll] = useState(false);
-  const [selectedImg, setSelectedImg] = useState(0);
   const [isClicked, setIsClicked] = useState(false);
+  const [imageFiles, setImageFiles] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const [name, setName] = useState("");
+  const [brandIdx, setBrandIdx] = useState("");
+  const [categoryIdx, setCategory] = useState("");
+  const [price, setPrice] = useState("");
+  const [salePrice, setSalePrice] = useState("");
+  const [deliveryType, setDeliveryType] = useState("");
+  const [isTodayDeal, setIsTodayDeal] = useState(false);
+  const [file, setFile] = useState(null);
+
+  const onReset = () => {
+    setName("");
+    setBrandIdx("");
+  };
+
+  let body = {
+    name: name,
+    brandIdx: Number(brandIdx),
+    categoryIdx: Number(categoryIdx),
+    price: Number(price),
+    salePrice: Number(salePrice),
+    deliveryType: deliveryType,
+    isTodayDeal: isTodayDeal ? "y" : "n",
+  };
+
+  const formData = new FormData();
+
+  formData.append("body", JSON.stringify(body));
+
+  file &&
+    file.map((image) => {
+      formData.append("uploadFiles", image);
+    });
+
+  const onSubmit = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/product/create",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const fileHandler = (e) => {
+    setFile(Array.prototype.slice.call(e.target.files));
+
+    setImageFiles(Array.prototype.slice.call(e.target.files));
+  };
+
+  // axios
+  //   .post("http://localhost:8080/product/create", formData, {
+  //     headers: { "Content-Type": "multipart/form-data" },
+  //   })
+
+  //   .then((res) => {
+  //     console.log(res);
+  //     // window.location.replace("/");
+  //   });
 
   return (
     <>
@@ -21,274 +82,369 @@ function ProductWrite() {
       <ContentRel>
         <StickyStart />
         <InnerWMobileFull>
-          <ImgSection>
-            <ImagePreviewUiSlider>
-              <OuterFrame>
-                <ImgViewInnerFrame id="ImgViewInnerFrame">
-                  <UiSlider>
-                    <WelcomeDeal src="https://image.idus.com/static/ticketdeal/badge_welcomedeal.png" />
-                  </UiSlider>
-                </ImgViewInnerFrame>
-              </OuterFrame>
-              <FieldsetUiControl>
-                <BtnPrev disabled={isClicked ? "disabled" : ""}>
-                  <ImgListI className="fas fa-chevron-left" />
-                </BtnPrev>
-                <ImgListIndicator></ImgListIndicator>
-                <BtnNext>
-                  <ImgListI className="fas fa-chevron-right" />
-                </BtnNext>
-              </FieldsetUiControl>
-            </ImagePreviewUiSlider>
-          </ImgSection>
+          <form>
+            <ImgSection>
+              <input
+                id="file"
+                type="file"
+                multiple="multiple"
+                onChange={(e) => {
+                  fileHandler(e);
+                }}
+              ></input>
+              <ImagePreviewUiSlider>
+                <OuterFrame>
+                  <ImgViewInnerFrame id="ImgViewInnerFrame">
+                    <div className="imgBox" />
+                    {imageFiles &&
+                      imageFiles.map((imageFiles) => (
+                        <UiSlider
+                          style={{
+                            width: "560px",
+                            backgroundImage:
+                              "url(" + URL.createObjectURL(imageFiles) + ")",
+                          }}
+                        >
+                          {isTodayDeal ? (
+                            <WelcomeDeal src="https://image.idus.com/static/ticketdeal/badge_welcomedeal.png" />
+                          ) : (
+                            <></>
+                          )}
+                        </UiSlider>
+                      ))}
+                  </ImgViewInnerFrame>
+                </OuterFrame>
+                <FieldsetUiControl>
+                  <BtnPrev type="button" disabled={isClicked ? "disabled" : ""}>
+                    <ImgListI className="fas fa-chevron-left" />
+                  </BtnPrev>
+                  <ImgListIndicator></ImgListIndicator>
+                  <BtnNext type="button">
+                    <ImgListI className="fas fa-chevron-right" />
+                  </BtnNext>
+                </FieldsetUiControl>
+              </ImagePreviewUiSlider>
+            </ImgSection>
 
-          <StickyAsideProductD
-            className={isScroll ? "product_detail fixed" : "product_detail"}
-          >
-            <div>
+            <StickyAsideProductD
+              className={isScroll ? "product_detail fixed" : "product_detail"}
+            >
               <div>
-                <StickyAsideDiv>
-                  <ArtistCard>
-                    <ArtistCardSplit>
-                      <ArtistCardSplitA>
-                        <ArtistCardImg />
-                        <ArtistCardLabel>
-                          data.idx
-                          <ArrowR className="fas fa-chevron-right" />
-                        </ArtistCardLabel>
-                      </ArtistCardSplitA>
-                    </ArtistCardSplit>
-                    <ArtistCardSplitt />
-                  </ArtistCard>
-                  <StickyAsideProducTitle>data.name</StickyAsideProducTitle>
-                  <div>
-                    <PriceTagD>
-                      <StickyAsideMRight>
-                        <LikeBtn>
-                          <ProductDetailStarTxt1>
-                            <ProductDetailStarTxt2>
-                              <ProductDetailStarTxt2I className="far fa-heart" />
-                            </ProductDetailStarTxt2>
-                            <ProductDetailStarTxt3>
-                              <ProductDetailStarTxt3P>
-                                data.salePrice
-                              </ProductDetailStarTxt3P>
-                            </ProductDetailStarTxt3>
-                          </ProductDetailStarTxt1>
-                        </LikeBtn>
-                        <ProductDetailShareBtn>
-                          <ProductDetailShare>
-                            <ShareIcon className="fas fa-share-alt" />
-                          </ProductDetailShare>
-                        </ProductDetailShareBtn>
-                      </StickyAsideMRight>
+                <div>
+                  <StickyAsideDiv>
+                    <ArtistCard>
+                      <ArtistCardSplit>
+                        <ArtistCardSplitA>
+                          <ArtistCardImg />
+                          <ArtistCardLabel>
+                            이건 로그인 할 때 바꿔주기.
+                            <input
+                              id="brandIdx"
+                              value={brandIdx}
+                              type="text"
+                              onChange={(e) => {
+                                setBrandIdx(e.target.value);
+                              }}
+                            ></input>
+                            <ArrowR className="fas fa-chevron-right" />
+                          </ArtistCardLabel>
+                        </ArtistCardSplitA>
+                      </ArtistCardSplit>
+                      <ArtistCardSplitt />
+                    </ArtistCard>
+                    <StickyAsideProducTitle>
+                      상품명:
+                      <input
+                        id="name"
+                        type="text"
+                        value={name}
+                        onChange={(e) => {
+                          setName(e.target.value);
+                        }}
+                      ></input>
+                      <br />
+                      상품 카테고리:
+                      <input
+                        id="categoryIdx"
+                        value={categoryIdx}
+                        onChange={(e) => {
+                          setCategory(e.target.value);
+                        }}
+                      ></input>
+                    </StickyAsideProducTitle>
 
-                      <ProductDetailSpan>
-                        <PriceTagHilight>
-                          <PriceTagHilightEm></PriceTagHilightEm>%
-                        </PriceTagHilight>
-                        <PriceTagStrong>
-                          <Strong>1,000</Strong>원
-                        </PriceTagStrong>
-                        <PriceTagCrossout>data.price</PriceTagCrossout>
-                      </ProductDetailSpan>
-                      <Maker></Maker>
-                    </PriceTagD>
-                    <PricetagD2>
-                      <MarkR>
-                        <CountUp>750 명</CountUp>
-                        <DarkSpan>구매</DarkSpan>
-                      </MarkR>
-                    </PricetagD2>
                     <div>
-                      <DataRow>
-                        <DataRowTable>
-                          <tbody>
-                            <DataRowTr>
-                              <TitleTd>적립금</TitleTd>
-                              <ContenetTd>
-                                <span>
-                                  최대 <DataRowSpan>35P</DataRowSpan>
-                                </span>
-                                <Balloon>
-                                  <BalloonIcon className="fas fa-info-circle"></BalloonIcon>
-                                </Balloon>
-                              </ContenetTd>
-                            </DataRowTr>
-                          </tbody>
-                        </DataRowTable>
+                      <PriceTagD>
+                        <StickyAsideMRight>
+                          <LikeBtn>
+                            <ProductDetailStarTxt1>
+                              <ProductDetailStarTxt2>
+                                <ProductDetailStarTxt2I className="far fa-heart" />
+                              </ProductDetailStarTxt2>
+                              <ProductDetailStarTxt3>
+                                <ProductDetailStarTxt3P></ProductDetailStarTxt3P>
+                              </ProductDetailStarTxt3>
+                            </ProductDetailStarTxt1>
+                          </LikeBtn>
+                          <ProductDetailShareBtn>
+                            <ProductDetailShare>
+                              <ShareIcon className="fas fa-share-alt" />
+                            </ProductDetailShare>
+                          </ProductDetailShareBtn>
+                        </StickyAsideMRight>
 
-                        <BalloonContent>
-                          <BalloonBtn>
-                            <CloseIcon className="fas fa-times" />
-                          </BalloonBtn>
-                          <PointBal>
-                            <PointBalTable>
-                              <tbody>
-                                <PointBalTr>
-                                  <PointBalTd>회원등급 적립률</PointBalTd>
-                                  <PointBalTd2> 2% </PointBalTd2>
-                                </PointBalTr>
-                                <PointBalTr>
-                                  <PointBalTd> VIP 클럽 추가 적립 </PointBalTd>
-                                  <PointBalTd2> +1% </PointBalTd2>
-                                </PointBalTr>
-                                <PointBalTr>
-                                  <PointBalTd> 간편 결제 시 </PointBalTd>
-                                  <PointBalTd2> +0.5% </PointBalTd2>
-                                </PointBalTr>
-                              </tbody>
-                            </PointBalTable>
+                        <ProductDetailSpan>
+                          <PriceTagHilight>
+                            <PriceTagHilightEm></PriceTagHilightEm>%
+                          </PriceTagHilight>
 
-                            <div>
-                              <VipSection>
-                                <VipSectionDiv />
-                                <tbody>
-                                  <VipSectionTr>
-                                    <VipSectionTd>
-                                      <h4>아이디어스 VIP 클럽</h4>
-                                    </VipSectionTd>
-                                    <VipSectionTdR>
-                                      <VipSectionA>더 알아보기</VipSectionA>
-                                    </VipSectionTdR>
-                                  </VipSectionTr>
-                                </tbody>
-                              </VipSection>
-                              <VipSectionDesc>
-                                핸드메이드를 사랑하는 회원님들에게 제공하는 유료
-                                서비스로 작품 금액의 1.0% 추가 적립 및 배송비
-                                무료 혜택을 제공합니다.
-                              </VipSectionDesc>
-                            </div>
-                          </PointBal>
-                        </BalloonContent>
-                      </DataRow>
-
-                      <DataRow>
-                        <DataRowTable>
-                          <tbody>
-                            <DataRowTr>
-                              <TitleTd>구매후기</TitleTd>
-                              <ContenetTd>
-                                <ReviewRateBox>
-                                  <ReviewRateBoxA>
-                                    <ReviewRateDiv>
-                                      <ReviewRateSpan>
-                                        <Star className="fas fa-star" />
-                                        <Star className="fas fa-star" />
-                                      </ReviewRateSpan>
-                                    </ReviewRateDiv>
-                                    <ReviewRateDivLeft>(116)</ReviewRateDivLeft>
-                                    <ReviewRateDivTop>
-                                      <ReviewRateDivTopI className="fas fa-chevron-right"></ReviewRateDivTopI>
-                                    </ReviewRateDivTop>
-                                  </ReviewRateBoxA>
-                                </ReviewRateBox>
-                              </ContenetTd>
-                            </DataRowTr>
-                          </tbody>
-                        </DataRowTable>
-                      </DataRow>
-
-                      <DataRow>
-                        <DataRowTable>
-                          <tbody>
-                            <DataRowTr>
-                              <TitleTd>배송비</TitleTd>
-                              <ContenetTd>
-                                <span>
-                                  2,500 원
-                                  <Subcontent>
-                                    {" "}
-                                    (8,000원 이상 무료배송)
-                                  </Subcontent>
-                                </span>
-                                <Balloon>
-                                  <BalloonIcon className="fas fa-info-circle"></BalloonIcon>
-                                </Balloon>
-                              </ContenetTd>
-                            </DataRowTr>
-                          </tbody>
-                        </DataRowTable>
-                      </DataRow>
-
-                      <DataRow>
-                        <DataRowTable>
-                          <tbody>
-                            <DataRowTr>
-                              <TitleTd>배송 시작</TitleTd>
-                              <ContenetTd>
-                                <DeliveryHeaderDiv>
-                                  <DeliveryHeaderP>평균 </DeliveryHeaderP>
-                                  <DeliveryHeaderPB>1일</DeliveryHeaderPB>
-                                  <DeliveryHeaderPCom>, </DeliveryHeaderPCom>
-                                  <DeliveryHeaderP>
-                                    최대 2일 이내
-                                  </DeliveryHeaderP>
-                                </DeliveryHeaderDiv>
-                              </ContenetTd>
-                            </DataRowTr>
-                          </tbody>
-                        </DataRowTable>
-                      </DataRow>
-
-                      <DataRow>
-                        <DataRowTable>
-                          <tbody>
-                            <DataRowTr>
-                              <TitleTd>수량</TitleTd>
-                              <ContenetTd>
-                                <span>48 개 남음</span>
-                              </ContenetTd>
-                            </DataRowTr>
-                          </tbody>
-                        </DataRowTable>
-                      </DataRow>
-                    </div>
-                  </div>
-                  {/*  */}
-                  <div>
-                    <BuyScrollable>
+                          <PriceTagStrong>
+                            할인가:
+                            <input
+                              id="salePrice"
+                              type="text"
+                              value={salePrice}
+                              onChange={(e) => {
+                                setSalePrice(e.target.value);
+                              }}
+                            ></input>
+                            원
+                          </PriceTagStrong>
+                          <br />
+                          <PriceTagCrossout>
+                            원가:
+                            <input
+                              id="price"
+                              type="text"
+                              value={price}
+                              onChange={(e) => {
+                                setPrice(e.target.value);
+                              }}
+                            ></input>
+                          </PriceTagCrossout>
+                        </ProductDetailSpan>
+                        <Maker></Maker>
+                      </PriceTagD>
+                      <PricetagD2>
+                        <MarkR>
+                          <CountUp>750 명</CountUp>
+                          <DarkSpan>구매</DarkSpan>
+                        </MarkR>
+                      </PricetagD2>
                       <div>
-                        {/* mobile-show mobile-ui-close */}
-                        <SelectGroupTriggerBtn type="button">
-                          옵션 선택
-                          <IdusIconArrowDown className="fas fa-chevron-down"></IdusIconArrowDown>
-                        </SelectGroupTriggerBtn>
-                        <QuotaMessageDiv>
-                          <IdusIconIf />
-                          웰컴딜 주문 가능 수량 : 1개
-                        </QuotaMessageDiv>
+                        <DataRow>
+                          <DataRowTable>
+                            <tbody>
+                              <DataRowTr>
+                                <TitleTd>적립금</TitleTd>
+                                <ContenetTd>
+                                  <span>
+                                    최대 <DataRowSpan>35P</DataRowSpan>
+                                  </span>
+                                  <Balloon>
+                                    <BalloonIcon className="fas fa-info-circle"></BalloonIcon>
+                                  </Balloon>
+                                </ContenetTd>
+                              </DataRowTr>
+                            </tbody>
+                          </DataRowTable>
 
-                        <OptionScrollableD isOptionVisible={isOptionVisible}>
-                          <SelectGroupHeaderD>
-                            <SelectGroupTitleS>
-                              전체 옵션 6개 중 0개 선택
-                            </SelectGroupTitleS>
+                          <BalloonContent>
+                            <BalloonBtn>
+                              <CloseIcon className="fas fa-times" />
+                            </BalloonBtn>
+                            <PointBal>
+                              <PointBalTable>
+                                <tbody>
+                                  <PointBalTr>
+                                    <PointBalTd>회원등급 적립률</PointBalTd>
+                                    <PointBalTd2> 2% </PointBalTd2>
+                                  </PointBalTr>
+                                  <PointBalTr>
+                                    <PointBalTd>
+                                      {" "}
+                                      VIP 클럽 추가 적립{" "}
+                                    </PointBalTd>
+                                    <PointBalTd2> +1% </PointBalTd2>
+                                  </PointBalTr>
+                                  <PointBalTr>
+                                    <PointBalTd> 간편 결제 시 </PointBalTd>
+                                    <PointBalTd2> +0.5% </PointBalTd2>
+                                  </PointBalTr>
+                                </tbody>
+                              </PointBalTable>
 
-                            <SelectGroupBtn type="button">
-                              <SelectGroupCloseIcon className="fas fa-times" />
-                            </SelectGroupBtn>
-                          </SelectGroupHeaderD>
+                              <div>
+                                <VipSection>
+                                  <VipSectionDiv />
+                                  <tbody>
+                                    <VipSectionTr>
+                                      <VipSectionTd>
+                                        <h4>아이디어스 VIP 클럽</h4>
+                                      </VipSectionTd>
+                                      <VipSectionTdR>
+                                        <VipSectionA>더 알아보기</VipSectionA>
+                                      </VipSectionTdR>
+                                    </VipSectionTr>
+                                  </tbody>
+                                </VipSection>
+                                <VipSectionDesc>
+                                  핸드메이드를 사랑하는 회원님들에게 제공하는
+                                  유료 서비스로 작품 금액의 1.0% 추가 적립 및
+                                  배송비 무료 혜택을 제공합니다.
+                                </VipSectionDesc>
+                              </div>
+                            </PointBal>
+                          </BalloonContent>
+                        </DataRow>
 
-                          <SelectGBodyD></SelectGBodyD>
-                        </OptionScrollableD>
+                        <DataRow>
+                          <DataRowTable>
+                            <tbody>
+                              <DataRowTr>
+                                <TitleTd>구매후기</TitleTd>
+                                <ContenetTd>
+                                  <ReviewRateBox>
+                                    <ReviewRateBoxA>
+                                      <ReviewRateDiv>
+                                        <ReviewRateSpan>
+                                          <Star className="fas fa-star" />
+                                          <Star className="fas fa-star" />
+                                        </ReviewRateSpan>
+                                      </ReviewRateDiv>
+                                      <ReviewRateDivLeft>
+                                        (116)
+                                      </ReviewRateDivLeft>
+                                      <ReviewRateDivTop>
+                                        <ReviewRateDivTopI className="fas fa-chevron-right"></ReviewRateDivTopI>
+                                      </ReviewRateDivTop>
+                                    </ReviewRateBoxA>
+                                  </ReviewRateBox>
+                                </ContenetTd>
+                              </DataRowTr>
+                            </tbody>
+                          </DataRowTable>
+                        </DataRow>
 
-                        <CheckoutProductCostDl>
-                          <span>
-                            <span>
-                              배송비
-                              <b>2,500 원</b>
-                            </span>
-                          </span>
-                        </CheckoutProductCostDl>
+                        <DataRow>
+                          <DataRowTable>
+                            <tbody>
+                              <DataRowTr>
+                                <TitleTd>배송비</TitleTd>
+                                <ContenetTd>
+                                  <span>
+                                    2,500 원
+                                    <Subcontent>
+                                      (8,000원 이상 무료배송)
+                                    </Subcontent>
+                                  </span>
+                                  <Balloon>
+                                    <BalloonIcon className="fas fa-info-circle"></BalloonIcon>
+                                  </Balloon>
+                                </ContenetTd>
+                              </DataRowTr>
+                            </tbody>
+                          </DataRowTable>
+                        </DataRow>
+
+                        <DataRow>
+                          <DataRowTable>
+                            <tbody>
+                              <DataRowTr>
+                                <TitleTd>배송타입</TitleTd>
+                                <ContenetTd>
+                                  <input
+                                    id="deliveryType"
+                                    value={deliveryType}
+                                    onChange={(e) => {
+                                      setDeliveryType(e.target.value);
+                                    }}
+                                  ></input>
+                                </ContenetTd>
+                              </DataRowTr>
+                            </tbody>
+                          </DataRowTable>
+                        </DataRow>
+
+                        <DataRow>
+                          <DataRowTable>
+                            <tbody>
+                              <DataRowTr>
+                                <TitleTd>배송 시작</TitleTd>
+                                <ContenetTd>
+                                  <DeliveryHeaderDiv>
+                                    <DeliveryHeaderP>평균 </DeliveryHeaderP>
+                                    <DeliveryHeaderPB>1일</DeliveryHeaderPB>
+                                    <DeliveryHeaderPCom>, </DeliveryHeaderPCom>
+                                    <DeliveryHeaderP>
+                                      최대 2일 이내
+                                    </DeliveryHeaderP>
+                                  </DeliveryHeaderDiv>
+                                </ContenetTd>
+                              </DataRowTr>
+                            </tbody>
+                          </DataRowTable>
+                        </DataRow>
+
+                        <DataRow>
+                          <DataRowTable>
+                            <tbody>
+                              <DataRowTr>
+                                <TitleTd>수량</TitleTd>
+                                <ContenetTd>
+                                  <span>48 개 남음</span>
+                                </ContenetTd>
+                              </DataRowTr>
+                            </tbody>
+                          </DataRowTable>
+                        </DataRow>
+
+                        <DataRow>
+                          <DataRowTable>
+                            <tbody>
+                              <DataRowTr>
+                                <TitleTd>웰컴딜</TitleTd>
+
+                                <ContenetTd>
+                                  <input
+                                    type="checkbox"
+                                    checked={isTodayDeal}
+                                    onChange={() =>
+                                      setIsTodayDeal(!isTodayDeal)
+                                    }
+                                  ></input>
+                                </ContenetTd>
+                              </DataRowTr>
+                            </tbody>
+                          </DataRowTable>
+                        </DataRow>
                       </div>
-                    </BuyScrollable>
-                  </div>
-                </StickyAsideDiv>
+                    </div>
+                    {/*  */}
+                    <div>
+                      <BuyScrollable>
+                        <div>
+                          <SelectGroupTriggerBtn type="button">
+                            옵션 선택
+                            <IdusIconArrowDown className="fas fa-chevron-down"></IdusIconArrowDown>
+                          </SelectGroupTriggerBtn>
+                          <QuotaMessageDiv>
+                            <IdusIconIf />
+                            웰컴딜 주문 가능 수량 : 1개
+                          </QuotaMessageDiv>
+                        </div>
+                      </BuyScrollable>
+                    </div>
+
+                    <button type="button" onClick={onReset}>
+                      초기화
+                    </button>
+                    <Submit onClick={onSubmit}>제출</Submit>
+                  </StickyAsideDiv>
+                </div>
               </div>
-            </div>
-          </StickyAsideProductD>
+            </StickyAsideProductD>
+          </form>
         </InnerWMobileFull>
         <ProductDetail />
       </ContentRel>
@@ -296,6 +452,28 @@ function ProductWrite() {
     </>
   );
 }
+
+const Submit = styled.button`
+  flex: 1 1 0%;
+  margin-right: 0;
+  display: block;
+  float: left;
+  padding: 0;
+  line-height: 44px;
+  font-size: 16px;
+  width: calc((97% - 46px) / 3);
+  height: 46px;
+  border-color: transparent;
+  background: #ff7b30;
+  color: #fff;
+  box-shadow: 0 1px 3px 0 hsl(0deg 0% 86% / 30%);
+  font-weight: 400;
+  box-sizing: border-box;
+  border-radius: 2px;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+`;
 
 const DimmedBackground = styled.div`
   display: none;
@@ -378,12 +556,6 @@ const WelcomeDeal = styled.img`
   height: 72px !important;
   left: 10px;
   bottom: 10px;
-`;
-
-const UiSliderNext = styled.li`
-  background-image: url(https://image.idus.com/image/files/4c11fc0…_720.jpg);
-  width: 560px;
-  display: none;
 `;
 
 const FieldsetUiControl = styled.fieldset`
@@ -584,7 +756,7 @@ const ArtistCardSplitt = styled.div`
 
 const StickyAsideProducTitle = styled.h2`
   display: block;
-  font-size: 20px;
+  font-size: 15px;
   color: #333;
   margin-bottom: 12px;
 `;
@@ -674,16 +846,11 @@ const PriceTagHilightEm = styled.em`
 
 const PriceTagStrong = styled.span`
   padding-right: 6px;
-  font-size: 24px;
+  font-size: 15px;
   color: #333;
 `;
 
-const Strong = styled.strong`
-  font-size: 24px;
-  font-weight: bold;
-`;
-
-const PriceTagCrossout = styled.del`
+const PriceTagCrossout = styled.span`
   font-size: 14px;
   color: #999;
 `;
@@ -997,200 +1164,6 @@ const IdusIconIf = styled.i`
   font-size: 14px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
-`;
-
-const OptionScrollableD = styled.div`
-  display: none;
-  position: absolute;
-  width: 100%;
-  top: 0;
-  border: 1px solid #333;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  background-color: #fff;
-  @media (min-width: 720px) {
-    z-index: 1;
-    top: -68px;
-  }
-
-  ${(props) =>
-    props.isOptionVisible &&
-    css`
-      display: block;
-    `}
-`;
-
-const SelectGroupHeaderD = styled.div`
-  position: relative;
-  background: #333;
-`;
-
-const SelectGroupTitleS = styled.span`
-  padding: 8px 12px;
-  display: block;
-  font-size: 12px;
-  color: #fff;
-`;
-
-const SelectGroupBtn = styled.button`
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 0 12px;
-  vertical-align: middle;
-  height: 100%;
-`;
-
-const SelectGroupCloseIcon = styled.i`
-  display: inline-block;
-  vertical-align: middle;
-  font-weight: bold;
-  font-size: 12px;
-  color: #fff;
-`;
-
-const SelectGBodyD = styled.div`
-  max-height: 350px;
-  overflow: auto;
-`;
-
-const AlignRightSpan = styled.span``;
-
-const SGParentListOl = styled.ol`
-  margin: 0 12px;
-
-  &.active {
-    border: 1px solid #333;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    margin-top: -2px;
-
-    > li {
-      -webkit-border-radius: 4px 4px 0 0;
-      -moz-border-radius: 4px 4px 0 0;
-      border-radius: 4px 4px 0 0;
-      color: #333;
-      background: #f5f5f5;
-    }
-  }
-
-  @media (min-width: 720px) {
-    margin-top: 11px;
-  }
-
-  > li {
-    position: relative;
-    padding: 12px;
-    font-size: 12px;
-    font-weight: bold;
-    color: #acacac;
-    -webkit-box-shadow: inset 0 -1px 0 0 #d9d9d9;
-    -moz-box-shadow: inset 0 -1px 0 0 #d9d9d9;
-    box-shadow: inset 0 -1px 0 0 #d9d9d9;
-    vertical-align: middle;
-
-    > span {
-      display: inline-block;
-      width: 30%;
-      vertical-align: middle;
-    }
-
-    > ${AlignRightSpan} {
-      width: 60%;
-      font-size: 12px;
-      text-align: right;
-      color: #666;
-      font-weight: normal;
-    }
-  }
-
-  &.complete {
-    > li {
-      color: #666;
-    }
-  }
-`;
-
-const SGChildList = styled.ul`
-  @media (min-width: 720px) {
-    max-height: 140px;
-    overflow-y: scroll;
-  }
-
-  &.active {
-    -webkit-border-radius: 0 0 4px 4px;
-    -moz-border-radius: 0 0 4px 4px;
-    border-radius: 0 0 4px 4px;
-  }
-
-  > li {
-    font-size: 12px;
-    color: #333;
-    background: #fff;
-    padding: 12px;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    border-bottom: 1px solid #d9d9d9;
-
-    &:last-child {
-      -webkit-border-radius: 4px;
-      -moz-border-radius: 4px;
-      border-radius: 4px;
-      border-bottom: 0px;
-    }
-  }
-`;
-
-const Subtitle = styled.span``;
-
-const CheckoutProductCostDl = styled.dl`
-  padding-top: 16px;
-  width: 100%;
-  display: table;
-  vertical-align: middle;
-
-  @media (min-width: 720px) {
-    > *:first-child {
-      display: none;
-    }
-
-    > *:last-child {
-      ${Subtitle} {
-        float: left;
-        font-size: 14px;
-      }
-    }
-  }
-
-  > * {
-    display: table-cell;
-    vertical-align: middle;
-    width: 25%;
-
-    &:first-child {
-      width: 50%;
-      font-size: 14px;
-      color: #666666;
-
-      b {
-        color: #333333;
-        font-weight: bold;
-      }
-    }
-
-    &:last-child {
-      font-size: 20px;
-      font-weight: bold;
-      color: #333333;
-      width: 50%;
-      text-align: right;
-      vertical-align: middle;
-      line-height: 30px;
-    }
-  }
 `;
 
 export default ProductWrite;

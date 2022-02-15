@@ -16,11 +16,6 @@ function PasswordUpdate() {
     SetIdx("");
   };
 
-  const idxHandler = (e) => {
-    e.preventDefault();
-    SetIdx(e.target.value);
-  };
-
   const nameHandler = (e) => {
     e.preventDefault();
     SetName(e.target.value);

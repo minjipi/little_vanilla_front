@@ -6,6 +6,7 @@ import Main from "./pages/Main/Main";
 import Product from "./pages/Product/Product";
 import ProductWrite from "./pages/Write/ProductWrite";
 import TestForm from "./pages/Write/TestForm";
+import Test from "./pages/Write/Test";
 
 class Routing extends React.Component {
   render() {
@@ -18,6 +19,7 @@ class Routing extends React.Component {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/test" element={<TestForm />} />
+          <Route path="/axiostest" element={<Test />} />
         </Routes>
       </Router>
     );
