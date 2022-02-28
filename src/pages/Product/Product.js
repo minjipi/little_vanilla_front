@@ -7,16 +7,39 @@ import ProductDetail from "./ProductDetail";
 import SelectedOption from "./SelectedOption";
 import $ from "jquery";
 import axios from "axios";
+import { useParams } from "react-router";
 
 function Product() {
-  const [data, setData] = useState(null);
+  const [isOptionVisible, setIsOptionVisible] = useState(false);
+  const [isSelectVisible, setIsSelectVisible] = useState(0);
+  const [isTotalValue, setIsTotalValue] = useState([]);
+  const [isSelectedValue, setIsSelectedValue] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [isScroll, setIsScroll] = useState(false);
+  const [selectedImg, setSelectedImg] = useState(0);
+  const [imageShow, setImageShow] = useState([]);
+  const [isClicked, setIsClicked] = useState(false);
 
+  const [data, setData] = useState(null);
   const [calSale, setCalSale] = useState(0);
+  const params = useParams();
 
   useEffect(() => {
     async function fetchData() {
-      const result = await axios.get("http://localhost:8080/product/1");
-      console.log(result.data.result);
+      const result = await axios.get(
+        "http://localhost:8080/product/" + params.idx
+      );
+
+      let images = [];
+      result.data.result.filename.split(",").map((filename, idx) => {
+        const img = {
+          id: idx + 1,
+          url: "http://localhost:8080/product/display?fileName=" + filename,
+        };
+        images.push(img);
+      });
+      setImageShow(images);
+
       setData(result.data.result);
       setCalSale(
         ((result.data.result.price - result.data.result.salePrice) /
@@ -27,24 +50,6 @@ function Product() {
     fetchData();
   }, []);
 
-  const imageData = [
-    {
-      id: 1,
-      url: "https://image.idus.com/image/files/dce257aaf4f74e04a48c2e8c02971e9e_720.png",
-    },
-    {
-      id: 2,
-      url: "https://image.idus.com/image/files/a609304e2bde41cbb1957579bb0d0800_720.png",
-    },
-    {
-      id: 3,
-      url: "https://image.idus.com/image/files/1460c07e980848eaa98b803b854d3f97_720.png",
-    },
-    {
-      id: 4,
-      url: "https://image.idus.com/image/files/8d2e5dd5b1c84cf7a5e4db8ff97cec9d_720.png",
-    },
-  ];
   const optionData = [
     {
       id: 1,
@@ -73,16 +78,6 @@ function Product() {
       ],
     },
   ];
-
-  const [isOptionVisible, setIsOptionVisible] = useState(false);
-  const [isSelectVisible, setIsSelectVisible] = useState(0);
-  const [isTotalValue, setIsTotalValue] = useState([]);
-  const [isSelectedValue, setIsSelectedValue] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [isScroll, setIsScroll] = useState(false);
-  const [selectedImg, setSelectedImg] = useState(0);
-  const [imageShow, setImageShow] = useState(imageData);
-  const [isClicked, setIsClicked] = useState(false);
 
   const nextId = useRef(1);
 
@@ -189,14 +184,17 @@ function Product() {
                   disabled={isClicked ? "disabled" : ""}
                   onClick={() => {
                     setIsClicked(true);
+                    console.log(imageShow);
 
                     setSelectedImg(
-                      (selectedImg + imageData.length - 1) % imageData.length
+                      (selectedImg + data.filename.split(",").length - 1) %
+                        data.filename.split(",").length
                     );
 
                     let popedImg = imageShow.pop();
                     imageShow.unshift(popedImg);
                     setImageShow(imageShow);
+
                     $("#ImgViewInnerFrame").attr("style", "margin-left:-560px");
 
                     $("#ImgViewInnerFrame").animate(
@@ -212,7 +210,7 @@ function Product() {
                   <ImgListI className="fas fa-chevron-left" />
                 </BtnPrev>
                 <ImgListIndicator>
-                  {imageData.map((img, index) => {
+                  {data.filename.split(",").map((filename, index) => {
                     return (
                       <li
                         onClick={() => {
@@ -266,7 +264,10 @@ function Product() {
                         className={selectedImg === index ? "active" : ""}
                         key={index}
                         style={{
-                          backgroundImage: "url(" + img.url + ")",
+                          backgroundImage:
+                            "url(http://localhost:8080/product/display?fileName=" +
+                            filename +
+                            ")",
                         }}
                       />
                     );
@@ -286,7 +287,9 @@ function Product() {
                         let shiftedImg = imageShow.shift();
                         imageShow.push(shiftedImg);
                         setImageShow(imageShow);
-                        setSelectedImg((selectedImg + 1) % imageData.length);
+                        setSelectedImg(
+                          (selectedImg + 1) % data.filename.split(",").length
+                        );
                         setIsClicked(false);
                       }
                     );

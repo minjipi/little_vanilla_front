@@ -10,7 +10,6 @@ function ProductWrite() {
   const [isScroll, setIsScroll] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [imageFiles, setImageFiles] = useState([]);
-  const [isChecked, setIsChecked] = useState(false);
 
   const [name, setName] = useState("");
   const [brandIdx, setBrandIdx] = useState("");
@@ -47,6 +46,7 @@ function ProductWrite() {
 
   const onSubmit = async () => {
     try {
+      console.log(body);
       const response = await axios.post(
         "http://localhost:8080/product/create",
         formData,
@@ -64,16 +64,6 @@ function ProductWrite() {
 
     setImageFiles(Array.prototype.slice.call(e.target.files));
   };
-
-  // axios
-  //   .post("http://localhost:8080/product/create", formData, {
-  //     headers: { "Content-Type": "multipart/form-data" },
-  //   })
-
-  //   .then((res) => {
-  //     console.log(res);
-  //     // window.location.replace("/");
-  //   });
 
   return (
     <>
@@ -432,14 +422,16 @@ function ProductWrite() {
                             <IdusIconIf />
                             웰컴딜 주문 가능 수량 : 1개
                           </QuotaMessageDiv>
+
+                          <Submit type="button" onClick={onSubmit}>
+                            제출
+                          </Submit>
+                          <Reset type="button" onClick={onReset}>
+                            초기화
+                          </Reset>
                         </div>
                       </BuyScrollable>
                     </div>
-
-                    <button type="button" onClick={onReset}>
-                      초기화
-                    </button>
-                    <Submit onClick={onSubmit}>제출</Submit>
                   </StickyAsideDiv>
                 </div>
               </div>
@@ -453,9 +445,33 @@ function ProductWrite() {
   );
 }
 
+const Reset = styled.button`
+  display: block;
+  float: left;
+  padding: 0;
+  line-height: 44px;
+  font-size: 16px;
+  width: calc((97% - 46px) / 3);
+  margin-right: 0;
+  height: 46px;
+  box-shadow: 0 1px 3px 0 hsl(0deg 0% 86% / 30%);
+  font-weight: 400;
+  box-sizing: border-box;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  vertical-align: middle;
+
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+`;
+
 const Submit = styled.button`
   flex: 1 1 0%;
-  margin-right: 0;
+  margin-right: 1%;
+
   display: block;
   float: left;
   padding: 0;

@@ -26,13 +26,13 @@ function TodayProduct(props) {
                   <UiCardImgcoverA
                     imageurl={
                       "http://localhost:8080/product/display?fileName=" +
-                      product.filename
+                      product.filename.split(",")[0]
                     }
                     href={"/product/" + product.idx}
                   ></UiCardImgcoverA>
                 </UiCardImgcover>
                 <UiCardInfo>
-                  <UiCardInfoLabel>{product.brandIdx}</UiCardInfoLabel>
+                  <UiCardInfoLabel>{product.idx}</UiCardInfoLabel>
                   <UiCardInfoTitle>{product.name}</UiCardInfoTitle>
                   <UiCardInfoLabel>{product.salePrice}</UiCardInfoLabel>
                 </UiCardInfo>
