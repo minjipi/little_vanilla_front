@@ -10,6 +10,7 @@ function ProductWrite() {
   const [isScroll, setIsScroll] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [imageFiles, setImageFiles] = useState([]);
+  const [selectedImg, setSelectedImg] = useState(0);
 
   const [name, setName] = useState("");
   const [brandIdx, setBrandIdx] = useState("");
@@ -46,7 +47,6 @@ function ProductWrite() {
 
   const onSubmit = async () => {
     try {
-      console.log(body);
       const response = await axios.post(
         "http://localhost:8080/product/create",
         formData,
@@ -61,7 +61,6 @@ function ProductWrite() {
 
   const fileHandler = (e) => {
     setFile(Array.prototype.slice.call(e.target.files));
-
     setImageFiles(Array.prototype.slice.call(e.target.files));
   };
 
@@ -105,11 +104,64 @@ function ProductWrite() {
                   </ImgViewInnerFrame>
                 </OuterFrame>
                 <FieldsetUiControl>
-                  <BtnPrev type="button" disabled={isClicked ? "disabled" : ""}>
+                  <BtnPrev
+                    type="button"
+                    disabled={isClicked ? "disabled" : ""}
+                    onClick={() => {
+                      setIsClicked(true);
+
+                      setSelectedImg(
+                        (selectedImg + imageFiles.length - 1) %
+                          imageFiles.length
+                      );
+
+                      let popedImg = imageFiles.pop();
+                      imageFiles.unshift(popedImg);
+                      setImageFiles(imageFiles);
+
+                      $("#ImgViewInnerFrame").attr(
+                        "style",
+                        "margin-left:-560px"
+                      );
+
+                      $("#ImgViewInnerFrame").animate(
+                        { marginLeft: "0" },
+                        300,
+                        "linear",
+                        function () {
+                          setIsClicked(false);
+                        }
+                      );
+                    }}
+                  >
                     <ImgListI className="fas fa-chevron-left" />
                   </BtnPrev>
                   <ImgListIndicator></ImgListIndicator>
-                  <BtnNext type="button">
+
+                  <BtnNext
+                    type="button"
+                    disabled={isClicked ? "disabled" : ""}
+                    onClick={() => {
+                      setIsClicked(true);
+
+                      $("#ImgViewInnerFrame").animate(
+                        { marginLeft: "-560px" },
+                        300,
+                        "linear",
+                        function () {
+                          $("#ImgViewInnerFrame").attr(
+                            "style",
+                            "margin-left:0"
+                          );
+                          let shiftedImg = imageFiles.shift();
+                          imageFiles.push(shiftedImg);
+                          setImageFiles(imageFiles);
+                          setSelectedImg((selectedImg + 1) % imageFiles.length);
+                          setIsClicked(false);
+                        }
+                      );
+                    }}
+                  >
                     <ImgListI className="fas fa-chevron-right" />
                   </BtnNext>
                 </FieldsetUiControl>
