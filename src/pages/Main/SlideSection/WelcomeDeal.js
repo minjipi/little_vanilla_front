@@ -19,7 +19,7 @@ function WelcomeDeal(props) {
                         />
                         <CardThumbDiv backImg={welcomeDeal.imageurl} />
                         <ProductBookmark>
-                          <ProductBookmarkBtn>
+                          <ProductBookmarkBtn type="button">
                             <IconFavorite />
                           </ProductBookmarkBtn>
                         </ProductBookmark>
@@ -174,7 +174,7 @@ const ProductBookmark = styled.div`
   z-index: 9;
 `;
 
-const ProductBookmarkBtn = styled.button`
+const ProductBookmarkBtn = styled.div`
   width: 24px;
   height: 24px;
 `;
