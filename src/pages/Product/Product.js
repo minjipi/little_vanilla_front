@@ -876,10 +876,6 @@ const ArrowR = styled.i`
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   font-family: "Font Awesome 5 Free";
-
-  //   &:before {
-  //     content: "\e909";
-  //   }
 `;
 
 const ArtistCardSplitt = styled.div`

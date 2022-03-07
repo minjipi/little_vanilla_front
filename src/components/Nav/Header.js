@@ -6,6 +6,12 @@ function Header() {
   const [isCallCenterHover, setIsCallCenterHover] = useState(false);
   const [isCategoryHover, setIsCategoryHover] = useState(false);
 
+  const [word, setWord] = useState("");
+
+  const onSubmit = async () => {
+    window.location.href = "/search/" + word;
+  };
+
   return (
     <HeaderTag>
       <TopNavigation>
@@ -86,6 +92,7 @@ function Header() {
           <SearchHeaderDesktopLogo>
             <IconIduslogo>
               <Iduslogo src="https://www.idus.com/resources/dist/images/logo.svg" />
+              {/* <Iduslogo src={require("./logo.png")} /> */}
             </IconIduslogo>
           </SearchHeaderDesktopLogo>
           {/* 작품, 클래스 */}
@@ -96,7 +103,12 @@ function Header() {
           {/* 검색바 */}
           <SearchInputDesktop>
             <SearchInputDesktopForm>
-              <HeaderSearch></HeaderSearch>
+              <HeaderSearch
+                onChange={(e) => {
+                  setWord(e.target.value);
+                  console.log(word);
+                }}
+              ></HeaderSearch>
               <SearchRelated>
                 <SearchResultUl>
                   <SearchResultLi>
@@ -106,7 +118,12 @@ function Header() {
               </SearchRelated>
               {/* 검색 아이콘 */}
               <HeaderSearchLabel>
-                <SearchInputDesktopSearchButton>
+                <SearchInputDesktopSearchButton
+                  type="button"
+                  onClick={() => {
+                    onSubmit();
+                  }}
+                >
                   <IdusIconSearch className="fa fa-search" />
                 </SearchInputDesktopSearchButton>
               </HeaderSearchLabel>
@@ -583,7 +600,7 @@ const SearchInputDesktopForm = styled.form`
   border-radius: 4px;
 `;
 const HeaderSearch = styled.input.attrs({
-  placeholder: "설날선물을 검색해보세요",
+  placeholder: "상품을 검색해보세요",
 })`
   padding: 0;
   margin: 0;

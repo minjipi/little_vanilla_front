@@ -423,6 +423,5 @@ const Tab = styled.div`
   font-size: 14px;
   cursor: pointer;
 `;
-const TableStyle = styled.div``;
 
 export default Product;
