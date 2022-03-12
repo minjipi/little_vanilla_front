@@ -59,8 +59,8 @@ function Header() {
 
           {/* 로그인 회원가입 */}
           <Fr>
-            <GnbLoginBtn>로그인</GnbLoginBtn>
-            <GnbLoginBtn>회원가입</GnbLoginBtn>
+            <GnbLoginBtn href="/login">로그인</GnbLoginBtn>
+            <GnbLoginBtn href="/signup">회원가입</GnbLoginBtn>
             <NavBtnUiDropdown>
               <BtnDropdown
                 onMouseOver={() => setIsCallCenterHover(true)}

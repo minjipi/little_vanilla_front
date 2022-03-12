@@ -7,6 +7,7 @@ import Main from "./pages/Main/Main";
 import Product from "./pages/Product/Product";
 import ProductWrite from "./pages/Write/ProductWrite";
 import Search from "./pages/Main/Search";
+import SignUpEmail from "./pages/LoginSignUp/SignUpEmail";
 
 class Routing extends React.Component {
   render() {
@@ -20,6 +21,7 @@ class Routing extends React.Component {
           <Route path="/productWrite" element={<ProductWrite />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/signupemail" element={<SignUpEmail />} />
           <Route path="/search/:word" element={<Search />} />
         </Routes>
       </Router>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 function SignUp() {
@@ -71,7 +72,10 @@ function SignUp() {
                 </Item>
 
                 <Item>
-                  <Email>이메일로 가입하기</Email>
+                  <Email>
+                    이메일로 가입하기
+                    <a href="/signupemail"></a>
+                  </Email>
                 </Item>
               </Hidden>
               <AdditionTxt>

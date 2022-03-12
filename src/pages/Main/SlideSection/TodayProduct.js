@@ -7,7 +7,12 @@ function TodayProduct(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const result = await axios.get("http://localhost:8080/product/lists");
+      const result = await axios.get("http://localhost:8080/product/lists", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
       console.log(result.data);
       setProductData(result.data.result);
     }

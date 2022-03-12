@@ -1,7 +1,45 @@
+import axios from "axios";
 import React from "react";
+import { useState } from "react/cjs/react.development";
 import styled from "styled-components";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  let body = {
+    username: email,
+    password: password,
+  };
+
+  const onSubmit = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/member/authenticate",
+        body,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      console.log(response);
+
+      if (response.data.token) {
+        localStorage.clear();
+        localStorage.setItem("token", response.data.token);
+
+        // 사용하려면 App.js에서 /로 라우팅해야 한다
+        window.location.replace("/");
+      } else {
+        setEmail("");
+        setPassword("");
+        localStorage.clear();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <LoginWrap>
@@ -33,7 +71,9 @@ function Login() {
                 <SpIcon className="Kakaotalk"></SpIcon>
                 카카오로 3초만에 시작하기
               </BarButton>
-              <BarButton className="email">이메일로 가입하기</BarButton>
+              <BarButton className="email" href="/signupemail">
+                이메일로 가입하기
+              </BarButton>
             </VerticalButtons>
 
             <HorizontalButtons>
@@ -63,8 +103,26 @@ function Login() {
             </BorderAndText>
             <EmailLoginContainer>
               <div>
-                <EmailLoginInput placeholder="이메일" />
-                <EmailLoginInput placeholder="비밀번호" />
+                <EmailLoginInput
+                  id="email"
+                  type="email"
+                  value={email}
+                  placeholder="이메일"
+                  required
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+                <EmailLoginInput
+                  id="password"
+                  // type="password"
+                  value={password}
+                  placeholder="비밀번호"
+                  required
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
               </div>
               <EmailLoginOption>
                 <div>
@@ -76,7 +134,15 @@ function Login() {
                 <a>아이디 / 비밀번호 찾기</a>
               </EmailLoginOption>
             </EmailLoginContainer>
-            <CommonButton>로그인</CommonButton>
+            <CommonButton
+              type="button"
+              onClick={() => {
+                onSubmit();
+                console.log("body: " + email + ", " + password);
+              }}
+            >
+              로그인
+            </CommonButton>
           </LoginSigninContent>
         </LoginContainer>
       </LoginWrap>
@@ -262,7 +328,7 @@ const BorderAndText = styled.div`
 `;
 
 const SpIcon = styled.span`
-  background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070.png);
+  background-image: url("https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070.png");
   height: 0;
   overflow: hidden;
   display: inline-block;

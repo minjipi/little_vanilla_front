@@ -37,7 +37,6 @@ function ProductWrite() {
   };
 
   const formData = new FormData();
-
   formData.append("body", JSON.stringify(body));
 
   file &&

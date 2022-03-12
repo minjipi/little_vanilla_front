@@ -10,6 +10,7 @@ function Search() {
   const [sort, setSort] = useState("");
   const [extend, setExtend] = useState(false);
   const [checked, setChecked] = useState("가격대 전체");
+  const [catechecked, setCateChecked] = useState("가격대 전체");
   const [priceChecked, setPriceChecked] = useState("");
 
   const params = useParams();
@@ -27,6 +28,16 @@ function Search() {
           "http://localhost:8080/product/search?word=" +
             params.word +
             "&gte=0&lte=300"
+        );
+        setSearchData(result.data.result);
+      }
+
+      if (priceChecked === "1만5천원3만원") {
+        console.log("priceChecked: " + priceChecked);
+        const result = await axios.get(
+          "http://localhost:8080/product/search?word=" +
+            params.word +
+            "&gte=15000&lte=30000"
         );
         setSearchData(result.data.result);
       }
@@ -161,12 +172,12 @@ function Search() {
                                   type="checkbox"
                                   autoComplete="off"
                                   onChange={() => {
-                                    setPriceChecked("2만원이상");
+                                    setPriceChecked("1만5천원3만원");
                                   }}
-                                  checked={priceChecked === "2만원이상"}
+                                  checked={priceChecked === "1만5천원3만원"}
                                 />
                               </InputCheckBox>
-                              <CheckBoxLabel>2만원 이상</CheckBoxLabel>
+                              <CheckBoxLabel>1만5천원~3만원</CheckBoxLabel>
                             </CheckBox>
                           </FilterItem>
                         </DesktopRadioFilterRowItem>
@@ -202,6 +213,10 @@ function Search() {
                                 <CheckcheckBox
                                   type="checkbox"
                                   autoComplete="off"
+                                  onChange={() => {
+                                    setCateChecked("디저트베이커리떡");
+                                  }}
+                                  checked={catechecked === "디저트베이커리떡"}
                                 />
                               </InputCheckBox>
                               <CheckBoxLabel>
@@ -218,9 +233,13 @@ function Search() {
                                 <CheckcheckBox
                                   type="checkbox"
                                   autoComplete="off"
+                                  onChange={() => {
+                                    setCateChecked("음료");
+                                  }}
+                                  checked={catechecked === "음료"}
                                 />
                               </InputCheckBox>
-                              <CheckBoxLabel>음료()</CheckBoxLabel>
+                              <CheckBoxLabel>음료(커피, 차 등)</CheckBoxLabel>
                             </CheckBox>
                           </FilterItem>
                         </DesktopRadioFilterRowItem>
