@@ -14,11 +14,15 @@ function Search() {
   const [priceChecked, setPriceChecked] = useState("");
 
   const params = useParams();
+  const headerSearch = {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  };
 
   async function fetchData() {
     if (checked === "가격대 전체") {
       const result = await axios.get(
-        "http://localhost:8080/product/search?word=" + params.word
+        "http://localhost:8080/product/search?word=" + params.word,
+        headerSearch
       );
       setSearchData(result.data.result);
 
@@ -27,7 +31,8 @@ function Search() {
         const result = await axios.get(
           "http://localhost:8080/product/search?word=" +
             params.word +
-            "&gte=0&lte=300"
+            "&gte=0&lte=300",
+          headerSearch
         );
         setSearchData(result.data.result);
       }
@@ -37,7 +42,8 @@ function Search() {
         const result = await axios.get(
           "http://localhost:8080/product/search?word=" +
             params.word +
-            "&gte=15000&lte=30000"
+            "&gte=15000&lte=30000",
+          headerSearch
         );
         setSearchData(result.data.result);
       }
@@ -45,7 +51,8 @@ function Search() {
       const result = await axios.get(
         "http://localhost:8080/product/search?word=" +
           params.word +
-          "&isDelFree=1"
+          "&isDelFree=1",
+        headerSearch
       );
       setSearchData(result.data.result);
     }
@@ -53,7 +60,6 @@ function Search() {
 
   useEffect(() => {
     fetchData();
-    console.log("useEffect");
   }, [checked, priceChecked]);
 
   const handleClickRadioButton = () => {
@@ -139,8 +145,6 @@ function Search() {
                     </DesktopRadioFilterRow>
                     {/*  */}
                     {/*  */}
-                    {/*  */}
-                    {/*  */}
                     <DesktopRadioFilterRow>
                       <DesktopRadioFilterRowHead>
                         가격대
@@ -183,9 +187,6 @@ function Search() {
                         </DesktopRadioFilterRowItem>
                       </DesktopRadioFilterRowBody>
                     </DesktopRadioFilterRow>
-
-                    {/*  */}
-                    {/*  */}
 
                     <DesktopCheckBoxFilterRow
                       className={extend === true ? "extend" : ""}
@@ -388,16 +389,15 @@ function Search() {
                 <SearchResultList key={product.idx} className="grid">
                   <SearchProductCard>
                     <SearchProductCard className="verticalProduct">
-                      <a href="">
-                        <CardThumbCover>
-                          <CardThumbImg
-                            filename={product.filename.split(",")[0]}
-                          ></CardThumbImg>
-                          <CardInfoProductInfo>
-                            {product.name}
-                          </CardInfoProductInfo>
-                        </CardThumbCover>
-                      </a>
+                      return<></>;
+                      <CardThumbCover>
+                        <CardThumbImg
+                          filename={product.filename.split(",")[0]}
+                        ></CardThumbImg>
+                        <CardInfoProductInfo>
+                          {product.name}
+                        </CardInfoProductInfo>
+                      </CardThumbCover>
                     </SearchProductCard>
                   </SearchProductCard>
                 </SearchResultList>
