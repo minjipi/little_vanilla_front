@@ -1,17 +1,14 @@
 import react, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import axios from "axios";
+import TodayProductItem from "./TodayProductItem";
 
 function TodayProduct(props) {
   const [productData, setProductData] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      const result = await axios.get("http://localhost:8080/product/lists", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const result = await axios.get("http://localhost:8080/product/list");
 
       console.log(result.data);
       setProductData(result.data.result);
@@ -23,39 +20,7 @@ function TodayProduct(props) {
     <UiGrid>
       <UiGridCols5>
         {productData.map((product) => {
-          return (
-            <UiGridItem key={product.idx}>
-              <UiCard>
-                <IconFavorite className="icon-favorite" />
-                <UiCardImgcover>
-                  <UiCardImgcoverA
-                    imageurl={
-                      "http://localhost:8080/product/display?fileName=" +
-                      product.filename.split(",")[0]
-                    }
-                    href={"/product/" + product.idx}
-                  ></UiCardImgcoverA>
-                </UiCardImgcover>
-                <UiCardInfo>
-                  <UiCardInfoLabel>{product.idx}</UiCardInfoLabel>
-                  <UiCardInfoTitle>{product.name}</UiCardInfoTitle>
-                  <UiCardInfoLabel>{product.salePrice}</UiCardInfoLabel>
-                </UiCardInfo>
-                <UiCardRating>
-                  <UiCardVcenter>
-                    <UiRating>
-                      <IconStarFill className="fa fa-star" />
-                      <IconStarFill className="fa fa-star" />
-                      <IconStarFill className="fa fa-star" />
-                      <IconStarFill className="fa fa-star" />
-                      <IconStarFill className="fa fa-star" />
-                    </UiRating>
-                  </UiCardVcenter>
-                  <UiCardComment>{product.comment}</UiCardComment>
-                </UiCardRating>
-              </UiCard>
-            </UiGridItem>
-          );
+          return <TodayProductItem product={product} />;
         })}
       </UiGridCols5>
     </UiGrid>

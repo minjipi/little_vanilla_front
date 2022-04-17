@@ -2,12 +2,14 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/LoginSignUp/Login";
+import Logout from "./pages/LoginSignUp/Logout";
 import SignUp from "./pages/LoginSignUp/SignUp";
 import Main from "./pages/Main/Main";
 import Product from "./pages/Product/Product";
 import ProductWrite from "./pages/Write/ProductWrite";
 import Search from "./pages/Main/Search";
 import SignUpEmail from "./pages/LoginSignUp/SignUpEmail";
+import SignUpEmailSeller from "./pages/LoginSignUp/SignUpEmailSeller";
 
 class Routing extends React.Component {
   render() {
@@ -20,8 +22,10 @@ class Routing extends React.Component {
 
           <Route path="/productWrite" element={<ProductWrite />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signupemail" element={<SignUpEmail />} />
+          <Route path="/signupemailSeller" element={<SignUpEmailSeller />} />
           <Route path="/search/:word" element={<Search />} />
         </Routes>
       </Router>

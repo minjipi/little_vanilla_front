@@ -38,9 +38,6 @@ function SignUpEmail() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
-  // const [name, setName] = useState("");
-  // const [birthday, setBirthday] = useState("");
-  // const [gender, setGender] = useState("");
 
   let body = {
     email: email,
@@ -51,7 +48,7 @@ function SignUpEmail() {
   const onSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/member/signup",
+        "http://localhost:8080/member/sellersignup",
         body,
         {
           headers: { "Content-Type": "application/json" },

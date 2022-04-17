@@ -1,48 +1,103 @@
+import axios from "axios";
 import react, { useState } from "react";
 import styled, { css } from "styled-components";
-import WelcomeDealItem from "./WelcomeDealItem";
 
-function WelcomeDeal(props) {
+function WelcomeDealItem(props) {
+  const [like, setLike] = useState(false);
+
+  const productLike = async (idx) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/product/like/" + idx,
+
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <SsScSActive>
-      <div>
-        <UiGridMt10>
-          <UiGridCols4>
-            {props.welcomeDealData.map((welcomeDeal, index) => {
-              return <WelcomeDealItem key={index} welcomeDeal={welcomeDeal} />;
-            })}
-          </UiGridCols4>
-        </UiGridMt10>
-      </div>
-    </SsScSActive>
+    <UiGridItem key={props.welcomeDeal.idx}>
+      <BaseCardVertical>
+        <BaseCardVerticalA>
+          <CardThumbCover>
+            <CardThumbImg
+              className="icon-favorite"
+              src="https://image.idus.com/static/ticketdeal/badge_welcomedeal.png"
+            />
+            <CardThumbDiv backImg={props.welcomeDeal.imageurl} />
+            <ProductBookmark>
+              <ProductBookmarkBtn type="button">
+                <IconFavorite
+                  className={like === true ? "active" : ""}
+                  onClick={() => {
+                    setLike(!like);
+                    productLike(props.welcomeDeal.idx);
+                    console.log(like);
+                  }}
+                />
+              </ProductBookmarkBtn>
+            </ProductBookmark>
+
+            <CardInfoProductInfo>
+              <ProductInfoArtistName>
+                {props.welcomeDeal.brandIdx}
+              </ProductInfoArtistName>
+              <ProductInfoName>{props.welcomeDeal.name}</ProductInfoName>
+              <ProductInfoPrice>
+                <SaleRate>
+                  {((props.welcomeDeal.price - props.welcomeDeal.salePrice) /
+                    props.welcomeDeal.price) *
+                    100}
+                  %
+                </SaleRate>
+                <PriceSale>
+                  {props.welcomeDeal.salePrice}
+                  <PriceSaleWon>원</PriceSaleWon>
+                </PriceSale>
+
+                <PriceOriginBeforeSale>
+                  <PriceOriginBeforeSaleDel>
+                    {props.welcomeDeal.price}원
+                  </PriceOriginBeforeSaleDel>
+                </PriceOriginBeforeSale>
+              </ProductInfoPrice>
+              {props.welcomeDeal.categoryIdx === 1 ? (
+                <ProductInfoBadgeGroup>
+                  <BadgeFood>안전식품</BadgeFood>
+                </ProductInfoBadgeGroup>
+              ) : (
+                <></>
+              )}
+
+              <ProductInfoReview>
+                <ReviewRating>
+                  <UiRatingFr>
+                    <Star className="fas fa-star" />
+                    <Star className="fas fa-star" />
+                    <Star className="fas fa-star" />
+                    <Star className="fas fa-star" />
+                    <Star className="fas fa-star" />
+                  </UiRatingFr>
+                  <ReviewCount>(124)</ReviewCount>
+                </ReviewRating>
+                <ReviewComment>
+                  <ReviewCommentBadge>후기</ReviewCommentBadge>
+                  <ReviewCommentComments>
+                    {props.welcomeDeal.comment}
+                  </ReviewCommentComments>
+                </ReviewComment>
+              </ProductInfoReview>
+            </CardInfoProductInfo>
+          </CardThumbCover>
+        </BaseCardVerticalA>
+      </BaseCardVertical>
+    </UiGridItem>
   );
 }
-const SsScSActive = styled.div`
-  width: 1056px;
-  display: block;
-  float: left;
-  height: 100%;
-  min-height: 1px;
-`;
-
-const UiGridMt10 = styled.div`
-  width: 100%;
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
-`;
-
-const UiGridCols4 = styled.div`
-  margin-left: -16px;
-  margin-top: -16px;
-  height: 100%;
-  overflow: hidden;
-
-  //   margin-left: -14px !important;
-  //   margin-top: -16px;
-  //   height: 100%;
-  //   overflow: hidden;
-`;
 
 const UiGridItem = styled.div`
   position: relative;
@@ -273,4 +328,4 @@ const ReviewCommentComments = styled.div`
   line-height: 1.1;
 `;
 
-export default WelcomeDeal;
+export default WelcomeDealItem;

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 function Header() {
@@ -9,7 +10,11 @@ function Header() {
   const [word, setWord] = useState("");
 
   const onSubmit = async () => {
-    window.location.href = "/search/" + word;
+    if (word === "") {
+      window.location.href = "/search/test";
+    } else {
+      window.location.href = "/search/" + word;
+    }
   };
 
   return (
@@ -91,7 +96,13 @@ function Header() {
         <SearchHeaderDesktopBar>
           <SearchHeaderDesktopLogo>
             <IconIduslogo>
-              <Iduslogo src="https://www.idus.com/resources/dist/images/logo.svg" />
+              <Link to="/">
+                <Iduslogo
+                  src="https://www.idus.com/resources/dist/images/logo.svg"
+                  a={"/"}
+                />
+              </Link>
+
               {/* <Iduslogo src={require("./logo.png")} /> */}
             </IconIduslogo>
           </SearchHeaderDesktopLogo>

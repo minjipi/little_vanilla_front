@@ -14,15 +14,14 @@ function Search() {
   const [priceChecked, setPriceChecked] = useState("");
 
   const params = useParams();
-  const headerSearch = {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  };
 
   async function fetchData() {
+    if (params.word === null) {
+      console.log("검색어 없음.");
+    }
     if (checked === "가격대 전체") {
       const result = await axios.get(
-        "http://localhost:8080/product/search?word=" + params.word,
-        headerSearch
+        "http://localhost:8080/product/search?word=" + params.word
       );
       setSearchData(result.data.result);
 
@@ -31,8 +30,7 @@ function Search() {
         const result = await axios.get(
           "http://localhost:8080/product/search?word=" +
             params.word +
-            "&gte=0&lte=300",
-          headerSearch
+            "&gte=0&lte=300"
         );
         setSearchData(result.data.result);
       }
@@ -42,8 +40,7 @@ function Search() {
         const result = await axios.get(
           "http://localhost:8080/product/search?word=" +
             params.word +
-            "&gte=15000&lte=30000",
-          headerSearch
+            "&gte=15000&lte=30000"
         );
         setSearchData(result.data.result);
       }
@@ -51,8 +48,7 @@ function Search() {
       const result = await axios.get(
         "http://localhost:8080/product/search?word=" +
           params.word +
-          "&isDelFree=1",
-        headerSearch
+          "&isDelFree=1"
       );
       setSearchData(result.data.result);
     }
@@ -389,7 +385,6 @@ function Search() {
                 <SearchResultList key={product.idx} className="grid">
                   <SearchProductCard>
                     <SearchProductCard className="verticalProduct">
-                      return<></>;
                       <CardThumbCover>
                         <CardThumbImg
                           filename={product.filename.split(",")[0]}

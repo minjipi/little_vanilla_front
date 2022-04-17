@@ -12,13 +12,13 @@ function ProductWrite() {
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImg, setSelectedImg] = useState(0);
 
-  const [name, setName] = useState("");
-  const [brandIdx, setBrandIdx] = useState("");
-  const [categoryIdx, setCategory] = useState("");
-  const [price, setPrice] = useState("");
-  const [salePrice, setSalePrice] = useState("");
-  const [deliveryType, setDeliveryType] = useState("");
-  const [isTodayDeal, setIsTodayDeal] = useState(false);
+  const [name, setName] = useState(null);
+  const [brandIdx, setBrandIdx] = useState(null);
+  const [categoryIdx, setCategory] = useState(null);
+  const [price, setPrice] = useState(null);
+  const [salePrice, setSalePrice] = useState(null);
+  const [deliveryType, setDeliveryType] = useState(null);
+  const [isTodayDeal, setIsTodayDeal] = useState(null);
   const [file, setFile] = useState(null);
 
   const onReset = () => {
@@ -53,6 +53,11 @@ function ProductWrite() {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
+
+      console.log(response);
+      if (response.data.code == 2000) {
+        alert(response.data.message);
+      }
     } catch (e) {
       console.log(e);
     }
