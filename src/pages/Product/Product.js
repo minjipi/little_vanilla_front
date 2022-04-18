@@ -27,10 +27,7 @@ function Product() {
   useEffect(() => {
     async function fetchData() {
       const result = await axios.get(
-        "http://localhost:8080/product/" + params.idx,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
+        "http://localhost:8080/product/" + params.idx
       );
 
       let images = [];

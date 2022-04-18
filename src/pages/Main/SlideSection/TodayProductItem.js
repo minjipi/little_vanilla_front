@@ -7,13 +7,18 @@ function TodayProductItem(props) {
 
   const productLike = async (idx) => {
     try {
-      const response = await axios.get(
-        "http://localhost:8080/product/like/" + idx,
-
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
+      if (localStorage.getItem("token") !== null) {
+        const response = await axios.get(
+          "http://localhost:8080/product/like/" + idx,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+      } else {
+        window.location.href = "/logins";
+      }
     } catch (e) {
       console.log(e);
     }

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react/cjs/react.development";
 import styled, { css } from "styled-components";
+import jwt_decode from "jwt-decode";
 
 function Header() {
   const [isAppInstallHover, setIsAppInstallHover] = useState(false);
@@ -8,10 +10,25 @@ function Header() {
   const [isCategoryHover, setIsCategoryHover] = useState(false);
 
   const [word, setWord] = useState("");
+  const issueKeyword = "어버이날";
+
+  const [loginCheck, setLoginCheck] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("token") !== null) {
+      setLoginCheck(true);
+      setLoginCheck(true);
+      console.log("로그인: " + loginCheck);
+      // console.log(localStorage.getItem("token"));
+    } else {
+      setLoginCheck(false);
+      console.log("로그인 X: " + loginCheck);
+    }
+  }, [loginCheck]);
 
   const onSubmit = async () => {
     if (word === "") {
-      window.location.href = "/search/test";
+      window.location.href = "/search/" + issueKeyword;
     } else {
       window.location.href = "/search/" + word;
     }
@@ -63,32 +80,70 @@ function Header() {
           </NavBtnUiDropdown>
 
           {/* 로그인 회원가입 */}
+
           <Fr>
-            <GnbLoginBtn href="/login">로그인</GnbLoginBtn>
-            <GnbLoginBtn href="/signup">회원가입</GnbLoginBtn>
-            <NavBtnUiDropdown>
-              <BtnDropdown
-                onMouseOver={() => setIsCallCenterHover(true)}
-                onMouseOut={() => setIsCallCenterHover(false)}
-              >
-                고객센터
-              </BtnDropdown>
-              <MenuDropdown
-                onMouseOver={() => setIsCallCenterHover(true)}
-                onMouseOut={() => setIsCallCenterHover(false)}
-                isCallCenterHover={isCallCenterHover}
-              >
-                <CustomerLi>
-                  <CustomerA>공지사항</CustomerA>
-                </CustomerLi>
-                <CustomerLi>
-                  <CustomerA>자주 묻는 질문</CustomerA>
-                </CustomerLi>
-                <CustomerLi>
-                  <CustomerA>메일로 문의</CustomerA>
-                </CustomerLi>
-              </MenuDropdown>
-            </NavBtnUiDropdown>
+            <GnbLoginBtn href="/login">
+              {loginCheck ? (
+                <>
+                  <GnbLoginBtn href="/signup">
+                    {jwt_decode(localStorage.getItem("token")).nickname}님
+                  </GnbLoginBtn>
+                  <GnbLoginBtn href="/signup">알림</GnbLoginBtn>
+                  <GnbLoginBtn href="/signup">메시지</GnbLoginBtn>
+                  <NavBtnUiDropdown>
+                    <BtnDropdown
+                      onMouseOver={() => setIsCallCenterHover(true)}
+                      onMouseOut={() => setIsCallCenterHover(false)}
+                    >
+                      고객센터
+                    </BtnDropdown>
+                    <MenuDropdown
+                      onMouseOver={() => setIsCallCenterHover(true)}
+                      onMouseOut={() => setIsCallCenterHover(false)}
+                      isCallCenterHover={isCallCenterHover}
+                    >
+                      <CustomerLi>
+                        <CustomerA>공지사항</CustomerA>
+                      </CustomerLi>
+                      <CustomerLi>
+                        <CustomerA>자주 묻는 질문</CustomerA>
+                      </CustomerLi>
+                      <CustomerLi>
+                        <CustomerA>메일로 문의</CustomerA>
+                      </CustomerLi>
+                    </MenuDropdown>
+                  </NavBtnUiDropdown>
+                </>
+              ) : (
+                <>
+                  <GnbLoginBtn href="/signup">회원가입</GnbLoginBtn>
+                  <GnbLoginBtn href="/login">로그인</GnbLoginBtn>
+                  <NavBtnUiDropdown>
+                    <BtnDropdown
+                      onMouseOver={() => setIsCallCenterHover(true)}
+                      onMouseOut={() => setIsCallCenterHover(false)}
+                    >
+                      고객센터
+                    </BtnDropdown>
+                    <MenuDropdown
+                      onMouseOver={() => setIsCallCenterHover(true)}
+                      onMouseOut={() => setIsCallCenterHover(false)}
+                      isCallCenterHover={isCallCenterHover}
+                    >
+                      <CustomerLi>
+                        <CustomerA>공지사항</CustomerA>
+                      </CustomerLi>
+                      <CustomerLi>
+                        <CustomerA>자주 묻는 질문</CustomerA>
+                      </CustomerLi>
+                      <CustomerLi>
+                        <CustomerA>메일로 문의</CustomerA>
+                      </CustomerLi>
+                    </MenuDropdown>
+                  </NavBtnUiDropdown>
+                </>
+              )}
+            </GnbLoginBtn>
           </Fr>
         </InnerW>
       </TopNavigation>
@@ -123,7 +178,7 @@ function Header() {
               <SearchRelated>
                 <SearchResultUl>
                   <SearchResultLi>
-                    <SearchResultLiKeyword>첫번재 검색어</SearchResultLiKeyword>
+                    <SearchResultLiKeyword>첫번째 검색어</SearchResultLiKeyword>
                   </SearchResultLi>
                 </SearchResultUl>
               </SearchRelated>
