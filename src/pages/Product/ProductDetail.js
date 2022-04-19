@@ -84,9 +84,7 @@ function Product() {
       <DataTriggerDetail />
       <FixPosition />
       <FlexNavStyle>
-        <a href="#prd-info" className="active">
-          작품정보
-        </a>
+        <a href="#prd-info" className="active"></a>
         <a href="#prd-enquiries">배송 / 교환 / 환불</a>
         <a href="#prd-review">구매후기(758)</a>
         <a href="#prd-comments">댓글</a>

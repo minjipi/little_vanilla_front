@@ -9,7 +9,6 @@ function TodayProduct(props) {
   useEffect(() => {
     async function fetchData() {
       const result = await axios.get("http://localhost:8080/product/list");
-
       console.log(result.data);
       setProductData(result.data.result);
     }
@@ -20,7 +19,7 @@ function TodayProduct(props) {
     <UiGrid>
       <UiGridCols5>
         {productData.map((product) => {
-          return <TodayProductItem product={product} />;
+          return <TodayProductItem key={product.idx} product={product} />;
         })}
       </UiGridCols5>
     </UiGrid>

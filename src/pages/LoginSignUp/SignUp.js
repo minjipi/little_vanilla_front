@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 function SignUp() {
@@ -80,7 +79,7 @@ function SignUp() {
               </Hidden>
               <AdditionTxt>
                 이미 가입하셨다면
-                <a href="">바로 로그인하기</a>
+                <a href="/login">바로 로그인하기</a>
               </AdditionTxt>
             </LoginSns>
           </LoginSection>

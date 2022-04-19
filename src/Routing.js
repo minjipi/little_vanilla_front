@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/LoginSignUp/Login";
 import Logout from "./pages/LoginSignUp/Logout";
 import SignUp from "./pages/LoginSignUp/SignUp";
+import Mypage from "./pages/mypage/Mypage";
 import Main from "./pages/Main/Main";
 import Product from "./pages/Product/Product";
 import ProductWrite from "./pages/Write/ProductWrite";
@@ -27,6 +28,7 @@ class Routing extends React.Component {
           <Route path="/signupemail" element={<SignUpEmail />} />
           <Route path="/signupemailSeller" element={<SignUpEmailSeller />} />
           <Route path="/search/:word" element={<Search />} />
+          <Route path="/mypage" element={<Mypage />} />
         </Routes>
       </Router>
     );

@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode";
 function Header() {
   const [isAppInstallHover, setIsAppInstallHover] = useState(false);
   const [isCallCenterHover, setIsCallCenterHover] = useState(false);
+  const [isMyInfoHover, setIsMyInfoHover] = useState(false);
   const [isCategoryHover, setIsCategoryHover] = useState(false);
 
   const [word, setWord] = useState("");
@@ -79,71 +80,93 @@ function Header() {
             </MenuDropdownAppInstallGuide>
           </NavBtnUiDropdown>
 
-          {/* 로그인 회원가입 */}
-
+          {/* 마이 페이지 */}
           <Fr>
-            <GnbLoginBtn href="/login">
-              {loginCheck ? (
-                <>
-                  <GnbLoginBtn href="/signup">
+            {loginCheck ? (
+              <>
+                <NavBtnUiDropdown>
+                  <BtnDropdown
+                    onMouseOver={() => setIsMyInfoHover(true)}
+                    onMouseOut={() => setIsMyInfoHover(false)}
+                  >
                     {jwt_decode(localStorage.getItem("token")).nickname}님
-                  </GnbLoginBtn>
-                  <GnbLoginBtn href="/signup">알림</GnbLoginBtn>
-                  <GnbLoginBtn href="/signup">메시지</GnbLoginBtn>
-                  <NavBtnUiDropdown>
-                    <BtnDropdown
-                      onMouseOver={() => setIsCallCenterHover(true)}
-                      onMouseOut={() => setIsCallCenterHover(false)}
-                    >
-                      고객센터
-                    </BtnDropdown>
-                    <MenuDropdown
-                      onMouseOver={() => setIsCallCenterHover(true)}
-                      onMouseOut={() => setIsCallCenterHover(false)}
-                      isCallCenterHover={isCallCenterHover}
-                    >
-                      <CustomerLi>
-                        <CustomerA>공지사항</CustomerA>
-                      </CustomerLi>
-                      <CustomerLi>
-                        <CustomerA>자주 묻는 질문</CustomerA>
-                      </CustomerLi>
-                      <CustomerLi>
-                        <CustomerA>메일로 문의</CustomerA>
-                      </CustomerLi>
-                    </MenuDropdown>
-                  </NavBtnUiDropdown>
-                </>
-              ) : (
-                <>
-                  <GnbLoginBtn href="/signup">회원가입</GnbLoginBtn>
-                  <GnbLoginBtn href="/login">로그인</GnbLoginBtn>
-                  <NavBtnUiDropdown>
-                    <BtnDropdown
-                      onMouseOver={() => setIsCallCenterHover(true)}
-                      onMouseOut={() => setIsCallCenterHover(false)}
-                    >
-                      고객센터
-                    </BtnDropdown>
-                    <MenuDropdown
-                      onMouseOver={() => setIsCallCenterHover(true)}
-                      onMouseOut={() => setIsCallCenterHover(false)}
-                      isCallCenterHover={isCallCenterHover}
-                    >
-                      <CustomerLi>
-                        <CustomerA>공지사항</CustomerA>
-                      </CustomerLi>
-                      <CustomerLi>
-                        <CustomerA>자주 묻는 질문</CustomerA>
-                      </CustomerLi>
-                      <CustomerLi>
-                        <CustomerA>메일로 문의</CustomerA>
-                      </CustomerLi>
-                    </MenuDropdown>
-                  </NavBtnUiDropdown>
-                </>
-              )}
-            </GnbLoginBtn>
+                  </BtnDropdown>
+                  <MyDropdown
+                    onMouseOver={() => setIsMyInfoHover(true)}
+                    onMouseOut={() => setIsMyInfoHover(false)}
+                    isMyInfoHover={isMyInfoHover}
+                  >
+                    <CustomerLi>
+                      <CustomerA>주문배송</CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA>관심리스트</CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA>쿠폰함</CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA>
+                        <Link to="/mypage">회원 정보관리</Link>
+                      </CustomerA>
+                    </CustomerLi>
+                    <AddBorder>
+                      <Link to="/logout">로그아웃</Link>
+                    </AddBorder>
+                  </MyDropdown>
+                </NavBtnUiDropdown>
+
+                <GnbLoginBtn href="/signup">알림</GnbLoginBtn>
+                <GnbLoginBtn href="/signup">메시지</GnbLoginBtn>
+                <NavBtnUiDropdown>
+                  <BtnDropdown
+                    onMouseOver={() => setIsCallCenterHover(true)}
+                    onMouseOut={() => setIsCallCenterHover(false)}
+                  >
+                    고객센터
+                  </BtnDropdown>
+                  <MenuDropdown
+                    onMouseOver={() => setIsCallCenterHover(true)}
+                    onMouseOut={() => setIsCallCenterHover(false)}
+                    isCallCenterHover={isCallCenterHover}
+                  >
+                    <CustomerLi>
+                      <CustomerA>공지사항</CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA>자주 묻는 질문</CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA>메일로 문의</CustomerA>
+                    </CustomerLi>
+                  </MenuDropdown>
+                </NavBtnUiDropdown>
+              </>
+            ) : (
+              <>
+                <GnbLoginBtn href="/signup">회원가입</GnbLoginBtn>
+                <GnbLoginBtn href="/login">로그인</GnbLoginBtn>
+
+                <NavBtnUiDropdown>
+                  고객센터
+                  <MenuDropdown
+                    onMouseOver={() => setIsCallCenterHover(true)}
+                    onMouseOut={() => setIsCallCenterHover(false)}
+                    isCallCenterHover={isCallCenterHover}
+                  >
+                    <CustomerLi>
+                      <CustomerA>공지사항</CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA>자주 묻는 질문</CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA>메일로 문의</CustomerA>
+                    </CustomerLi>
+                  </MenuDropdown>
+                </NavBtnUiDropdown>
+              </>
+            )}
           </Fr>
         </InnerW>
       </TopNavigation>
@@ -152,10 +175,7 @@ function Header() {
           <SearchHeaderDesktopLogo>
             <IconIduslogo>
               <Link to="/">
-                <Iduslogo
-                  src="https://www.idus.com/resources/dist/images/logo.svg"
-                  a={"/"}
-                />
+                <Iduslogo src="https://www.idus.com/resources/dist/images/logo.svg" />
               </Link>
 
               {/* <Iduslogo src={require("./logo.png")} /> */}
@@ -543,16 +563,16 @@ const BtnDropdown = styled.button`
   justify-content: center;
 `;
 
-// 고객센터drop
+// 고객센터 drop
 const MenuDropdown = styled.ul`
   display: none;
   position: absolute;
   width: auto;
   margin-top: 3px;
   margin-left: -33px;
+  padding-: 8px 12px;
   padding: 8px 12px;
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 10%);
-
   border-radius: 4px;
   border: solid 1px #d9d9d9;
   z-index: 111;
@@ -587,6 +607,60 @@ const MenuDropdown = styled.ul`
     left: 50%;
     margin-left: -4px;
   }
+`;
+
+// 마이페이지 drop
+const MyDropdown = styled.ul`
+  display: none;
+  position: absolute;
+  width: auto;
+  margin-top: 3px;
+  margin-left: -33px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 10%);
+  border-radius: 4px;
+  border: solid 1px #d9d9d9;
+  z-index: 111;
+  background: #fff;
+
+  ${(props) =>
+    props.isMyInfoHover &&
+    css`
+      display: block;
+    `}
+
+  &:before {
+    content: "";
+    position: absolute;
+    border: 6px solid #d9d9d9;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    top: -12px;
+    left: 50%;
+    margin-left: -6px;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    border: 4px solid #fff;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    top: -8px;
+    left: 50%;
+    margin-left: -4px;
+  }
+`;
+
+const AddBorder = styled.li`
+  border-top: 1px solid #d9d9d9;
+  padding: 4px 0;
+  width: 80px;
+  font-size: 11px;
+  color: #666;
+  list-style: none;
 `;
 
 const CustomerLi = styled.li`
