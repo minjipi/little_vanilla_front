@@ -433,7 +433,6 @@ const IconLogo = styled.span`
   background-position: -91px -488px;
   width: 100px;
   padding-top: 40px;
-
   background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070.png);
   height: 0;
   overflow: hidden;

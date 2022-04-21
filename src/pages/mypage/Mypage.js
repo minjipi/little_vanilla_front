@@ -90,7 +90,60 @@ function Mypage() {
                       <span>
                         {jwt_decode(localStorage.getItem("token")).nickname}
                       </span>
-                      <Button></Button>
+                      <Button type="button">변경하기</Button>
+                      <NewEmailBlock>
+                        <NewEmailBlockM>
+                          변경할 이메일 주소를 입력해주세요. (예.abcd@minji.me)
+                        </NewEmailBlockM>
+                        <Mt5>
+                          <InputText>
+                            <InputTextInput />
+                          </InputText>
+                          <Button type="button">인증메일 발송</Button>
+                        </Mt5>
+                      </NewEmailBlock>
+                    </LeftTd>
+                  </tr>
+
+                  <tr>
+                    <Leftth>전화</Leftth>
+                    <LeftTd>
+                      <span>
+                        {jwt_decode(localStorage.getItem("token")).nickname}
+                      </span>
+                      <Button type="button">변경하기</Button>
+                      <NewEmailBlockM className="fcomment">
+                        주문, 배송시 등록된 번호로 SMS를 발송해 드립니다.
+                      </NewEmailBlockM>
+                      <DataAuth>
+                        <NewEmailBlockM>
+                          <p>변경할 전화번호를 입력해주세요.</p>
+                        </NewEmailBlockM>
+                        <NewEmailBlockM>
+                          <DataAuthCodeB>
+                            <ComboTypeStatic>
+                              <InputTextSizeM>
+                                <InputTextInput></InputTextInput>
+                                <TimeLimit></TimeLimit>
+                              </InputTextSizeM>
+                              <AuthButton type="button">
+                                인증번호 요청
+                              </AuthButton>
+                            </ComboTypeStatic>
+                          </DataAuthCodeB>
+                        </NewEmailBlockM>
+                        <NewEmailBlockM>
+                          <DataAuthCodeB>
+                            <ComboTypeStatic>
+                              <InputTextSizeM>
+                                <InputTextInput></InputTextInput>
+                                <TimeLimit></TimeLimit>
+                              </InputTextSizeM>
+                              <AuthButton type="button">확인</AuthButton>
+                            </ComboTypeStatic>
+                          </DataAuthCodeB>
+                        </NewEmailBlockM>
+                      </DataAuth>
                     </LeftTd>
                   </tr>
                 </Tbody>
@@ -103,6 +156,64 @@ function Mypage() {
     </>
   );
 }
+const TimeLimit = styled.div`
+  position: absolute;
+  top: 2px;
+  right: 20px;
+  font-size: 14px;
+  color: #ff7b30;
+`;
+
+const InputTextSizeM = styled.div`
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: 200px;
+`;
+
+const ComboTypeStatic = styled.div`
+  position: relative;
+  padding-right: 105px;
+`;
+
+const DataAuthCodeB = styled.div`
+  position: relative;
+`;
+
+const DataAuth = styled.div`
+  // display: none;
+`;
+
+const InputTextInput = styled.div`
+  background: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  border: 1px solid #acacac;
+  width: 100%;
+  height: 32px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 2px 8px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-appearance: none;
+  appearance: none;
+`;
+
+const Mt5 = styled.div`
+  margin-top: 5px;
+`;
+
+const NewEmailBlockM = styled.p`
+  margin-top: 10px;
+  &.fcomment {
+    color: #999;
+  }
+`;
+
+const NewEmailBlock = styled.div`
+  //   display: none;
+`;
 
 const DimmedBackground = styled.div`
   display: none;
@@ -307,6 +418,17 @@ const Leftth = styled.td`
 `;
 
 const Button = styled.button`
+  eight: 32px;
+  padding: 15px 0;
+  padding: 8px 15px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #333;
+  border: 1px solid #ccc;
+  background: #fff;
+`;
+
+const AuthButton = styled.button`
   eight: 32px;
   padding: 15px 0;
   padding: 8px 15px;
