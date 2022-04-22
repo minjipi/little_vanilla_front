@@ -1,12 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
-import jwt_decode from "jwt-decode";
+import React from "react";
+import styled from "styled-components";
 
-function OrderEmpty() {
-  const [selectYear, setSelectYear] = useState(false);
-  const [clickYear, setClickYear] = useState(false);
-  const [isOptionVisible, setIsOptionVisible] = useState(false);
-
+function OrderList(props) {
   return (
     <>
       <TableStyleT2>
@@ -17,7 +12,7 @@ function OrderEmpty() {
         </Colgroup>
         <Thead>
           <tr>
-            <Th>2021-11-23</Th>
+            <Th>{props.item.ordered_at}</Th>
             <Th colSpan="2">
               <A>
                 <Span>4,000원</Span>
@@ -38,7 +33,7 @@ function OrderEmpty() {
                   <ListHead>
                     <Row>
                       <Col>
-                        <ColA>[웰컴딜] 대용량 얼그레이 밀크티베이스</ColA>
+                        <ColA>{props.item.name}</ColA>
                       </Col>
                       <ColIcon>
                         <ColSpan>작가 발송 완료</ColSpan>
@@ -59,7 +54,7 @@ function OrderEmpty() {
 
             <TdControllWow>
               <div>
-                <span>토찌부엌</span>
+                <span>{props.item.brandIdx}</span>
               </div>
               <Col5>
                 <TdConA href="/message">메시지로 문의</TdConA>
@@ -77,44 +72,9 @@ function OrderEmpty() {
           </tr>
         </tbody>
       </TableStyleT2>
-      <Paging>
-        <PagingNav>
-          <Pagingnum>1</Pagingnum>
-        </PagingNav>
-      </Paging>
     </>
   );
 }
-
-const Pagingnum = styled.div`
-  border: 1px solid transparent;
-  display: inline-block;
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
-  font-size: 12px;
-  font-weight: bold;
-  border-color: #ff7b30;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  color: #ff7b30;
-
-  &:first-child {
-    margin-left: 0;
-  }
-`;
-
-const PagingNav = styled.nav`
-  display: block;
-  text-align: center;
-  vertical-align: middle;
-`;
-
-const Paging = styled.div`
-  font-size: 0;
-  margin-top: 24px;
-`;
 
 const BtnPoint = styled.button`
   display: inline-block;
@@ -379,4 +339,4 @@ const TableStyleT2 = styled.table`
   border: 1px solid #d9d9d9;
 `;
 
-export default OrderEmpty;
+export default OrderList;

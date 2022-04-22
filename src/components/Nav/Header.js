@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react/cjs/react.development";
 import styled, { css } from "styled-components";
 import jwt_decode from "jwt-decode";
+import axios from "axios";
 
 function Header() {
   const [isAppInstallHover, setIsAppInstallHover] = useState(false);
@@ -10,17 +11,29 @@ function Header() {
   const [isMyInfoHover, setIsMyInfoHover] = useState(false);
   const [isCategoryHover, setIsCategoryHover] = useState(false);
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const [word, setWord] = useState("");
   const issueKeyword = "어버이날";
 
   const [loginCheck, setLoginCheck] = useState(false);
 
+  const logout = () => {
+    try {
+      localStorage.clear();
+      console.log(localStorage.getItem("token"));
+      document.location.href = "/";
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     if (localStorage.getItem("token") !== null) {
       setLoginCheck(true);
-      setLoginCheck(true);
-      console.log("로그인: " + loginCheck);
-      // console.log(localStorage.getItem("token"));
+      // console.log("로그인: " + loginCheck);
+      // console.log("token: " + localStorage.getItem("token"));
     } else {
       setLoginCheck(false);
       console.log("로그인 X: " + loginCheck);
@@ -111,7 +124,15 @@ function Header() {
                       </CustomerA>
                     </CustomerLi>
                     <AddBorder>
-                      <Link to="/logout">로그아웃</Link>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          logout();
+                          console.log("로그아웃! body: " + email);
+                        }}
+                      >
+                        로그아웃
+                      </button>
                     </AddBorder>
                   </MyDropdown>
                 </NavBtnUiDropdown>

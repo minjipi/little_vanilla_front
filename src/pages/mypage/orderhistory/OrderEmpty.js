@@ -3,10 +3,6 @@ import styled, { css } from "styled-components";
 import jwt_decode from "jwt-decode";
 
 function OrderEmpty() {
-  const [selectYear, setSelectYear] = useState(false);
-  const [clickYear, setClickYear] = useState(false);
-  const [isOptionVisible, setIsOptionVisible] = useState(false);
-
   return (
     <>
       <BannerEmpty>
@@ -14,7 +10,7 @@ function OrderEmpty() {
           <LogoEmpty className="fa-solid fa-empty-set"></LogoEmpty>
         </IcoBlank>
         <BannerEmptyP>2022년에 주문한 내역이 없습니다.</BannerEmptyP>
-        <BannerEmptyA>2021년 주문 보기 ></BannerEmptyA>
+        <BannerEmptyA>2021년 주문 보기]</BannerEmptyA>
         <BannerEmptyBtn>작품 구경하러 가기</BannerEmptyBtn>
       </BannerEmpty>
     </>

@@ -16,6 +16,7 @@ function Mypage() {
               <Outline>
                 <Profile>
                   <ChangeProfile />
+
                   <LinkStyle>수정</LinkStyle>
                 </Profile>
               </Outline>

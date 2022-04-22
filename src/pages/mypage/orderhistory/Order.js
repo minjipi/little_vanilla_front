@@ -4,14 +4,33 @@ import Header from "../../../components/Nav/Header";
 
 import Footer from "../../../components/Footer/Footer";
 import jwt_decode from "jwt-decode";
-import OrderEmpty from "./OrderEmpty";
 import OrderList from "./OrderList";
+import axios from "axios";
 
 function Order() {
   const [selectYear, setSelectYear] = useState(false);
   const [clickYear, setClickYear] = useState(false);
   const [isOptionVisible, setIsOptionVisible] = useState(false);
+  let [res, setRes] = useState(null);
+  useEffect(() => {
+    async function fetchData() {
+      let response = await axios.get("http://localhost:8080/order/list/", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
 
+      let result = response.data.result;
+      setRes(result);
+
+      let productName = [];
+      // result.split(",").map((filename, idx) => {
+      //   const img = {
+      //     id: idx + 1,
+      //   };
+      //   productName.push(img);
+      // });
+    }
+    fetchData();
+  }, []);
   return (
     <>
       <Header />
@@ -114,8 +133,13 @@ function Order() {
             </UiTabGroupFavorite>
             {/*  */}
             {/* <OrderEmpty /> */}
-            <OrderList />
+            {res && res.map((item) => <OrderList key={item.idx} item={item} />)}
             {/*  */}
+            <Paging>
+              <PagingNav>
+                <Pagingnum>1</Pagingnum>
+              </PagingNav>
+            </Paging>
             <BannerTypeAroot>
               <BannerTypeAitem>
                 <BannerTypeImg src="https://image.idus.com/image/files/2771de7cd2d64ae89eaf8a73362e31fa.jpg" />
@@ -129,6 +153,35 @@ function Order() {
   );
 }
 
+const Pagingnum = styled.div`
+  border: 1px solid transparent;
+  display: inline-block;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 12px;
+  font-weight: bold;
+  border-color: #ff7b30;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  color: #ff7b30;
+
+  &:first-child {
+    margin-left: 0;
+  }
+`;
+
+const PagingNav = styled.nav`
+  display: block;
+  text-align: center;
+  vertical-align: middle;
+`;
+
+const Paging = styled.div`
+  font-size: 0;
+  margin-top: 24px;
+`;
 const BannerTypeImg = styled.img`
   display: block;
   height: 100%;
