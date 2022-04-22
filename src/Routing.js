@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/LoginSignUp/Login";
-import Logout from "./pages/LoginSignUp/Logout";
 import SignUp from "./pages/LoginSignUp/SignUp";
 import Mypage from "./pages/mypage/Mypage";
 import Order from "./pages/mypage/orderhistory/Order";
@@ -24,7 +23,6 @@ class Routing extends React.Component {
 
           <Route path="/productWrite" element={<ProductWrite />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/logout" element={<Logout />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signupemail" element={<SignUpEmail />} />
           <Route path="/signupemailSeller" element={<SignUpEmailSeller />} />
