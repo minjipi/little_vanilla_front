@@ -10,6 +10,7 @@ function Header() {
   const [isCallCenterHover, setIsCallCenterHover] = useState(false);
   const [isMyInfoHover, setIsMyInfoHover] = useState(false);
   const [isCategoryHover, setIsCategoryHover] = useState(false);
+  const [isTopHover, setIsTopHover] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,8 +33,8 @@ function Header() {
   useEffect(() => {
     if (localStorage.getItem("token") !== null) {
       setLoginCheck(true);
-      // console.log("로그인: " + loginCheck);
-      // console.log("token: " + localStorage.getItem("token"));
+      console.log("로그인: " + loginCheck);
+      console.log("token: " + localStorage.getItem("token"));
     } else {
       setLoginCheck(false);
       console.log("로그인 X: " + loginCheck);
@@ -110,29 +111,36 @@ function Header() {
                     isMyInfoHover={isMyInfoHover}
                   >
                     <CustomerLi>
-                      <CustomerA>주문배송</CustomerA>
+                      <CustomerA
+                        onMouseOver={() => setIsTopHover(true)}
+                        onMouseOut={() => setIsTopHover(false)}
+                        isTopHover={isTopHover}
+                      >
+                        주문배송
+                      </CustomerA>
                     </CustomerLi>
                     <CustomerLi>
-                      <CustomerA>관심리스트</CustomerA>
+                      <CustomerA
+                        onMouseOver={() => setIsTopHover(true)}
+                        onMouseOut={() => setIsTopHover(false)}
+                        isTopHover={isTopHover}
+                      >
+                        관심리스트
+                      </CustomerA>
                     </CustomerLi>
                     <CustomerLi>
                       <CustomerA>쿠폰함</CustomerA>
                     </CustomerLi>
                     <CustomerLi>
-                      <CustomerA>
-                        <Link to="/mypage">회원 정보관리</Link>
-                      </CustomerA>
+                      <CustomerA href="/mypage">회원 정보관리</CustomerA>
                     </CustomerLi>
-                    <AddBorder>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          logout();
-                          console.log("로그아웃! body: " + email);
-                        }}
-                      >
-                        로그아웃
-                      </button>
+                    <AddBorder
+                      onClick={() => {
+                        logout();
+                        console.log("로그아웃! body: " + email);
+                      }}
+                    >
+                      로그아웃
                     </AddBorder>
                   </MyDropdown>
                 </NavBtnUiDropdown>
@@ -696,6 +704,10 @@ const CustomerA = styled.a`
   padding: 0 !important;
   width: 100%;
   height: 100%;
+
+  &:hover {
+    color: #ff7b30;
+  }
 `;
 
 const SearchHeaderDesktop = styled.div`

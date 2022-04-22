@@ -37,7 +37,7 @@ function Mypage() {
                 <MyInfoB>
                   <MyInfoSpan>주문배송</MyInfoSpan>
                 </MyInfoB>
-                <MyA href="/order/paymemt">주문내역</MyA>
+                <MyA href="/order">주문내역</MyA>
                 <MyA href="/order/paymemt">취소/환불내역</MyA>
 
                 <MyInfoB>

@@ -4,7 +4,7 @@ import axios from "axios";
 
 function TodayProductItem(props) {
   const [like, setLike] = useState(false);
-
+  useEffect(() => {}, [like]);
   const productLike = async (idx) => {
     try {
       if (localStorage.getItem("token") !== null) {
