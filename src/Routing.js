@@ -12,6 +12,7 @@ import ProductWrite from "./pages/Write/ProductWrite";
 import Search from "./pages/Main/Search";
 import SignUpEmail from "./pages/LoginSignUp/SignUpEmail";
 import SignUpEmailSeller from "./pages/LoginSignUp/SignUpEmailSeller";
+import KakaoLoginRedirect from "./pages/LoginSignUp/KakaoLoginRedirect";
 
 class Routing extends React.Component {
   render() {
@@ -31,6 +32,10 @@ class Routing extends React.Component {
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/order" element={<Order />} />
           <Route path="/orderempty" element={<OrderEmpty />} />
+          <Route
+            path="/oauth2/redirect/:token"
+            element={<KakaoLoginRedirect />}
+          />
         </Routes>
       </Router>
     );

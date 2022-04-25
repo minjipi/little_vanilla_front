@@ -67,7 +67,10 @@ function Login() {
             </BorderAndText>
 
             <VerticalButtons>
-              <BarButton className="kakao">
+              <BarButton
+                href="http://localhost:8080/oauth2/authorization/kakao"
+                className="kakao"
+              >
                 <SpIcon className="Kakaotalk"></SpIcon>
                 카카오로 3초만에 시작하기
               </BarButton>

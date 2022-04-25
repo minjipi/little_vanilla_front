@@ -31,7 +31,7 @@ function SignUp() {
             </SignupStep>
             <LoginSns className="wrap">
               <Item>
-                <Kakaotalk>
+                <Kakaotalk href="http://localhost:8080/oauth2/authorization/kakao">
                   <SpIcon className="Kakaotalk" />
                   "카카오톡으로 가입하기"
                 </Kakaotalk>
