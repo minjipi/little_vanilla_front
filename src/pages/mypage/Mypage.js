@@ -4,7 +4,16 @@ import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
 import jwt_decode from "jwt-decode";
 
-function Mypage() {
+function Mypage(props) {
+  const [emailChangeBtn, setEmailChangeBtn] = useState(true);
+  const [phoneChangeBtn, setPhoneChangeBtn] = useState(true);
+  const [gender, setGender] = useState("");
+
+  const handleRadioBtn = (e) => {
+    setGender(e.target.value);
+    // console.log(e.target.value);
+  };
+
   return (
     <>
       <Header />
@@ -75,12 +84,12 @@ function Mypage() {
                     <Leftth>이름</Leftth>
                     <LeftTd>
                       <InputText>
-                        <input
+                        <InputFilldis
                           type="text"
                           value={
                             jwt_decode(localStorage.getItem("token")).nickname
                           }
-                        ></input>
+                        ></InputFilldis>
                       </InputText>
                     </LeftTd>
                   </tr>
@@ -89,16 +98,24 @@ function Mypage() {
                     <Leftth>이메일</Leftth>
                     <LeftTd>
                       <span>
-                        {jwt_decode(localStorage.getItem("token")).nickname}
+                        {jwt_decode(localStorage.getItem("token")).email}
                       </span>
-                      <Button type="button">변경하기</Button>
-                      <NewEmailBlock>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          setEmailChangeBtn(!emailChangeBtn);
+                        }}
+                      >
+                        변경하기
+                      </Button>
+
+                      <NewEmailBlock isClicked={emailChangeBtn}>
                         <NewEmailBlockM>
                           변경할 이메일 주소를 입력해주세요. (예.abcd@minji.me)
                         </NewEmailBlockM>
                         <Mt5>
                           <InputText>
-                            <InputTextInput />
+                            <InputTextInput type="text" />
                           </InputText>
                           <Button type="button">인증메일 발송</Button>
                         </Mt5>
@@ -112,11 +129,18 @@ function Mypage() {
                       <span>
                         {jwt_decode(localStorage.getItem("token")).nickname}
                       </span>
-                      <Button type="button">변경하기</Button>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          setPhoneChangeBtn(!phoneChangeBtn);
+                        }}
+                      >
+                        변경하기
+                      </Button>
                       <NewEmailBlockM className="fcomment">
                         주문, 배송시 등록된 번호로 SMS를 발송해 드립니다.
                       </NewEmailBlockM>
-                      <DataAuth>
+                      <DataAuth isClicked={phoneChangeBtn}>
                         <NewEmailBlockM>
                           <p>변경할 전화번호를 입력해주세요.</p>
                         </NewEmailBlockM>
@@ -147,8 +171,67 @@ function Mypage() {
                       </DataAuth>
                     </LeftTd>
                   </tr>
+
+                  <tr>
+                    <Leftth>성별</Leftth>
+                    <LeftTd>
+                      <div>
+                        <RadioLabel>
+                          <IconRadio
+                            type="radio"
+                            value="F"
+                            checked={gender === "F"}
+                            onChange={handleRadioBtn}
+                          ></IconRadio>
+                          여성
+                        </RadioLabel>
+                      </div>
+                      <div>
+                        <RadioLabel>
+                          <IconRadio
+                            type="radio"
+                            value="M"
+                            checked={gender === "M"}
+                            onChange={handleRadioBtn}
+                          ></IconRadio>
+                          남성
+                        </RadioLabel>
+                      </div>
+                    </LeftTd>
+                  </tr>
+
+                  <tr>
+                    <Leftth>생일</Leftth>
+                    <LeftTd>
+                      <InputTextS>
+                        <InputFilldis type="text"></InputFilldis>
+                      </InputTextS>
+                    </LeftTd>
+                  </tr>
+
+                  <tr>
+                    <Leftth>알림설정</Leftth>
+                    <LeftTd>
+                      할인쿠폰/이벤트/감동적인 뉴스레터를 받아보시겠습니까?
+                      <Mt10>
+                        <div>
+                          <Label>
+                            <CheckBox type="checkbox"></CheckBox>
+                          </Label>
+                        </div>
+                      </Mt10>
+                    </LeftTd>
+                  </tr>
                 </Tbody>
               </TableStyleHeadLeft>
+
+              <TarMt10>
+                <BtnSWhite href="/leave">회원탈퇴</BtnSWhite>
+              </TarMt10>
+
+              <FormSubmitTac>
+                <BtnMPoint>회원 정보 수정하기</BtnMPoint>
+              </FormSubmitTac>
             </form>
           </Section>
         </InnerwLayoutSplit>
@@ -157,6 +240,135 @@ function Mypage() {
     </>
   );
 }
+
+const CheckBox = styled.input`
+  -webkit-appearance: none;
+  background: transparent;
+  display: inline-block;
+  position: relative;
+  height: 18px;
+  width: 18px;
+  vertical-align: middle;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 0;
+  margin: 0;
+  background: #fff;
+  -webkit-tap-highlight-color: transparent;
+
+  &:before {
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "v";
+    border: 1px solid #ff7b30;
+    background: #ff7b30;
+    color: #fff;
+
+    cursor: pointer;
+
+    display: inline-block;
+    line-height: 16px;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border: 1px solid #acacac;
+    border-radius: 2px;
+    text-align: center;
+  }
+`;
+
+const Label = styled.label`
+  cursor: pointer;
+`;
+
+const InputFilldis = styled.input`
+  -webkit-tap-highlight-color: transparent;
+  background: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  border: 1px solid #acacac;
+  width: 100%;
+  height: 32px;
+  box-sizing: border-box;
+  padding: 2px 8px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-appearance: none;
+  appearance: none;
+`;
+
+const IconRadio = styled.input`
+  position: relative;
+  font-size: 16px;
+  width: 13px;
+  height: 10px;
+  margin: 0;
+  background: #fff;
+  vertical-align: middle;
+`;
+
+const RadioLabel = styled.label`
+  margin-right: 3px;
+  cursor: pointer;
+`;
+
+const BtnMPoint = styled.button`
+  width: 140px;
+  color: #fff;
+  background: #ff7b30;
+  border: 1px solid #ff7b30;
+  height: 32px;
+  padding: 15px 0;
+  padding: 8px 15px;
+
+  line-height: 14px;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  font-size: 12px;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.4;
+`;
+
+const FormSubmitTac = styled.div`
+  text-align: center !important;
+`;
+
+const BtnSWhite = styled.a`
+  color: #333;
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 6px 12px;
+  font-size: 12px;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.4;
+`;
+
+const Mt10 = styled.div`
+  margin-top: 10px;
+`;
+
+const TarMt10 = styled.div`
+  text-align: right !important;
+  margin-top: 10px;
+`;
+
 const TimeLimit = styled.div`
   position: absolute;
   top: 2px;
@@ -183,9 +395,20 @@ const DataAuthCodeB = styled.div`
 
 const DataAuth = styled.div`
   // display: none;
+
+  ${(props) =>
+    props.isClicked &&
+    css`
+      overflow: hidden;
+      height: 0;
+      margin-top: 0;
+      padding-top: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    `}
 `;
 
-const InputTextInput = styled.div`
+const InputTextInput = styled.input`
   background: #fff;
   font-size: 12px;
   line-height: 16px;
@@ -213,7 +436,18 @@ const NewEmailBlockM = styled.p`
 `;
 
 const NewEmailBlock = styled.div`
-  //   display: none;
+  // display: none;
+
+  ${(props) =>
+    props.isClicked &&
+    css`
+      overflow: hidden;
+      height: 0;
+      margin-top: 0;
+      padding-top: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    `}
 `;
 
 const DimmedBackground = styled.div`
@@ -393,6 +627,12 @@ const TableStyleHeadLeft = styled.table`
 const Tbody = styled.tbody`
   color: inherit;
   font-size: inherit;
+`;
+
+const InputTextS = styled.div`
+  display: inline-block;
+  vertical-align: middle;
+  width: 100px;
 `;
 
 const InputText = styled.div`
