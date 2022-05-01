@@ -49,16 +49,23 @@ function ProductWrite() {
   const onSubmit = async () => {
     console.log(jwt_decode(localStorage.getItem("token")));
     try {
-      const response = await axios.post(
-        "http://localhost:8080/product/create",
-        formData,
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      let response = "";
+      if (
+        new Date(jwt_decode(localStorage.getItem("token")).exp) < new Date()
+      ) {
+        console.log("만료");
+      } else {
+        response = await axios.post(
+          "http://localhost:8080/product/create",
+          formData,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+      }
 
       if (response.data.code === 1000) {
         window.location.href = "/product/" + response.data.result.idx;
