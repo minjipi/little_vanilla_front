@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import axios from "axios";
 import Header from "../../components/Nav/Header";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 function Search() {
   const [searchData, setSearchData] = useState([]);
@@ -386,9 +387,11 @@ function Search() {
                   <SearchProductCard>
                     <SearchProductCard className="verticalProduct">
                       <CardThumbCover>
-                        <CardThumbImg
-                          filename={product.filename.split(",")[0]}
-                        ></CardThumbImg>
+                        <Link to={"/product/" + product.idx}>
+                          <CardThumbImg
+                            filename={product.filename.split(",")[0]}
+                          ></CardThumbImg>
+                        </Link>
                         <CardInfoProductInfo>
                           {product.name}
                         </CardInfoProductInfo>

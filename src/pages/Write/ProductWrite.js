@@ -5,15 +5,15 @@ import Footer from "../../components/Footer/Footer";
 import ProductDetail from "./ProductDetail";
 import $ from "jquery";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 function ProductWrite() {
   const [isScroll, setIsScroll] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImg, setSelectedImg] = useState(0);
-
   const [name, setName] = useState(null);
-  const [brandIdx, setBrandIdx] = useState(null);
+
   const [categoryIdx, setCategory] = useState(null);
   const [price, setPrice] = useState(null);
   const [salePrice, setSalePrice] = useState(null);
@@ -23,12 +23,10 @@ function ProductWrite() {
 
   const onReset = () => {
     setName("");
-    setBrandIdx("");
   };
 
   let body = {
     name: name,
-    brandIdx: Number(brandIdx),
     categoryIdx: Number(categoryIdx),
     price: Number(price),
     salePrice: Number(salePrice),
@@ -37,7 +35,11 @@ function ProductWrite() {
   };
 
   const formData = new FormData();
-  formData.append("body", JSON.stringify(body));
+
+  formData.append(
+    "postProductReq",
+    new Blob([JSON.stringify(body)], { type: "application/json" })
+  );
 
   file &&
     file.map((image) => {
@@ -45,17 +47,22 @@ function ProductWrite() {
     });
 
   const onSubmit = async () => {
+    console.log(jwt_decode(localStorage.getItem("token")));
     try {
       const response = await axios.post(
         "http://localhost:8080/product/create",
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
-      console.log(response);
-      if (response.data.code == 2000) {
+      if (response.data.code === 1000) {
+        window.location.href = "/product/" + response.data.result.idx;
+      } else {
         alert(response.data.message);
       }
     } catch (e) {
@@ -183,15 +190,12 @@ function ProductWrite() {
                         <ArtistCardSplitA>
                           <ArtistCardImg />
                           <ArtistCardLabel>
-                            이건 로그인 할 때 바꿔주기.
-                            <input
-                              id="brandIdx"
-                              value={brandIdx}
-                              type="text"
-                              onChange={(e) => {
-                                setBrandIdx(e.target.value);
-                              }}
-                            ></input>
+                            <TitleTd>
+                              {
+                                jwt_decode(localStorage.getItem("token"))
+                                  .nickname
+                              }
+                            </TitleTd>
                             <ArrowR className="fas fa-chevron-right" />
                           </ArtistCardLabel>
                         </ArtistCardSplitA>

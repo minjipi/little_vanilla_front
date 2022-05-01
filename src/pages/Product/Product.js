@@ -24,6 +24,8 @@ function Product() {
   const [calSale, setCalSale] = useState(0);
   const params = useParams();
 
+  const [isCartClicked, setIsCartClicked] = useState(false);
+
   useEffect(() => {
     async function fetchData() {
       const result = await axios.get(
@@ -509,7 +511,6 @@ function Product() {
                   <div>
                     <BuyScrollable>
                       <div>
-                        {/* mobile-show mobile-ui-close */}
                         <SelectGroupTriggerBtn
                           type="button"
                           onClick={() => {
@@ -590,6 +591,29 @@ function Product() {
                           </span>
                         </CheckoutProductCostDl>
                       </div>
+                      {/*  */}
+                      <CheckOutProduct>
+                        <Cart
+                          onClick={() => {
+                            setIsCartClicked(!isCartClicked);
+                          }}
+                          type="button"
+                        >
+                          장바구니
+                        </Cart>
+                        <Cart className="npay" type="button">
+                          <NpayImg src="https://www.idus.com/resources/dist/images/npay.svg" />
+                        </Cart>
+                        <RedBuy type="button">구매하기</RedBuy>
+                      </CheckOutProduct>
+
+                      <Alertmsg isCartClicked={isCartClicked}>
+                        <CloseBtn>
+                          <CloseI className="fa-solid fa-xmark"></CloseI>
+                        </CloseBtn>
+                        <Ptag>장바구니에 작품이 담겼습니다.</Ptag>
+                        <Atag>장바구니 가기</Atag>
+                      </Alertmsg>
                     </BuyScrollable>
                   </div>
                 </StickyAsideDiv>
@@ -603,6 +627,181 @@ function Product() {
     </>
   );
 }
+
+const Atag = styled.a`
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  font-size: 10px;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.4;
+
+  padding: 6px 12px;
+  font-size: 12px;
+
+  color: #fff;
+  background: #ff7b30;
+  border: 1px solid #ff7b30;
+
+  width: 80px;
+  font-size: 10px;
+  padding: 6px 10px;
+`;
+const Ptag = styled.p``;
+
+const CloseI = styled.i`
+  display: inline;
+  vertical-align: middle;
+  font-size: 10px;
+
+  &:before {
+    content: "X";
+  }
+`;
+
+const CloseBtn = styled.span`
+  position: absolute;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  right: 0;
+  top: 0;
+  line-height: 24px;
+  text-align: center;
+  font-size: 16px;
+`;
+
+const Alertmsg = styled.div`
+  ${Ptag} {
+    padding: 8px 0 16px;
+    font-size: 12px;
+  }
+
+  display: none;
+
+  ${(props) =>
+    props.isCartClicked &&
+    css`
+      display: block;
+      padding: 12px 18px;
+      position: absolute;
+      top: 0px;
+      left: -30px;
+      width: 202px;
+      -webkit-box-shadow: 0 4px 8px 0 #00000033;
+      box-shadow: 0 4px 8px 0 #00000033;
+      border: solid 1px #d9d9d9;
+      background: #fff;
+      text-align: center;
+
+      &:before {
+        content: "";
+        position: absolute;
+        bottom: -16px;
+        left: 50%;
+        margin-left: -8px;
+        border: 8px solid #fff;
+        border-bottom-color: transparent;
+        border-right-color: transparent;
+        border-left-color: transparent;
+      }
+    `};
+`;
+
+const RedBuy = styled.button`
+  box-shadow: 0 1px 3px 0 hsl(0deg 0% 86% / 30%);
+  font-weight: 400;
+  box-sizing: border-box;
+  display: inline-block;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  vertical-align: middle;
+  transition: background-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: border-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 16px;
+  line-height: 30px;
+  border-color: transparent;
+  background: #ff7b30;
+  color: #fff;
+  display: block;
+  float: left;
+  padding: 0;
+  line-height: 44px;
+  font-size: 16px;
+  width: calc((97% - 46px) / 3);
+  margin-right: 1%;
+  height: 46px;
+`;
+
+const NpayImg = styled.img`
+  display: inline-block;
+  vertical-align: middle;
+  font-size: inherit;
+  color: inherit;
+  width: 52px;
+`;
+
+const Cart = styled.button`
+  &.npay {
+    font-size: 12px;
+    padding: 0 16px;
+    line-height: 30px;
+    background: #30c612;
+    border-color: #30c612;
+  }
+
+  box-shadow: 0 1px 3px 0 hsl(0deg 0% 86% / 30%);
+  font-weight: 400;
+  box-sizing: border-box;
+  display: inline-block;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  vertical-align: middle;
+  transition: background-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: border-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+
+  font-size: 16px;
+  width: calc((97% - 46px) / 3);
+  margin-right: 1%;
+  height: 46px;
+
+  display: block;
+  float: left;
+  padding: 0;
+  line-height: 44px;
+`;
+
+const CheckOutProduct = styled.fieldset`
+  margin-top: 16px;
+  border: 0 none;
+
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+`;
 
 const DimmedBackground = styled.div`
   display: none;

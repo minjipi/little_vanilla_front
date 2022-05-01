@@ -17,9 +17,10 @@ function TodayProductItem(props) {
           }
         );
       } else {
-        window.location.href = "/logins";
+        window.location.href = "/login";
       }
     } catch (e) {
+      window.location.href = "/login";
       console.log(e);
     }
   };
