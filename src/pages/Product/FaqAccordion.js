@@ -107,8 +107,6 @@ const FAQSectionAccordionContentIconWrapper = styled.div`
 const FAQSectionAccordionContentIcon = styled.i`
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-transition-duration: 0.2s;
-  transition-duration: 0.2s;
 
   ${(props) =>
     props.isClicked &&

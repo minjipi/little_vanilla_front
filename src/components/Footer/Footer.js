@@ -18,9 +18,7 @@ function Footer() {
           <span>|</span>
           <MShow to="/test">입점문의</MShow>
           <span>|</span>
-          <MShow to="/test">About idus</MShow>
-          <span>|</span>
-          <MShow to="/test">인재영입</MShow>
+          <MShow to="/test">About A-little-Vanilla</MShow>
         </NavLinks>
       </FullW>
       <InnerWClf>
@@ -28,21 +26,19 @@ function Footer() {
           <LogoGray></LogoGray>
         </LogoFooter>
         <Fl>
-          <FooterStrong>(주) 백패커</FooterStrong>
+          <FooterStrong>(주) 바닐라</FooterStrong>
           <FooterUl>
-            <FooterLi>대표이사 : 김동환</FooterLi>
+            <FooterLi>대표이사 : 홍민지</FooterLi>
             <FooterLi>서울특별시 마포구 동교로 19길 12</FooterLi>
             <FooterLi>사업자 등록번호 : 107-87-83297</FooterLi>
             <FooterLi>통신판매업신고 : 2015-서울마포-0440</FooterLi>
           </FooterUl>
           <NtFix1>
-            아이디어스는 통신판매중개자이며 통신판매의 당사자가 아닙니다.
+            어리틀 바닐라는 통신판매중개자이며 통신판매의 당사자가 아닙니다.
             <br />
-            따라서 아이디어스는 상품 거래정보 및 거래에 대하여 책임을 지지
+            따라서 어리틀 바닐라는 상품 거래정보 및 거래에 대하여 책임을 지지
             않습니다.
-            <Copyright>
-              Copyright © 2022 Backpackr All right reserved.
-            </Copyright>
+            <Copyright>Copyright © 2022 Vanilla All right reserved.</Copyright>
           </NtFix1>
         </Fl>
         <Fl>
@@ -54,9 +50,9 @@ function Footer() {
             <FooterLi>제휴문의</FooterLi>
           </FooterUl>
           <NtFix1>
-            아이디어스 이용 중 궁금하신 점이 있으신가요?
+            이용 중 궁금하신 점이 있으신가요?
             <br />
-            메일 또는 플러스친구 `아이디어스`로 연락해주세요.
+            메일 또는 플러스친구 `어리틀 바닐라`로 연락해주세요.
             <br />
             최선을 다해 도와드리겠습니다.
           </NtFix1>

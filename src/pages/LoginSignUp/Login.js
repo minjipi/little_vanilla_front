@@ -22,11 +22,12 @@ function Login() {
         }
       );
 
-      console.log(response);
+      console.log(response.data.token);
 
-      if (response.data.token) {
+      if (response.data.token !== null) {
         localStorage.clear();
         localStorage.setItem("token", response.data.token);
+        console.log("response.data.token:  " + response.data.token);
 
         // 사용하려면 App.js에서 /로 라우팅해야 한다
         window.location.replace("/");
@@ -37,6 +38,7 @@ function Login() {
       }
     } catch (e) {
       console.log(e);
+      // document.location.href = "/";
     }
   };
 

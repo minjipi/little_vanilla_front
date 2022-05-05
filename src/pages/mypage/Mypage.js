@@ -3,15 +3,102 @@ import styled, { css } from "styled-components";
 import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
 import jwt_decode from "jwt-decode";
+import axios from "axios";
 
 function Mypage(props) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phonenumber, setPhonenumber] = useState("");
+  const [gender, setGender] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [noti, setNoti] = useState("");
+
   const [emailChangeBtn, setEmailChangeBtn] = useState(true);
   const [phoneChangeBtn, setPhoneChangeBtn] = useState(true);
-  const [gender, setGender] = useState("");
+
+  const [result, setResult] = useState("");
 
   const handleRadioBtn = (e) => {
     setGender(e.target.value);
-    // console.log(e.target.value);
+  };
+
+  let body = {
+    email: email,
+    nickname: name,
+    phoneNum: phonenumber,
+    gender: gender,
+    birthday: birthday,
+    notification: noti,
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("token") === null) {
+      alert("다시 로그인 해주세요.");
+      document.location.href = "/";
+    } else {
+      async function fetchData() {
+        const response = await axios.get(
+          "http://localhost:8080/member/modify",
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        setResult(response.data.result);
+        setName(result.nickname);
+        setEmail(result.email);
+        setPhonenumber(result.phoneNum);
+      }
+      fetchData();
+    }
+  }, []);
+
+  const onModify = async () => {
+    console.log(jwt_decode(localStorage.getItem("token")));
+
+    if (name == "") {
+      alert("한 글자 이상의 이름을 입력해 주세요.");
+    } else if (email == "") {
+      alert("이메일이 입력되지 않았습니다.");
+    } else if (phonenumber == "") {
+      alert("전화번호를 입력해 주세요.");
+    } else {
+      try {
+        let response = "";
+        if (
+          new Date(jwt_decode(localStorage.getItem("token")).exp) < new Date()
+        ) {
+          console.log("토큰 만료");
+          localStorage.clear();
+          document.location.href = "/login";
+        } else {
+          response = await axios.patch(
+            "http://localhost:8080/member/modify/" +
+              jwt_decode(localStorage.getItem("token")).idx,
+            body,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        }
+
+        if (response.data.code === 1000) {
+          alert("변경 성공! 다시 로그인 해주세요.");
+          localStorage.clear();
+          document.location.href = "/";
+        } else {
+          alert(response.data.message);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
 
   return (
@@ -34,9 +121,7 @@ function Mypage(props) {
                 <AreaTextA href="/membership">
                   <span>아기손</span>
                 </AreaTextA>
-                <StrongName>
-                  {jwt_decode(localStorage.getItem("token")).nickname}님
-                </StrongName>
+                <StrongName>{}님</StrongName>
               </AreaText>
             </ProfileArea>
             {/*  */}
@@ -86,9 +171,10 @@ function Mypage(props) {
                       <InputText>
                         <InputFilldis
                           type="text"
-                          value={
-                            jwt_decode(localStorage.getItem("token")).nickname
-                          }
+                          defaultValue={result.nickname || ""}
+                          onChange={(e) => {
+                            setName(e.target.value);
+                          }}
                         ></InputFilldis>
                       </InputText>
                     </LeftTd>
@@ -97,9 +183,7 @@ function Mypage(props) {
                   <tr>
                     <Leftth>이메일</Leftth>
                     <LeftTd>
-                      <span>
-                        {jwt_decode(localStorage.getItem("token")).email}
-                      </span>
+                      <span>{result.email}</span>
                       <Button
                         type="button"
                         onClick={() => {
@@ -126,9 +210,7 @@ function Mypage(props) {
                   <tr>
                     <Leftth>전화</Leftth>
                     <LeftTd>
-                      <span>
-                        {jwt_decode(localStorage.getItem("token")).nickname}
-                      </span>
+                      <span>{result.phoneNum}</span>
                       <Button
                         type="button"
                         onClick={() => {
@@ -204,7 +286,13 @@ function Mypage(props) {
                     <Leftth>생일</Leftth>
                     <LeftTd>
                       <InputTextS>
-                        <InputFilldis type="text"></InputFilldis>
+                        <InputFilldis
+                          type="text"
+                          defaultValue={result.birthday || ""}
+                          onChange={(e) => {
+                            setBirthday(e.target.value);
+                          }}
+                        ></InputFilldis>
                       </InputTextS>
                     </LeftTd>
                   </tr>
@@ -230,7 +318,9 @@ function Mypage(props) {
               </TarMt10>
 
               <FormSubmitTac>
-                <BtnMPoint>회원 정보 수정하기</BtnMPoint>
+                <BtnMPoint type="button" onClick={() => onModify()}>
+                  회원 정보 수정하기
+                </BtnMPoint>
               </FormSubmitTac>
             </form>
           </Section>
@@ -395,16 +485,20 @@ const DataAuthCodeB = styled.div`
 
 const DataAuth = styled.div`
   // display: none;
-
+  max-height: 0rem;
+  overflow: hidden;
+  margin-top: 0;
+  padding-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  -webkit-transition-duration: 0.1s;
+  transition-duration: 0.1s;
   ${(props) =>
     props.isClicked &&
     css`
-      overflow: hidden;
-      height: 0;
-      margin-top: 0;
-      padding-top: 0;
-      margin-bottom: 0;
-      padding-bottom: 0;
+      max-height: 200rem;
+      -webkit-transition-duration: 1s;
+      transition-duration: 1s;
     `}
 `;
 
@@ -428,7 +522,7 @@ const Mt5 = styled.div`
   margin-top: 5px;
 `;
 
-const NewEmailBlockM = styled.p`
+const NewEmailBlockM = styled.div`
   margin-top: 10px;
   &.fcomment {
     color: #999;

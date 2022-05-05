@@ -16,6 +16,8 @@ import KakaoLoginRedirect from "./pages/LoginSignUp/KakaoLoginRedirect";
 import Payment from "./pages/payment/Payment";
 
 import Faq from "./pages/Product/Fap";
+import SignUpEmailCheck from "./pages/LoginSignUp/SignUpEmailCheck";
+import SignUpEmailConfirm from "./pages/LoginSignUp/SignUpEmailConfirm";
 
 class Routing extends React.Component {
   render() {
@@ -31,6 +33,8 @@ class Routing extends React.Component {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signupemail" element={<SignUpEmail />} />
+          <Route path="/emailcheck" element={<SignUpEmailCheck />} />
+          <Route path="/emailconfirm/:jwt" element={<SignUpEmailConfirm />} />
           <Route path="/signupemailSeller" element={<SignUpEmailSeller />} />
           <Route path="/search/:word" element={<Search />} />
           <Route path="/mypage" element={<Mypage />} />

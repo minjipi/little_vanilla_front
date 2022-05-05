@@ -53,7 +53,9 @@ function ProductWrite() {
       if (
         new Date(jwt_decode(localStorage.getItem("token")).exp) < new Date()
       ) {
-        console.log("만료");
+        console.log("토큰 만료");
+        localStorage.clear();
+        document.location.href = "/login";
       } else {
         response = await axios.post(
           "http://localhost:8080/product/create",
@@ -214,7 +216,7 @@ function ProductWrite() {
                       <input
                         id="name"
                         type="text"
-                        value={name}
+                        value={name || name}
                         onChange={(e) => {
                           setName(e.target.value);
                         }}

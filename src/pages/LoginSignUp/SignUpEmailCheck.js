@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-function SignUp() {
+function SignUpEmailCheck() {
   const [emailVisible, setEmailVisible] = useState(false);
 
   return (
@@ -9,82 +9,18 @@ function SignUp() {
       <LoginWrap>
         <HeadBannerGroup />
         <LoginSectionRoot>
-          <LoginHeadLogo>
-            <h1>
-              <a>
-                <IconLogo />
-              </a>
-            </h1>
-          </LoginHeadLogo>
-          <LoginHeadText>
-            <NeedLogin></NeedLogin>
-            <CouponImg src="https://image.idus.com/static/signup/web_benefit_signup.png" />
-          </LoginHeadText>
           <LoginSection>
             <LoginTitle>정말 간단한 회원가입하기</LoginTitle>
             <SignupStep className="wrap">
-              <ul>
-                <IsActive>1</IsActive>
-                <li>2</li>
-              </ul>
-              <Title>회원가입 방법 선택하기</Title>
+              <Title>입력하신 이메일 계정으로 링크를 확인해 주세요!</Title>
             </SignupStep>
-            <LoginSns className="wrap">
-              <Item>
-                <Kakaotalk href="http://localhost:8080/oauth2/authorization/kakao">
-                  <SpIcon className="Kakaotalk" />
-                  "카카오톡으로 가입하기"
-                </Kakaotalk>
-              </Item>
-              {emailVisible ? (
-                <></>
-              ) : (
-                <Item>
-                  <More
-                    onClick={() => {
-                      setEmailVisible(true);
-                    }}
-                  >
-                    다른 방법으로 가입하기
-                  </More>
-                </Item>
-              )}
-
-              <Hidden className={emailVisible ? "" : "HiddenTag"}>
-                <Item>
-                  <Naver>
-                    <SpIcon className="SpNaver" />
-                    네이버로 가입하기
-                  </Naver>
-                </Item>
-                <Item>
-                  <Facebook>
-                    <SpIcon className="Facebook" />
-                    페이스북으로 가입하기
-                  </Facebook>
-                </Item>
-                <Item>
-                  <Twitter>
-                    <SpIcon className="Twitter" />
-                    트위터로 가입하기
-                  </Twitter>
-                </Item>
-
-                <Item>
-                  <Email href="/signupemail">이메일로 가입하기</Email>
-                </Item>
-              </Hidden>
-              <AdditionTxt>
-                이미 가입하셨다면
-                <a href="/login">바로 로그인하기</a>
-              </AdditionTxt>
-            </LoginSns>
           </LoginSection>
         </LoginSectionRoot>
       </LoginWrap>
     </>
   );
 }
+
 const AdditionTxt = styled.button`
   margin-top: 30px;
   color: #666;
@@ -349,4 +285,5 @@ const LoginWrap = styled.div`
   min-height: 100%;
   background: #fff;
 `;
-export default SignUp;
+
+export default SignUpEmailCheck;

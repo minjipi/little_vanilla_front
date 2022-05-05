@@ -48,6 +48,11 @@ function SignUpEmail() {
     nickname: nickname,
   };
 
+  let loginBody = {
+    username: email,
+    password: password,
+  };
+
   const onSubmit = async () => {
     try {
       const response = await axios.post(
@@ -57,6 +62,22 @@ function SignUpEmail() {
           headers: { "Content-Type": "application/json" },
         }
       );
+      console.log(response.data.code);
+      if (response.data.code === 1000) {
+        window.location.href = "/emailcheck";
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onEmailAuth = async () => {
+    console.log("onEmailAuth!");
+
+    try {
+      const response = await axios.post("http://localhost:8080/member/", body, {
+        headers: { "Content-Type": "application/json" },
+      });
     } catch (e) {
       console.log(e);
     }
@@ -118,6 +139,7 @@ function SignUpEmail() {
               <FormBlockHead>
                 <AsteriskRed>*</AsteriskRed>이메일
               </FormBlockHead>
+
               <FormBlockBody>
                 <InputTextSizeW>
                   <EmailInput
@@ -263,9 +285,6 @@ function SignUpEmail() {
                   type="button"
                   onClick={() => {
                     onSubmit();
-                    console.log(
-                      "body: " + email + ", " + password + ", " + nickname
-                    );
                   }}
                 >
                   회원가입하기
@@ -278,6 +297,34 @@ function SignUpEmail() {
     </WrapLogin>
   );
 }
+
+const AuthBtn = styled.button`
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  font-size: 10px;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.4;
+  background: #eee !important;
+  color: #aaa !important;
+  border: 1px solid #ddd !important;
+  cursor: default !important;
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  font-size: 16px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  position: absolute;
+  width: 100px;
+`;
 
 const BtnLogin = styled.button`
   border-radius: 2px;

@@ -18,7 +18,7 @@ function Header() {
   const [word, setWord] = useState("");
   const issueKeyword = "어버이날";
 
-  const [loginCheck, setLoginCheck] = useState(false);
+  const [loginCheck, setLoginCheck] = useState("");
 
   const logout = () => {
     try {
@@ -37,7 +37,6 @@ function Header() {
       console.log("token: " + localStorage.getItem("token"));
     } else {
       setLoginCheck(false);
-      console.log("로그인 X: " + loginCheck);
     }
   }, [loginCheck]);
 
@@ -58,7 +57,7 @@ function Header() {
               onMouseOver={() => setIsAppInstallHover(true)}
               onMouseOut={() => setIsAppInstallHover(false)}
               readOnly
-              value="아이디어스 앱 설치하기"
+              value="어리틀바닐라 앱 설치하기"
             />
             <MenuDropdownAppInstallGuide
               onMouseOver={() => setIsAppInstallHover(true)}
@@ -67,7 +66,7 @@ function Header() {
             >
               <MenuDropdownAppH1>
                 <SpIconImgAppicon />
-                아이디어스를 스마트폰으로 더욱 편리하게 사용하세요.
+                어리틀바닐라를 스마트폰으로 더욱 편리하게 사용하세요.
               </MenuDropdownAppH1>
               <MenuDropdownAppOl>
                 <MenuDropdownAppLi>
@@ -204,10 +203,9 @@ function Header() {
           <SearchHeaderDesktopLogo>
             <IconIduslogo>
               <Link to="/">
-                <Iduslogo src="https://www.idus.com/resources/dist/images/logo.svg" />
+                {/* <Iduslogo src="https://www.idus.com/resources/dist/images/logo.svg" /> */}
+                <Iduslogo src={require("./logo.png")} />
               </Link>
-
-              {/* <Iduslogo src={require("./logo.png")} /> */}
             </IconIduslogo>
           </SearchHeaderDesktopLogo>
           {/* 작품, 클래스 */}
@@ -643,7 +641,7 @@ const MyDropdown = styled.ul`
   display: none;
   position: absolute;
   width: auto;
-  margin-top: 3px;
+  // margin-top: 3px;
   margin-left: -33px;
   padding: 8px 12px;
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 10%);
@@ -734,7 +732,7 @@ const IconIduslogo = styled.a`
 const Iduslogo = styled.img`
   display: block;
   width: 72.5px;
-  height: 29px;
+  // height: 29px;
 `;
 
 const SearchHeaderDesktopServiceNav = styled.nav`
