@@ -18,6 +18,7 @@ import Payment from "./pages/payment/Payment";
 import Faq from "./pages/Product/Fap";
 import SignUpEmailCheck from "./pages/LoginSignUp/SignUpEmailCheck";
 import SignUpEmailConfirm from "./pages/LoginSignUp/SignUpEmailConfirm";
+import Cart from "./pages/cart/Cart";
 
 class Routing extends React.Component {
   render() {
@@ -39,8 +40,10 @@ class Routing extends React.Component {
           <Route path="/search/:word" element={<Search />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/order" element={<Order />} />
-          <Route path="/orderempty" element={<OrderEmpty />} />
+
           <Route path="/payment" element={<Payment />} />
+          <Route path="/cart" element={<Cart />} />
+
           <Route
             path="/oauth2/redirect/:token"
             element={<KakaoLoginRedirect />}

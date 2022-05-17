@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import Header from "../../../components/Nav/Header";
-
+import OrderEmpty from "./OrderEmpty";
 import Footer from "../../../components/Footer/Footer";
 import jwt_decode from "jwt-decode";
 import OrderList from "./OrderList";
@@ -11,6 +11,7 @@ function Order() {
   const [selectYear, setSelectYear] = useState(false);
   const [clickYear, setClickYear] = useState(false);
   const [isOptionVisible, setIsOptionVisible] = useState(false);
+
   let [res, setRes] = useState(null);
   useEffect(() => {
     async function fetchData() {
@@ -132,7 +133,9 @@ function Order() {
               <UiTabGroupTabA>오프라인 클래스</UiTabGroupTabA>
             </UiTabGroupFavorite>
             {/*  */}
-            {/* <OrderEmpty /> */}
+
+            <OrderEmpty />
+
             {res && res.map((item) => <OrderList key={item.idx} item={item} />)}
             {/*  */}
             <Paging>

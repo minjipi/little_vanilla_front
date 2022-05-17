@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
-import jwt_decode from "jwt-decode";
 
 function OrderEmpty() {
   return (

@@ -4,6 +4,7 @@ import { useEffect } from "react/cjs/react.development";
 import styled, { css } from "styled-components";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 function Header() {
   const [isAppInstallHover, setIsAppInstallHover] = useState(false);
@@ -31,12 +32,16 @@ function Header() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token") !== null) {
-      setLoginCheck(true);
-      console.log("로그인: " + loginCheck);
-      console.log("token: " + localStorage.getItem("token"));
-    } else {
-      setLoginCheck(false);
+    try {
+      if (localStorage.getItem("token") !== null) {
+        setLoginCheck(true);
+        console.log("로그인: " + loginCheck);
+        console.log("token: " + localStorage.getItem("token"));
+      } else {
+        setLoginCheck(false);
+      }
+    } catch (error) {
+      console.log("error: " + JSON.stringify(localStorage));
     }
   }, [loginCheck]);
 
