@@ -729,7 +729,7 @@ const InputTextS = styled.div`
   width: 100px;
 `;
 
-const InputText = styled.div`
+const InputText = styled.p`
   display: inline-block;
   vertical-align: middle;
   width: 200px;

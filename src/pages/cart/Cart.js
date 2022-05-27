@@ -1,23 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useLocation } from "react-router-dom";
 import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
 import axios from "axios";
-import CartEmpty from "./CartEmpty";
 import CartList from "./CartList";
 
 function Cart() {
+  const location = useLocation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phonenumber, setPhonenumber] = useState("");
   const [gender, setGender] = useState("");
   const [birthday, setBirthday] = useState("");
   const [noti, setNoti] = useState("");
-
-  const [emailChangeBtn, setEmailChangeBtn] = useState(true);
-  const [phoneChangeBtn, setPhoneChangeBtn] = useState(true);
-
-  const [result, setResult] = useState("");
 
   const handleRadioBtn = (e) => {
     setGender(e.target.value);
@@ -32,30 +28,27 @@ function Cart() {
     notification: noti,
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("token") === null) {
-      alert("다시 로그인 해주세요.");
-      document.location.href = "/";
-    } else {
-      async function fetchData() {
-        const response = await axios.get(
-          "http://localhost:8080/member/modify",
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-              "Content-Type": "application/json",
-            },
-          }
-        );
+  // useEffect(() => {
+  //   if (localStorage.getItem("token") === null) {
+  //     alert("다시 로그인 해주세요.");
+  //     document.location.href = "/";
+  //   } else {
+  //     async function fetchData() {
+  //       const response = await axios.get("http://localhost:8080/order/list", {
+  //         headers: {
+  //           Authorization: "Bearer " + localStorage.getItem("token"),
+  //           "Content-Type": "application/json",
+  //         },
+  //       });
 
-        setResult(response.data.result);
-        setName(result.nickname);
-        setEmail(result.email);
-        setPhonenumber(result.phoneNum);
-      }
-      fetchData();
-    }
-  }, []);
+  //       setResult(response.data.result);
+  //       setName(result.nickname);
+  //       setEmail(result.email);
+  //       setPhonenumber(result.phoneNum);
+  //     }
+  //     fetchData();
+  //   }
+  // }, []);
 
   return (
     <>
@@ -85,7 +78,8 @@ function Cart() {
             </PageHeaderSteps>
           </CartPageHeader>
 
-          <CartList />
+          <CartList data={location.state} />
+
           {/* <CartEmpty /> */}
         </CartPage>
       </ContentDiv>

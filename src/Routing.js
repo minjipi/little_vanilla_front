@@ -5,7 +5,6 @@ import Login from "./pages/LoginSignUp/Login";
 import SignUp from "./pages/LoginSignUp/SignUp";
 import Mypage from "./pages/mypage/Mypage";
 import Order from "./pages/mypage/orderhistory/Order";
-import OrderEmpty from "./pages/mypage/orderhistory/OrderEmpty";
 import Main from "./pages/Main/Main";
 import Product from "./pages/Product/Product";
 import ProductWrite from "./pages/Write/ProductWrite";
@@ -19,6 +18,9 @@ import Faq from "./pages/Product/Fap";
 import SignUpEmailCheck from "./pages/LoginSignUp/SignUpEmailCheck";
 import SignUpEmailConfirm from "./pages/LoginSignUp/SignUpEmailConfirm";
 import Cart from "./pages/cart/Cart";
+import CartOrder from "./pages/cart/CartOrder";
+import OrderDone from "./pages/cart/OrderDone";
+import CartOneProduct from "./pages/cart/CartOneProduct";
 
 class Routing extends React.Component {
   render() {
@@ -43,6 +45,9 @@ class Routing extends React.Component {
 
           <Route path="/payment" element={<Payment />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/cartorder" element={<CartOrder />} />
+          <Route path="/orderdone" element={<OrderDone />} />
+          <Route path="/cartone" element={<CartOneProduct />} />
 
           <Route
             path="/oauth2/redirect/:token"

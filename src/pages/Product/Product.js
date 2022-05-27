@@ -8,6 +8,7 @@ import SelectedOption from "./SelectedOption";
 import $ from "jquery";
 import axios from "axios";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 function Product() {
   const [isOptionVisible, setIsOptionVisible] = useState(false);
@@ -25,6 +26,8 @@ function Product() {
   const params = useParams();
 
   const [isCartClicked, setIsCartClicked] = useState(false);
+
+  let [alert, setAlert] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -51,6 +54,15 @@ function Product() {
     }
     fetchData();
   }, []);
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      setAlert(false);
+    }, 2000);
+    return () => {
+      clearTimeout(timer);
+    };
+  });
 
   const optionData = [
     {
@@ -146,7 +158,6 @@ function Product() {
       temp = temp * item.num;
       total += temp;
     });
-
     setTotalPrice(total);
   });
 
@@ -349,7 +360,7 @@ function Product() {
                           <PriceTagHilightEm>{calSale}</PriceTagHilightEm>%
                         </PriceTagHilight>
                         <PriceTagStrong>
-                          <Strong>1,000</Strong>원
+                          <Strong>{data.salePrice}</Strong>원
                         </PriceTagStrong>
                         <PriceTagCrossout>{data.price}</PriceTagCrossout>
                       </ProductDetailSpan>
@@ -604,7 +615,9 @@ function Product() {
                         <Cart className="npay" type="button">
                           <NpayImg src="https://www.idus.com/resources/dist/images/npay.svg" />
                         </Cart>
-                        <RedBuy type="button">구매하기</RedBuy>
+                        <RedBuy to="/cart" state={data}>
+                          구매하기
+                        </RedBuy>
                       </CheckOutProduct>
 
                       <Alertmsg isCartClicked={isCartClicked}>
@@ -712,7 +725,7 @@ const Alertmsg = styled.div`
     `};
 `;
 
-const RedBuy = styled.button`
+const RedBuy = styled(Link)`
   box-shadow: 0 1px 3px 0 hsl(0deg 0% 86% / 30%);
   font-weight: 400;
   box-sizing: border-box;

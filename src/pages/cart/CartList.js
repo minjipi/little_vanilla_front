@@ -1,160 +1,339 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
+import jwt_decode from "jwt-decode";
+import axios from "axios";
+import CartOneProduct from "./CartOneProduct";
+import { useLocation } from "react-router";
 
-function CartList() {
+function CartList(props) {
+  const location = useLocation();
+
+  const [isAllChecked, setIsAllChecked] = useState(false);
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [cartItem, setCartItem] = useState([]);
+
+  async function fetchData() {
+    const result = await axios.get("http://localhost:8080/cart/list", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+    });
+    setCartItem(result.data.result);
+    // console.log("#####: " + JSON.stringify(cartItem));
+    // console.log("#####: " + JSON.stringify(result.data.result));
+  }
+
+  const allAgreeHandler = (checked) => {
+    setIsAllChecked(!isAllChecked);
+    if (checked) {
+      setCheckedItems([...checkedItems, "provision", "privacy"]);
+    } else if (!checked && checkedItems.includes("provision")) {
+      setCheckedItems([]);
+    }
+  };
+
+  const agreeHandler = (checked, value) => {
+    if (checked) {
+      setCheckedItems([...checkedItems, value]);
+    } else if (!checked && checkedItems.includes(value)) {
+      setCheckedItems(checkedItems.filter((el) => el !== value));
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    const jquery = document.createElement("script");
+    jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
+    const iamport = document.createElement("script");
+    iamport.src = "https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
+    document.head.appendChild(jquery);
+    document.head.appendChild(iamport);
+    return () => {
+      document.head.removeChild(jquery);
+      document.head.removeChild(iamport);
+    };
+  }, []);
+
+  const createOrderNum = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    let orderNum = year + month + day;
+    for (let i = 0; i < 10; i++) {
+      orderNum += Math.floor(Math.random() * 8);
+    }
+    return orderNum;
+  };
+
+  const paymentCheck = async (data) => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8080/pay/complete",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response);
+
+      alert(response.data.message);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onClickPayment = () => {
+    const { IMP } = window;
+    IMP.init("imp14112312");
+    const data = {
+      pg: "html5_inicis", // PG사 (필수항목)
+      pay_method: "card", // 결제수단 (필수항목)
+      merchant_uid: createOrderNum(),
+      name: props.data.name, // 주문명 (필수항목)
+      amount: props.data.salePrice, // 금액 (필수항목)
+      buyer_name: jwt_decode(localStorage.getItem("token")).nickname, // 구매자 이름
+      buyer_tel: "01077456981", // 구매자 전화번호 (필수항목)
+      buyer_email: jwt_decode(localStorage.getItem("token")).sub,
+      impUid: "",
+    };
+    IMP.request_pay(
+      {
+        pg: data.pg,
+        pay_method: data.pay_method,
+        merchant_uid: data.merchant_uid,
+        name: data.name,
+        amount: data.amount,
+        buyer_name: data.buyer_name,
+        buyer_tel: data.buyer_tel,
+        buyer_email: data.buyer_email,
+      },
+      function callback(response) {
+        if (response.success) {
+          data.idx = props.data.idx;
+          data.impUid = response.imp_uid;
+          data.merchant_uid = response.merchant_uid;
+
+          paymentCheck(data);
+        } else {
+          alert(`결제 실패 : ${response.error_msg}`);
+        }
+      }
+    );
+  };
   return (
     <>
       <div>
         <StickyPlaceHolder />
-        <HandleChangeStickTop></HandleChangeStickTop>
-        <CartArtistList />
-        <CartArtistItem>
-          <CartArtistItemHeader>
-            <CartArtistItemHLabel>
-              <CheckBox>
+        <HandleChangeStickTop />
+        <CartArtistList>
+          <CartArtistItem>
+            <CartArtistItemHeader>
+              <CartArtistItemHLabel>
                 <CheckBox>
-                  <Check type="checkbox"></Check>
+                  <CheckBox>
+                    <Check
+                      type="checkbox"
+                      value="agree"
+                      onChange={(e) => {
+                        allAgreeHandler(e.currentTarget.checked);
+                      }}
+                      checked={isAllChecked}
+                    ></Check>
+                  </CheckBox>
                 </CheckBox>
-              </CheckBox>
-              <CartArtistItemTitle>어리틀바닐라</CartArtistItemTitle>
-            </CartArtistItemHLabel>
-          </CartArtistItemHeader>
-          <CartArtistItemList>
-            <ul>
-              <CartProductList>
-                <CartProductListItem>
-                  <CartProductListItemPInfo>
-                    <CartProductListItemCheckboxG>
-                      <CartProductListItemCheckboxW>
-                        <CheckBox>
-                          <CheckBox>
-                            <Check type="checkbox"></Check>
-                          </CheckBox>
-                        </CheckBox>
-                      </CartProductListItemCheckboxW>
-                      <CartProductListItemPI src="https://image.idus.com/image/files/7e014def875d47f5a85b10cd7a013296_320.jpg" />
-                    </CartProductListItemCheckboxG>
-                    <CartProductListItemPInfoTextGroup>
-                      <CartProductListItemPname>
-                        🤍🎀베이비핑크 칼사이트 팔찌🤍
-                      </CartProductListItemPname>
-                      <CartProductListItemC>주문시 제작</CartProductListItemC>
-                    </CartProductListItemPInfoTextGroup>
-                  </CartProductListItemPInfo>
-                  <CartProductListItemOI>
-                    <CartProductLists>
-                      <CartOptionListItem>
-                        <CartOptionListItemSplitL>
-                          <CartOptionListItemOptionTxt>
-                            • 착용방식 : 우레탄줄 (늘어나는 줄) • 실버볼 포인트
-                            유무 : 실버볼 O • 사이즈 : 14cm
-                          </CartOptionListItemOptionTxt>
-                        </CartOptionListItemSplitL>
-                        <CartOptionListItemSplitR>
-                          <CartOptionListItemTotalP>
-                            18,000원
-                          </CartOptionListItemTotalP>
-                          <CartOptionListItemBtnG>
-                            <CartOptionEditingButtonGroup>
-                              <CartOptionEditingButtonGroupL>
-                                <GroupLSet className="fas fa-solid fa-gear"></GroupLSet>
-                              </CartOptionEditingButtonGroupL>
-                              <CartOptionEditingButtonGroupR>
-                                <GroupLSet className="fas fa-times" />
-                              </CartOptionEditingButtonGroupR>
-                            </CartOptionEditingButtonGroup>
-                          </CartOptionListItemBtnG>
-                        </CartOptionListItemSplitR>
-                      </CartOptionListItem>
-                    </CartProductLists>
-                  </CartProductListItemOI>
+                <CartArtistItemTitle>{props.data.brandIdx}</CartArtistItemTitle>
+              </CartArtistItemHLabel>
+            </CartArtistItemHeader>
 
-                  <div>
-                    <EditorProductOrderMessage>
-                      <EditorProductForm autocomplete="off">
-                        <CommonTextEditor>
-                          <CommonTextEditorTxt placeholder="주문 요청사항을 입력해주세요"></CommonTextEditorTxt>
-                          <CommonTextEditorMaxLength>
-                            500
-                          </CommonTextEditorMaxLength>
-                        </CommonTextEditor>
-                      </EditorProductForm>
-                    </EditorProductOrderMessage>
-                    <CommonTextEditorMaxBtn>
-                      <CommonTextEditorMaxBtnM>저장</CommonTextEditorMaxBtnM>
-                    </CommonTextEditorMaxBtn>
-                  </div>
-                </CartProductListItem>
-              </CartProductList>
-            </ul>
-          </CartArtistItemList>
-          <CartArtistItemSec>
-            <CartArtistItemLab>작품가격</CartArtistItemLab>
-            <CartArtistItemPrice>18,000원</CartArtistItemPrice>
-          </CartArtistItemSec>
-          <CartArtistItemSec>
-            <CartArtistItemLab>배송비</CartArtistItemLab>
-            <CartArtistItemPrice>
-              <ShippingPrice>
-                <ShippingPriceP>2,500원</ShippingPriceP>
-                <ShippingPriceDesc>30,000원 이상 무료배송</ShippingPriceDesc>
-              </ShippingPrice>
-            </CartArtistItemPrice>
-          </CartArtistItemSec>
-        </CartArtistItem>
-      </div>
-      <VStickyPlaceholder />
-      <CartListSticky>
-        <CartCheckboxControl>
-          <CheckBox>
+            {cartItem.map((item) => {
+              console.log("#####: " + JSON.stringify(item));
+
+              return (
+                <div key={item.idx}>
+                  <CartArtistItemList>
+                    <ul>
+                      <CartProductList>
+                        <CartProductListItem>
+                          <CartProductListItemPInfo>
+                            <CartProductListItemCheckboxG>
+                              <CartProductListItemCheckboxW>
+                                <CheckBox>
+                                  <CheckBox>
+                                    <Check
+                                      type="checkbox"
+                                      value="provision"
+                                      onChange={(e) => {
+                                        agreeHandler(
+                                          e.currentTarget.checked,
+                                          e.target.value
+                                        );
+                                      }}
+                                      checked={
+                                        checkedItems.includes("provision")
+                                          ? true
+                                          : false
+                                      }
+                                    ></Check>
+                                  </CheckBox>
+                                </CheckBox>
+                              </CartProductListItemCheckboxW>
+                              <CartProductListItemPI
+                                src={
+                                  "http://localhost:8080/product/display?fileName=" +
+                                  item.filename
+                                }
+                              />
+                            </CartProductListItemCheckboxG>
+                            <CartProductListItemPInfoTextGroup>
+                              <CartProductListItemPname>
+                                {item.name}
+                              </CartProductListItemPname>
+                              <CartProductListItemC>
+                                주문시 제작
+                              </CartProductListItemC>
+                            </CartProductListItemPInfoTextGroup>
+                          </CartProductListItemPInfo>
+                          <CartProductListItemOI>
+                            <CartProductLists>
+                              <CartOptionListItem>
+                                <CartOptionListItemSplitL>
+                                  <CartOptionListItemOptionTxt>
+                                    • 엽서 동봉 • 무료배송
+                                  </CartOptionListItemOptionTxt>
+                                </CartOptionListItemSplitL>
+                                <CartOptionListItemSplitR>
+                                  <CartOptionListItemTotalP>
+                                    {item.salePrice}원
+                                  </CartOptionListItemTotalP>
+                                  <CartOptionListItemBtnG>
+                                    <CartOptionEditingButtonGroup>
+                                      <CartOptionEditingButtonGroupL>
+                                        <GroupLSet className="fas fa-solid fa-gear"></GroupLSet>
+                                      </CartOptionEditingButtonGroupL>
+                                      <CartOptionEditingButtonGroupR>
+                                        <GroupLSetX />
+                                      </CartOptionEditingButtonGroupR>
+                                    </CartOptionEditingButtonGroup>
+                                  </CartOptionListItemBtnG>
+                                </CartOptionListItemSplitR>
+                              </CartOptionListItem>
+                            </CartProductLists>
+                          </CartProductListItemOI>
+
+                          <div>
+                            <EditorProductOrderMessage>
+                              <EditorProductForm autocomplete="off">
+                                <CommonTextEditor>
+                                  <CommonTextEditorTxt placeholder="주문 요청사항을 입력해주세요"></CommonTextEditorTxt>
+                                  <CommonTextEditorMaxLength>
+                                    500
+                                  </CommonTextEditorMaxLength>
+                                </CommonTextEditor>
+                              </EditorProductForm>
+                            </EditorProductOrderMessage>
+                            <CommonTextEditorMaxBtn>
+                              <CommonTextEditorMaxBtnM>
+                                저장
+                              </CommonTextEditorMaxBtnM>
+                            </CommonTextEditorMaxBtn>
+                          </div>
+                        </CartProductListItem>
+                      </CartProductList>
+                    </ul>
+                  </CartArtistItemList>
+
+                  <VStickyPlaceholder />
+                  <CartListSticky>
+                    <br />
+                    <CartCheckout></CartCheckout>
+                  </CartListSticky>
+                </div>
+              );
+            })}
+
+            <CartArtistItemSec>
+              <CartArtistItemLab>상품가격</CartArtistItemLab>
+              <CartArtistItemPrice>
+                {props.data.salePrice}원
+              </CartArtistItemPrice>
+            </CartArtistItemSec>
+            <CartArtistItemSec>
+              <CartArtistItemLab>배송비</CartArtistItemLab>
+              <CartArtistItemPrice>
+                <ShippingPrice>
+                  <ShippingPriceP>0원</ShippingPriceP>
+                  <ShippingPriceDesc>30,000원 이상 무료배송</ShippingPriceDesc>
+                </ShippingPrice>
+              </CartArtistItemPrice>
+            </CartArtistItemSec>
+          </CartArtistItem>
+        </CartArtistList>
+        <VStickyPlaceholder />
+        <CartListSticky>
+          {/* <CartCheckboxControl>
             <CheckBox>
-              <Check type="checkbox"></Check>
+              <CheckBox>
+                <CartPAllCheckI type="checkbox" />
+              </CheckBox>
+              <CartPAllCheck>
+                <CartCheckboxControlLab>
+                  전체선택 (<CartCheckboxControlLabB>1</CartCheckboxControlLabB>
+                  /1)
+                </CartCheckboxControlLab>
+              </CartPAllCheck>
             </CheckBox>
-          </CheckBox>
+            <BtnM>선택삭제</BtnM>
+          </CartCheckboxControl> */}
+          <br />
+          <CartCheckout>
+            <CartCheckoutDesktop>
+              <CartCheckoutDesktopItem>
+                <CartCheckoutDesktopLab>상품금액</CartCheckoutDesktopLab>
+                <CartCheckoutDesktopVal>
+                  <span>{props.data.salePrice}</span>
+                  <CartCheckoutDesktopU>원</CartCheckoutDesktopU>
+                </CartCheckoutDesktopVal>
+              </CartCheckoutDesktopItem>
 
-          <CartPAllCheck>
-            <CartCheckboxControlLab>
-              전체선택 (<CartCheckboxControlLabB>1</CartCheckboxControlLabB>
-              /1)
-            </CartCheckboxControlLab>
-          </CartPAllCheck>
-        </CartCheckboxControl>
-        <BtnM>선택삭제</BtnM>
-      </CartListSticky>
+              <CartCheckoutDesktopFix>+</CartCheckoutDesktopFix>
+              <CartCheckoutDesktopItem>
+                <CartCheckoutDesktopLab>배송비</CartCheckoutDesktopLab>
+                <CartCheckoutDesktopVal>
+                  <span>0</span>
+                  <CartCheckoutDesktopU>원</CartCheckoutDesktopU>
+                </CartCheckoutDesktopVal>
+              </CartCheckoutDesktopItem>
 
-      <CartCheckout>
-        <CartCheckoutDesktop>
-          <CartCheckoutDesktopItem>
-            <CartCheckoutDesktopLab>작품금액</CartCheckoutDesktopLab>
-            <CartCheckoutDesktopVal>
-              <span>18,000원</span>
-            </CartCheckoutDesktopVal>
-          </CartCheckoutDesktopItem>
+              <CartCheckoutDesktopFix>=</CartCheckoutDesktopFix>
+              <CartCheckoutDesktopItem>
+                <CartCheckoutDesktopLab>결제 예정금액</CartCheckoutDesktopLab>
+                <CartCheckoutDesktopH>
+                  <span>{props.data.salePrice}</span>
+                  <CartCheckoutDesktopU>원</CartCheckoutDesktopU>
+                </CartCheckoutDesktopH>
+              </CartCheckoutDesktopItem>
+            </CartCheckoutDesktop>
+          </CartCheckout>
 
-          <CartCheckoutDesktopFix>+</CartCheckoutDesktopFix>
-          <CartCheckoutDesktopItem>
-            <CartCheckoutDesktopLab>배송비</CartCheckoutDesktopLab>
-            <CartCheckoutDesktopVal>
-              <span>2,500</span>
-              <CartCheckoutDesktopPU>원</CartCheckoutDesktopPU>
-            </CartCheckoutDesktopVal>
-          </CartCheckoutDesktopItem>
-
-          <CartCheckoutDesktopFix>=</CartCheckoutDesktopFix>
-          <CartCheckoutDesktopItem>
-            <CartCheckoutDesktopLab>결제 예정금액</CartCheckoutDesktopLab>
-            <CartCheckoutDesktopH>
-              <span>2,500</span>
-              <CartCheckoutDesktopPU>원</CartCheckoutDesktopPU>
-            </CartCheckoutDesktopH>
-          </CartCheckoutDesktopItem>
-        </CartCheckoutDesktop>
-      </CartCheckout>
-
-      <CartPageBottomR>주문하기</CartPageBottomR>
+          <CartPageBottom>
+            <CartPageBottomR type="button" onClick={onClickPayment}>
+              주문하기
+            </CartPageBottomR>
+          </CartPageBottom>
+        </CartListSticky>
+      </div>
     </>
   );
 }
+
+const CartPageBottom = styled.div`
+  padding: 16px;
+`;
 
 const CartPageBottomR = styled.button`
   width: 100%;
@@ -176,26 +355,20 @@ const CartPageBottomR = styled.button`
   vertical-align: middle;
 `;
 
-const CartPageBottom = styled.span`
-  padding: 16px;
-`;
-
-const CartCheckoutDesktopH = styled.span`
+const CartCheckoutDesktopH = styled.div`
   font-size: 24px;
   font-weight: bold;
   color: #ff7b30;
-`;
-
-const CartCheckoutDesktopPU = styled.span`
-  padding-top: 35px;
-  font-size: 24px;
-  font-weight: bold;
 `;
 
 const CartCheckoutDesktopFix = styled.div`
   padding-top: 35px;
   font-size: 24px;
   font-weight: bold;
+`;
+
+const CartCheckoutDesktopU = styled.span`
+  font-size: 18px;
 `;
 
 const CartCheckoutDesktopVal = styled.div`
@@ -239,11 +412,6 @@ const CartVipBan = styled.div`
   padding: 8px 12px 8px 12px;
 `;
 
-const CartVipBanner = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
 const CartCheckout = styled.div`
   background-color: #ffffff;
 `;
@@ -276,15 +444,36 @@ const CartCheckboxControlLab = styled.span`
   font-size: 12px;
 `;
 
-const CartPAllCheck = styled.label`
-  cursor: pointer;
-`;
+const CartPAllCheckI = styled.input`
+  -webkit-appearance: none;
+  background: transparent;
+  display: inline-block;
+  position: relative;
+  height: 18px;
+  width: 18px;
+  vertical-align: middle;
+  box-sizing: border-box;
+  border: 0;
+  margin: 0;
 
-const CartCheckboxControl = styled.div`
-  display: flex;
-  align-items: center;
-  height: 60px;
-  justify-content: space-between;
+  &:before {
+    content: "v";
+    font-size: 16px;
+    border: 1px solid #ff7b30;
+    background: #ff7b30;
+    color: #fff;
+
+    cursor: pointer;
+    display: inline-block;
+    line-height: 16px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-radius: 2px;
+    text-align: center;
+  }
 `;
 
 const CartListSticky = styled.div`
@@ -327,7 +516,7 @@ const CartArtistItemPrice = styled.div`
   font-weight: bold;
 `;
 
-const CartArtistItemLab = styled.section`
+const CartArtistItemLab = styled.div`
   display: inline-block;
   vertical-align: middle;
   color: #666666;
@@ -418,6 +607,17 @@ const CartOptionEditingButtonGroupR = styled.button`
   line-height: 26px;
 `;
 
+const GroupLSetX = styled.i`
+  display: inline-block;
+  vertical-align: middle;
+  color: #666666;
+  font-size: 18px;
+
+  &:before {
+    content: "✖️";
+  }
+`;
+
 const GroupLSet = styled.i`
   display: inline-block;
   vertical-align: middle;
@@ -451,8 +651,8 @@ const CartOptionEditingButtonGroup = styled.div`
 `;
 
 const CartOptionListItemBtnG = styled.div`
-  font-size: 12px;
-  color: #333333;
+  display: inline-block;
+  margin-left: 10px;
 `;
 
 const CartOptionListItemTotalP = styled.em`
@@ -568,10 +768,10 @@ const CartArtistItemTitle = styled.span`
 `;
 
 const Check = styled.input`
-  -webkit-appearance: none;
+  // -webkit-appearance: none;
   background: transparent;
   display: inline-block;
-  position: relative;
+  // position: relative;
   height: 18px;
   width: 18px;
   vertical-align: middle;
@@ -579,29 +779,6 @@ const Check = styled.input`
   box-sizing: border-box;
   border: 0;
   margin: 0;
-
-  &:before {
-    font-size: 16px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    content: "v";
-    border: 1px solid #ff7b30;
-    background: #ff7b30;
-    color: #fff;
-    cursor: pointer;
-    display: inline-block;
-    line-height: 16px;
-    width: 16px;
-    height: 16px;
-    background: #fff;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    border: 1px solid #acacac;
-    border-radius: 2px;
-    text-align: center;
-  }
 `;
 
 const CheckBox = styled.div`
@@ -635,7 +812,7 @@ const HandleChangeStickTop = styled.div`
   z-index: 201;
 `;
 
-const StickyPlaceHolder = styled.p`
+const StickyPlaceHolder = styled.div`
   padding-top: 0px;
 `;
 
