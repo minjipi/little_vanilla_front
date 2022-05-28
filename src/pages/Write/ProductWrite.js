@@ -199,12 +199,12 @@ function ProductWrite() {
                         <ArtistCardSplitA>
                           <ArtistCardImg />
                           <ArtistCardLabel>
-                            <TitleTd>
+                            <TitleDiv>
                               {
                                 jwt_decode(localStorage.getItem("token"))
                                   .nickname
                               }
-                            </TitleTd>
+                            </TitleDiv>
                             <ArrowR className="fas fa-chevron-right" />
                           </ArtistCardLabel>
                         </ArtistCardSplitA>
@@ -216,7 +216,7 @@ function ProductWrite() {
                       <input
                         id="name"
                         type="text"
-                        value={name || name}
+                        value={name == null ? "" : name}
                         onChange={(e) => {
                           setName(e.target.value);
                         }}
@@ -225,7 +225,7 @@ function ProductWrite() {
                       상품 카테고리:
                       <input
                         id="categoryIdx"
-                        value={categoryIdx}
+                        value={categoryIdx == null ? "" : categoryIdx}
                         onChange={(e) => {
                           setCategory(e.target.value);
                         }}
@@ -262,7 +262,7 @@ function ProductWrite() {
                             <input
                               id="salePrice"
                               type="text"
-                              value={salePrice}
+                              value={salePrice == null ? "" : salePrice}
                               onChange={(e) => {
                                 setSalePrice(e.target.value);
                               }}
@@ -275,7 +275,7 @@ function ProductWrite() {
                             <input
                               id="price"
                               type="text"
-                              value={price}
+                              value={price == null ? "" : price}
                               onChange={(e) => {
                                 setPrice(e.target.value);
                               }}
@@ -333,7 +333,7 @@ function ProductWrite() {
                                 </tbody>
                               </PointBalTable>
 
-                              <div>
+                              {/* <div>
                                 <VipSection>
                                   <VipSectionDiv />
                                   <tbody>
@@ -352,7 +352,7 @@ function ProductWrite() {
                                   유료 서비스로 작품 금액의 1.0% 추가 적립 및
                                   배송비 무료 혜택을 제공합니다.
                                 </VipSectionDesc>
-                              </div>
+                              </div> */}
                             </PointBal>
                           </BalloonContent>
                         </DataRow>
@@ -414,7 +414,9 @@ function ProductWrite() {
                                 <ContenetTd>
                                   <input
                                     id="deliveryType"
-                                    value={deliveryType}
+                                    value={
+                                      deliveryType == null ? "" : deliveryType
+                                    }
                                     onChange={(e) => {
                                       setDeliveryType(e.target.value);
                                     }}
@@ -807,7 +809,7 @@ const ArtistCardImg = styled.div`
   background-position: center;
 `;
 
-const ArtistCardLabel = styled.span`
+const ArtistCardLabel = styled.div`
   margin-top: 2px;
   display: inline-block;
   vertical-align: top;
@@ -985,6 +987,12 @@ const TitleTd = styled.td`
   color: #666666;
 `;
 
+const TitleDiv = styled.div`
+  width: 80px;
+  font-size: 14px;
+  color: #666666;
+`;
+
 const ContenetTd = styled.td`
   color: #333333;
   font-size: 14px;
@@ -1086,7 +1094,7 @@ const VipSection = styled.table`
   box-sizing: border-box;
 `;
 
-const VipSectionDiv = styled.div`
+const VipSectionDiv = styled.p`
   border-top: 1px solid #d9d9d9;
   color: inherit;
   font-size: inherit;
@@ -1198,7 +1206,7 @@ const DeliveryHeaderPCom = styled.div`
   display: inline-block;
 `;
 
-const BuyScrollable = styled.form`
+const BuyScrollable = styled.div`
   margin-top: 16px;
   position: relative;
 `;

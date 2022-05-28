@@ -2,27 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import CartOneProduct from "./CartOneProduct";
-import { useLocation } from "react-router";
 
 function CartList(props) {
-  const location = useLocation();
-
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
   const [cartItem, setCartItem] = useState([]);
-
-  async function fetchData() {
-    const result = await axios.get("http://localhost:8080/cart/list", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-        "Content-Type": "application/json",
-      },
-    });
-    setCartItem(result.data.result);
-    // console.log("#####: " + JSON.stringify(cartItem));
-    // console.log("#####: " + JSON.stringify(result.data.result));
-  }
 
   const allAgreeHandler = (checked) => {
     setIsAllChecked(!isAllChecked);
@@ -41,8 +25,22 @@ function CartList(props) {
     }
   };
 
+  const showList = async () => {
+    try {
+      const result = await axios.get("http://localhost:8080/cart/list", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+      });
+      setCartItem(result.data.result);
+    } catch (e) {
+      console.log("error... " + e);
+    }
+  };
+
   useEffect(() => {
-    fetchData();
+    showList();
     const jquery = document.createElement("script");
     jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
     const iamport = document.createElement("script");
@@ -146,15 +144,14 @@ function CartList(props) {
                     ></Check>
                   </CheckBox>
                 </CheckBox>
-                <CartArtistItemTitle>{props.data.brandIdx}</CartArtistItemTitle>
+                {/* <CartArtistItemTitle>{props.data.brandIdx}</CartArtistItemTitle> */}
               </CartArtistItemHLabel>
             </CartArtistItemHeader>
 
-            {cartItem.map((item) => {
-              console.log("#####: " + JSON.stringify(item));
-
+            {cartItem.map((cartItem) => {
+              // console.log("#####: " + JSON.stringify(item));
               return (
-                <div key={item.idx}>
+                <div key={cartItem.idx}>
                   <CartArtistItemList>
                     <ul>
                       <CartProductList>
@@ -185,13 +182,13 @@ function CartList(props) {
                               <CartProductListItemPI
                                 src={
                                   "http://localhost:8080/product/display?fileName=" +
-                                  item.filename
+                                  cartItem.filename
                                 }
                               />
                             </CartProductListItemCheckboxG>
                             <CartProductListItemPInfoTextGroup>
                               <CartProductListItemPname>
-                                {item.name}
+                                {cartItem.name}
                               </CartProductListItemPname>
                               <CartProductListItemC>
                                 주문시 제작
@@ -208,7 +205,7 @@ function CartList(props) {
                                 </CartOptionListItemSplitL>
                                 <CartOptionListItemSplitR>
                                   <CartOptionListItemTotalP>
-                                    {item.salePrice}원
+                                    {cartItem.salePrice}원
                                   </CartOptionListItemTotalP>
                                   <CartOptionListItemBtnG>
                                     <CartOptionEditingButtonGroup>
@@ -259,7 +256,7 @@ function CartList(props) {
             <CartArtistItemSec>
               <CartArtistItemLab>상품가격</CartArtistItemLab>
               <CartArtistItemPrice>
-                {props.data.salePrice}원
+                {/* {props.data.salePrice}원 */}
               </CartArtistItemPrice>
             </CartArtistItemSec>
             <CartArtistItemSec>
@@ -295,7 +292,7 @@ function CartList(props) {
               <CartCheckoutDesktopItem>
                 <CartCheckoutDesktopLab>상품금액</CartCheckoutDesktopLab>
                 <CartCheckoutDesktopVal>
-                  <span>{props.data.salePrice}</span>
+                  {/* <span>{props.data.salePrice}</span> */}
                   <CartCheckoutDesktopU>원</CartCheckoutDesktopU>
                 </CartCheckoutDesktopVal>
               </CartCheckoutDesktopItem>
@@ -313,7 +310,7 @@ function CartList(props) {
               <CartCheckoutDesktopItem>
                 <CartCheckoutDesktopLab>결제 예정금액</CartCheckoutDesktopLab>
                 <CartCheckoutDesktopH>
-                  <span>{props.data.salePrice}</span>
+                  {/* <span>{props.data.salePrice}</span> */}
                   <CartCheckoutDesktopU>원</CartCheckoutDesktopU>
                 </CartCheckoutDesktopH>
               </CartCheckoutDesktopItem>

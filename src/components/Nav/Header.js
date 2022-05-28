@@ -14,7 +14,8 @@ function Header() {
   const [isTopHover, setIsTopHover] = useState(false);
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
+  const [cartnum, setCartnum] = useState("");
 
   const [word, setWord] = useState("");
   const issueKeyword = "어버이날";
@@ -24,21 +25,47 @@ function Header() {
   const logout = () => {
     try {
       localStorage.clear();
-      console.log(localStorage.getItem("token"));
       document.location.href = "/";
     } catch (e) {
       console.log(e);
     }
   };
 
+  // async function fetchData() {
+  //   const result = await axios.get("http://localhost:8080/cart/list", {
+  //     headers: {
+  //       Authorization: "Bearer " + localStorage.getItem("token"),
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   console.log(JSON.stringify(result.data.result));
+
+  //   setCartnum(result.data.result);
+  // }
+
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("token") !== null) {
+        // fetchData();
+      } else {
+        alert("다시 로그인 해주세요!");
+        window.location.href("/");
+      }
+    } catch (error) {
+      alert("다시 로그인 해주세요!");
+      window.location.href("/");
+    }
+  }, []);
+
   useEffect(() => {
     try {
       if (localStorage.getItem("token") !== null) {
         setLoginCheck(true);
-        console.log("로그인: " + loginCheck);
-        console.log("token: " + localStorage.getItem("token"));
+        // console.log("로그인: " + loginCheck);
+        // console.log("token: " + localStorage.getItem("token"));
       } else {
         setLoginCheck(false);
+        // fetchData();
       }
     } catch (error) {
       console.log("error: " + JSON.stringify(localStorage));
@@ -206,11 +233,8 @@ function Header() {
       <SearchHeaderDesktop>
         <SearchHeaderDesktopBar>
           <SearchHeaderDesktopLogo>
-            <IconIduslogo>
-              <Link to="/">
-                {/* <Iduslogo src="https://www.idus.com/resources/dist/images/logo.svg" /> */}
-                <Iduslogo src={require("./logo.png")} />
-              </Link>
+            <IconIduslogo to="/">
+              <Iduslogo src={require("./logo.png")} />
             </IconIduslogo>
           </SearchHeaderDesktopLogo>
           {/* 작품, 클래스 */}
@@ -261,8 +285,8 @@ function Header() {
             <ProfileA>
               <IconMypage className="far fa-user" />내 정보
             </ProfileA>
-            <ProfileCartA>
-              <ProfileBadge>0</ProfileBadge>
+            <ProfileCartA href="/cart">
+              {/* <ProfileBadge>0</ProfileBadge> */}
               <IdusIconCart className="fas fa-shopping-cart">
                 {/* <i class="fas fa-shopping-cart"></i> */}
               </IdusIconCart>
@@ -729,7 +753,7 @@ const SearchHeaderDesktopLogo = styled.h1`
   vertical-align: middle;
   margin-top: -8px;
 `;
-const IconIduslogo = styled.a`
+const IconIduslogo = styled(Link)`
   width: 74px;
   height: 29px;
   text-decoration: none;

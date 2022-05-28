@@ -8,7 +8,6 @@ import SelectedOption from "./SelectedOption";
 import $ from "jquery";
 import axios from "axios";
 import { useParams } from "react-router";
-import { Link } from "react-router-dom";
 
 function Product() {
   const [isOptionVisible, setIsOptionVisible] = useState(false);
@@ -28,6 +27,21 @@ function Product() {
   const [isCartClicked, setIsCartClicked] = useState(false);
 
   let [alert, setAlert] = useState(true);
+
+  let body = {
+    productIdx: params.idx,
+    amount: 1,
+  };
+
+  const cartIn = async () => {
+    const result = await axios.post("http://localhost:8080/cart/in", body, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(result);
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -63,6 +77,18 @@ function Product() {
       clearTimeout(timer);
     };
   });
+
+  const inputPriceFormat = (str) => {
+    const comma = (str) => {
+      str = String(str);
+      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+    };
+    const uncomma = (str) => {
+      str = String(str);
+      return str.replace(/[^\d]+/g, "");
+    };
+    return comma(uncomma(str));
+  };
 
   const optionData = [
     {
@@ -197,7 +223,6 @@ function Product() {
                   disabled={isClicked ? "disabled" : ""}
                   onClick={() => {
                     setIsClicked(true);
-                    console.log(imageShow);
 
                     setSelectedImg(
                       (selectedImg + data.filename.split(",").length - 1) %
@@ -357,12 +382,17 @@ function Product() {
 
                       <ProductDetailSpan>
                         <PriceTagHilight>
-                          <PriceTagHilightEm>{calSale}</PriceTagHilightEm>%
+                          <PriceTagHilightEm>
+                            {Math.ceil(calSale)}
+                          </PriceTagHilightEm>
+                          %
                         </PriceTagHilight>
                         <PriceTagStrong>
-                          <Strong>{data.salePrice}</Strong>원
+                          <Strong>{inputPriceFormat(data.salePrice)}</Strong>원
                         </PriceTagStrong>
-                        <PriceTagCrossout>{data.price}</PriceTagCrossout>
+                        <PriceTagCrossout>
+                          {inputPriceFormat(data.price)}
+                        </PriceTagCrossout>
                       </ProductDetailSpan>
                       <Maker></Maker>
                     </PriceTagD>
@@ -615,7 +645,7 @@ function Product() {
                         <Cart className="npay" type="button">
                           <NpayImg src="https://www.idus.com/resources/dist/images/npay.svg" />
                         </Cart>
-                        <RedBuy to="/cart" state={data}>
+                        <RedBuy type="button" onClick={() => cartIn()}>
                           구매하기
                         </RedBuy>
                       </CheckOutProduct>
@@ -725,7 +755,7 @@ const Alertmsg = styled.div`
     `};
 `;
 
-const RedBuy = styled(Link)`
+const RedBuy = styled.button`
   box-shadow: 0 1px 3px 0 hsl(0deg 0% 86% / 30%);
   font-weight: 400;
   box-sizing: border-box;

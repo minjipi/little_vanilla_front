@@ -20,7 +20,6 @@ import SignUpEmailConfirm from "./pages/LoginSignUp/SignUpEmailConfirm";
 import Cart from "./pages/cart/Cart";
 import CartOrder from "./pages/cart/CartOrder";
 import OrderDone from "./pages/cart/OrderDone";
-import CartOneProduct from "./pages/cart/CartOneProduct";
 
 class Routing extends React.Component {
   render() {
@@ -47,7 +46,6 @@ class Routing extends React.Component {
           <Route path="/cart" element={<Cart />} />
           <Route path="/cartorder" element={<CartOrder />} />
           <Route path="/orderdone" element={<OrderDone />} />
-          <Route path="/cartone" element={<CartOneProduct />} />
 
           <Route
             path="/oauth2/redirect/:token"

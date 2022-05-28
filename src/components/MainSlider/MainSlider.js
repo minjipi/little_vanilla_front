@@ -5,7 +5,7 @@ function MainSlider(props) {
   return (
     <LegacySliderHeader>
       <LegacySliderTitle>{props.title}</LegacySliderTitle>
-      <LegacySliderControl>
+      {/* <LegacySliderControl>
         <LegacySliderPosition>
           <LegacySliderPositionCurrent>3</LegacySliderPositionCurrent>/
           <LegacySliderPositionTotal>5</LegacySliderPositionTotal>
@@ -16,7 +16,7 @@ function MainSlider(props) {
         <LegacySliderArrowButtonNext>
           <LegacySliderArrowButtonIcon className="fas fa-chevron-right"></LegacySliderArrowButtonIcon>
         </LegacySliderArrowButtonNext>
-      </LegacySliderControl>
+      </LegacySliderControl> */}
     </LegacySliderHeader>
   );
 }

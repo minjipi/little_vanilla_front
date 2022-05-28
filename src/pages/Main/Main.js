@@ -17,10 +17,10 @@ function Main() {
       <DimmedBackground></DimmedBackground>
       <Contents>
         <MainTop></MainTop>
-        <SlideSection
+        {/* <SlideSection
           title="첫구매, 인기작품 100원부터"
           contents={<WelcomeDeal welcomeDealData={welcomeDealData.results} />}
-        />
+        /> */}
         <SlideSection
           title="오늘의 작품"
           contents={<TodayProduct productData={productData.results} />}

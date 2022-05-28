@@ -78,7 +78,7 @@ function Cart() {
             </PageHeaderSteps>
           </CartPageHeader>
 
-          <CartList data={location.state} />
+          <CartList />
 
           {/* <CartEmpty /> */}
         </CartPage>
