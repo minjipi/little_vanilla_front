@@ -12,14 +12,8 @@ function MainTop() {
           />
           <Col>
             <ShowroomArticle>
-              <Title>⏰마감임박⏰설 예약할인 기획전</Title>
-              <Desc>
-                아직 설날이 실감 나지 않으셨던 분도🙋‍♀️ 언제 선물을 준비해야 할지
-                고민이셨던 분도🙋‍♂️ ✨바로 바로~ 지금이 마지막 절호의 기회!✨ 지금
-                구매해야 설 전에 받을 수 있어요📢 오직 설 예약 할인전에서만 만날
-                수 있는 최대 85% 할인 혜택, 끝까지 놓치지 말고 지금 바로
-                만나보세요🚚🎁
-              </Desc>
+              <Title>📒 이 페이지는 실제 쇼핑몰 페이지가 아닙니다! </Title>
+              <Desc>구매</Desc>
             </ShowroomArticle>
           </Col>
         </BannerTitle>
