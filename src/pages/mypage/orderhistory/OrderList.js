@@ -12,10 +12,10 @@ function OrderList(props) {
         </Colgroup>
         <Thead>
           <tr>
-            <Th>{props.item.ordered_at}</Th>
+            <Th>{props.item.create_timestamp}</Th>
             <Th colSpan="2">
               <A>
-                <Span>4,000원</Span>
+                <Span>{props.item.salePrice}원</Span>
                 <Spani className="fas fa-chevron-right"></Spani>
               </A>
             </Th>
@@ -36,15 +36,15 @@ function OrderList(props) {
                         <ColA>{props.item.name}</ColA>
                       </Col>
                       <ColIcon>
-                        <ColSpan>작가 발송 완료</ColSpan>
+                        <ColSpan>발송 완료</ColSpan>
                       </ColIcon>
                     </Row>
                   </ListHead>
                   <ListOptions>
                     <Li>
-                      <OptionTxt>
+                      {/* <OptionTxt>
                         웰컴딜 수량 확인 : 1인당 1개 작품만 구매 가능해요
-                      </OptionTxt>
+                      </OptionTxt> */}
                       <OptionCount>1개</OptionCount>
                     </Li>
                   </ListOptions>
@@ -90,8 +90,8 @@ const BtnPoint = styled.button`
   padding: 6px 12px;
   font-size: 12px;
   color: #fff;
-  background: #ff7b30;
-  border: 1px solid #ff7b30;
+  background: #f1c333;
+  border: 1px solid #f1c333;
   width: 100%;
 `;
 

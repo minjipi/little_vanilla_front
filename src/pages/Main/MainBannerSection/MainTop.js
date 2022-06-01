@@ -1,19 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+import mainad from "../../../Images/mainad.png";
 
 function MainTop() {
   return (
     <>
       <FullW>
         <BannerTitle>
-          <BannerImg
-            src="https://image.idus.com/image/files/21a2e3e78f25429d8aedb913e96b3d55.jpg"
-            alt="banner"
-          />
+          <BannerImg src={mainad} alt="banner" />
           <Col>
             <ShowroomArticle>
               <Title>📒 이 페이지는 실제 쇼핑몰 페이지가 아닙니다! </Title>
-              <Desc>구매</Desc>
+              <Desc></Desc>
             </ShowroomArticle>
           </Col>
         </BannerTitle>

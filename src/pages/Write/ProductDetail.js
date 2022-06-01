@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import jwt_decode from "jwt-decode";
 
-function Product() {
+function ProductDetail() {
   return (
     <InnerWMobileFull>
       <ProductDetailNoticeBox>
-        <DeliveryGraphWrapper>
-          <DeliveryGraphBox>
+        {/* <DeliveryGraphWrapper> */}
+        {/* <DeliveryGraphBox>
             <div>
               <GraphLineBox>
                 <GraphLineDay>당일</GraphLineDay>
@@ -52,55 +53,26 @@ function Product() {
             <DeliveryFooterTextBox>
               최근 3개월 주문의 배송준비 기간 (주말, 공휴일 제외)
             </DeliveryFooterTextBox>
-          </DeliveryGraphBox>
-        </DeliveryGraphWrapper>
-        <ProductDetailNoticeBoxDivider />
+          </DeliveryGraphBox> */}
+        {/* </DeliveryGraphWrapper> */}
+        {/* <ProductDetailNoticeBoxDivider /> */}
       </ProductDetailNoticeBox>
-      <DataTriggerDetail />
-      <FixPosition />
+      {/* <DataTriggerDetail /> */}
+      {/* <FixPosition /> */}
       <FlexNavStyle>
         <a href="#prd-info" className="active">
           작품정보
         </a>
         <a href="#prd-enquiries">배송 / 교환 / 환불</a>
-        <a href="#prd-review">구매후기(758)</a>
-        <a href="#prd-comments">댓글</a>
+        {/* <a href="#prd-review">구매후기</a> */}
+        {/* <a href="#prd-comments">댓글</a> */}
       </FlexNavStyle>
       <PrdDetailSection>
         <ProductDetailDescription>
-          <ProductDetailDescriptionContent>
-            <ProductDetailDescriptionTextItem>
+          {/* <ProductDetailDescriptionContent> */}
+          {/* <ProductDetailDescriptionTextItem>
               <span>
                 [아이디어스 웰컴딜]
-                <br />
-                안녕하세요! 유얼어데이 작가입니다.
-                <br />
-                아이디어스 첫 구매를 환영합니다!
-                <br />
-                정성스럽게 제작하여 발송드릴 예정이오니,
-                <br />
-                주문 전 아래 내용을 꼭 확인해주세요😊
-                <br />
-                👉아이디어스 생애 첫 구매자만 구매 가능합니다.
-                <br />
-                👉웰컴딜은 1인당 1개 작품만 구매 가능합니다.
-                <br />
-                👉아이디어스 이용 문의는 카카오톡 [아이디어스] 또는 1668-3651로
-                문의 부탁드리며, 작품 관련 문의는 우측 하단의 [작가문의]로
-                연락주세요.
-                <br />
-                <br />
-                🚚‼️‼️씨제이대한통운 파업 중으로&nbsp;
-                <br />
-                해당 지역 파업지역인 경우
-                <br />
-                타 택배사로 보내드리고 있습니다~!&nbsp;
-                <br />
-                타 택배사로 진행될 경우
-                <br />
-                배송준비일정이 조금 소요될 수 있으니
-                <br />
-                일정 여유있게 주문 부탁드립니다!
                 <br />
                 <br />
               </span>
@@ -108,17 +80,16 @@ function Product() {
           </ProductDetailDescriptionContent>
           <ProductDetailDescriptionExpandWrapper>
             <ProductDetailDescriptionExpandWrapperGradient />
-          </ProductDetailDescriptionExpandWrapper>
+          </ProductDetailDescriptionExpandWrapper> */}
         </ProductDetailDescription>
         <TabStyle>
           <Split>
-            <Tab>
-              <span>작품 정보제공 고시</span>
-            </Tab>
+            <Tab></Tab>
           </Split>
           <Split>
             <Tab>
-              <span>판매 작가 정보</span>
+              <span>판매자 정보:</span> <br />
+              <span>{jwt_decode(localStorage.getItem("token")).nickname}</span>
             </Tab>
           </Split>
         </TabStyle>
@@ -169,9 +140,9 @@ const TimeCounter = styled.div`
 const VipClubBtn = styled.button`
   height: 36px;
   border-radius: 4px;
-  border: 1px solid #ff7b30;
+  border: 1px solid #f1c333;
   background-color: #ffffff;
-  color: #ff7b30;
+  color: #f1c333;
   padding: 0 24px;
 `;
 
@@ -232,7 +203,7 @@ const GraphLineDay = styled.div`
   flex-shrink: 0;
 
   &.red {
-    color: #ff7b30;
+    color: #f1c333;
     font-weight: bold;
   }
 `;
@@ -262,7 +233,7 @@ const GraphBarRate = styled.div`
   }
 
   &.red {
-    background-color: #ff7b30;
+    background-color: #f1c333;
     width: ${(props) => props.rate}%;
   }
 `;
@@ -315,7 +286,7 @@ const FlexNavStyle = styled.nav`
   }
 
   a.active {
-    color: #ff7b30;
+    color: #f1c333;
   }
 `;
 
@@ -382,4 +353,4 @@ const Tab = styled.div`
 `;
 const TableStyle = styled.div``;
 
-export default Product;
+export default ProductDetail;

@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useEffect } from "react/cjs/react.development";
 import styled, { css } from "styled-components";
 import jwt_decode from "jwt-decode";
-import axios from "axios";
-import jwtDecode from "jwt-decode";
+import asasasa from "../Nav/asasasa.png";
 
 function Header() {
   const [isAppInstallHover, setIsAppInstallHover] = useState(false);
@@ -21,7 +19,18 @@ function Header() {
   const issueKeyword = "어버이날";
 
   const [loginCheck, setLoginCheck] = useState("");
-
+  const goMypage = () => {
+    try {
+      if (localStorage.getItem("token") === null) {
+        alert("로그인 해주세요.");
+        document.location.href = "/login";
+      } else {
+        document.location.href = "/mypage";
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const logout = () => {
     try {
       localStorage.clear();
@@ -42,20 +51,6 @@ function Header() {
 
   //   setCartnum(result.data.result);
   // }
-
-  useEffect(() => {
-    try {
-      if (localStorage.getItem("token") !== null) {
-        // fetchData();
-      } else {
-        alert("다시 로그인 해주세요!");
-        window.location.href("/");
-      }
-    } catch (error) {
-      alert("다시 로그인 해주세요!");
-      window.location.href("/");
-    }
-  }, []);
 
   useEffect(() => {
     try {
@@ -176,8 +171,8 @@ function Header() {
                   </MyDropdown>
                 </NavBtnUiDropdown>
 
-                <GnbLoginBtn href="/signup">알림</GnbLoginBtn>
-                <GnbLoginBtn href="/signup">메시지</GnbLoginBtn>
+                {/* <GnbLoginBtn href="/signup">알림</GnbLoginBtn>
+                <GnbLoginBtn href="/signup">메시지</GnbLoginBtn> */}
                 <NavBtnUiDropdown>
                   <BtnDropdown
                     onMouseOver={() => setIsCallCenterHover(true)}
@@ -191,14 +186,16 @@ function Header() {
                     isCallCenterHover={isCallCenterHover}
                   >
                     <CustomerLi>
-                      <CustomerA>공지사항</CustomerA>
+                      <CustomerA href="https://blog.naver.com/ghdalswl77">
+                        공지사항
+                      </CustomerA>
                     </CustomerLi>
-                    <CustomerLi>
+                    {/* <CustomerLi>
                       <CustomerA>자주 묻는 질문</CustomerA>
                     </CustomerLi>
                     <CustomerLi>
                       <CustomerA>메일로 문의</CustomerA>
-                    </CustomerLi>
+                    </CustomerLi> */}
                   </MenuDropdown>
                 </NavBtnUiDropdown>
               </>
@@ -239,7 +236,7 @@ function Header() {
           </SearchHeaderDesktopLogo>
           {/* 작품, 클래스 */}
           <SearchHeaderDesktopServiceNav>
-            <ServiceActive>작품</ServiceActive>
+            <ServiceActive>상품</ServiceActive>
             <Service>클래스</Service>
           </SearchHeaderDesktopServiceNav>
           {/* 검색바 */}
@@ -276,13 +273,13 @@ function Header() {
             <TrendingWordSlider>
               <TrendingSlideWordA>
                 <TrendingSlideWordEm>1</TrendingSlideWordEm>
-                민지쿠키
+                리틀 자수정 목걸이
               </TrendingSlideWordA>
             </TrendingWordSlider>
           </KeywordTrendingDesktop>
           {/* 내 정보 */}
           <SearchHeaderProfileLinkNav>
-            <ProfileA>
+            <ProfileA type="button" onClick={() => goMypage()}>
               <IconMypage className="far fa-user" />내 정보
             </ProfileA>
             <ProfileCartA href="/cart">
@@ -359,14 +356,14 @@ function Header() {
             </UiGnbMenuLi>
 
             <UiGnbMenuLi>
-              <MenuA>홈</MenuA>
+              <MenuA to="/">홈</MenuA>
             </UiGnbMenuLi>
 
-            <UiGnbMenuLi>
-              <MenuA>오늘의 작품</MenuA>
-            </UiGnbMenuLi>
+            {/* <UiGnbMenuLi>
+              <MenuA >오늘의 작품</MenuA>
+            </UiGnbMenuLi> */}
 
-            <UiGnbMenuLi>
+            {/* <UiGnbMenuLi>
               <MenuA>실시간 구매</MenuA>
             </UiGnbMenuLi>
 
@@ -380,7 +377,7 @@ function Header() {
 
             <UiGnbMenuLi>
               <MenuA>실시간 추천</MenuA>
-            </UiGnbMenuLi>
+            </UiGnbMenuLi> */}
           </UiGnbUl>
         </InnerContainerGnb>
       </FullGnbScrollDiv>
@@ -497,16 +494,9 @@ const SpIconImgAppicon = styled.span`
   overflow: hidden;
   display: inline-block;
   vertical-align: middle;
-  font-size: 0;
-  line-height: 0;
-  letter-spacing: 0;
-  background-size: 787px 736px;
-  background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070@2x.png);
-  background-position: -689px -141px;
+  background-image: url(${asasasa});
   width: 32px;
-  padding-top: 32px;
-  font-size: 10px;
-  color: #666;
+  padding-top: 30px;
   margin-right: 8px;
 `;
 
@@ -572,8 +562,8 @@ const BtnPoint = styled.button`
   padding: 6px 12px;
   font-size: 12px;
   color: #fff;
-  background: #ff7b30;
-  border: 1px solid #ff7b30;
+  background: #f1c333;
+  border: 1px solid #f1c333;
 `;
 
 const MenuDropdownAppSpan = styled.span`
@@ -733,7 +723,7 @@ const CustomerA = styled.a`
   height: 100%;
 
   &:hover {
-    color: #ff7b30;
+    color: #f1c333;
   }
 `;
 
@@ -770,7 +760,7 @@ const SearchHeaderDesktopServiceNav = styled.nav`
 `;
 
 const ServiceActive = styled.a`
-  color: #ff7b30;
+  color: #f1c333;
   font-weight: bold;
   font-size: 18px;
   margin-right: 30px;
@@ -789,7 +779,7 @@ const SearchInputDesktop = styled.div`
   margin-right: 24px;
   display: inline-block;
   vertical-align: middle;
-  border: 1px solid #ff7b30;
+  border: 1px solid #f1c333;
   border-radius: 4px;
   height: 40px;
 `;
@@ -873,7 +863,7 @@ const SearchInputDesktopSearchButton = styled.button`
   vertical-align: middle;
 `;
 const IdusIconSearch = styled.i`
-  color: #ff7b30;
+  color: #f1c333;
   font-size: 24px;
   line-height: 38px;
 `;
@@ -916,7 +906,7 @@ const SearchHeaderProfileLinkNav = styled.nav`
   display: inline-block;
   margin-left: 74px;
 `;
-const ProfileA = styled.a`
+const ProfileA = styled.button`
   margin-left: 0;
   display: inline-block;
   position: relative;
@@ -957,7 +947,7 @@ const ProfileBadge = styled.span`
   height: 17px;
   border-radius: 50%;
   color: #ffffff;
-  background: #ff7b30;
+  background: #f1c333;
   text-align: center;
   line-height: 18px;
   right: -3px;
@@ -1030,7 +1020,7 @@ const MenuSpan = styled.span`
   color: #666;
 
   &:hover {
-    color: #ff7b30;
+    color: #f1c333;
   }
 `;
 
@@ -1107,14 +1097,14 @@ const CategorySubmenuA = styled.a`
   width: 100%;
 `;
 
-const MenuA = styled.a`
+const MenuA = styled(Link)`
   display: inline-block;
   vertical-align: middle;
   padding: 10px 11px;
   color: #666;
 
   &:hover {
-    color: #ff7b30;
+    color: #f1c333;
   }
 `;
 

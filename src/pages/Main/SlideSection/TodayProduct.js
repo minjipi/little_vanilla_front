@@ -8,7 +8,17 @@ function TodayProduct(props) {
 
   useEffect(() => {
     async function fetchData() {
-      let result = await axios.get("http://localhost:8080/product/list");
+      let result = null;
+      if (localStorage.getItem("token") === null) {
+        result = await axios.get("http://localhost:8080/product/list");
+      } else {
+        result = await axios.get("http://localhost:8080/product/list", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+        });
+      }
 
       console.log(result.data);
       setProductData(result.data.result);

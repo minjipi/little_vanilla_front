@@ -6,6 +6,11 @@ import jwt_decode from "jwt-decode";
 import axios from "axios";
 
 function Mypage(props) {
+  if (localStorage.getItem("token") === null) {
+    alert("로그인 해주세요.");
+    document.location.href = "/";
+  }
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phonenumber, setPhonenumber] = useState("");
@@ -14,12 +19,16 @@ function Mypage(props) {
   const [noti, setNoti] = useState("");
 
   const [emailChangeBtn, setEmailChangeBtn] = useState(true);
-  const [phoneChangeBtn, setPhoneChangeBtn] = useState(true);
+  const [phoneChangeBtn, setPhoneChangeBtn] = useState(false);
 
   const [result, setResult] = useState("");
 
   const handleRadioBtn = (e) => {
     setGender(e.target.value);
+  };
+
+  const review = () => {
+    alert("기능 준비중입니다!");
   };
 
   let body = {
@@ -31,34 +40,26 @@ function Mypage(props) {
     notification: noti,
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("token") === null) {
-      alert("다시 로그인 해주세요.");
-      document.location.href = "/";
-    } else {
-      async function fetchData() {
-        const response = await axios.get(
-          "http://localhost:8080/member/modify",
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-              "Content-Type": "application/json",
-            },
-          }
-        );
+  const token = jwt_decode(localStorage.getItem("token"));
 
-        setResult(response.data.result);
-        setName(result.nickname);
-        setEmail(result.email);
-        setPhonenumber(result.phoneNum);
-      }
-      fetchData();
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get("http://localhost:8080/member/modify", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+      });
+
+      setResult(response.data.result);
+      setName(result.nickname);
+      setEmail(result.email);
+      setPhonenumber(result.phoneNum);
     }
+    fetchData();
   }, []);
 
   const onModify = async () => {
-    console.log(jwt_decode(localStorage.getItem("token")));
-
     if (name == "") {
       alert("한 글자 이상의 이름을 입력해 주세요.");
     } else if (email == "") {
@@ -119,9 +120,9 @@ function Mypage(props) {
               {/*  */}
               <AreaText>
                 <AreaTextA href="/membership">
-                  <span>아기손</span>
+                  <span>Lv.1</span>
                 </AreaTextA>
-                <StrongName>{}님</StrongName>
+                <StrongName>{token.nickname}님</StrongName>
               </AreaText>
             </ProfileArea>
             {/*  */}
@@ -131,27 +132,35 @@ function Mypage(props) {
                 <MyInfoB>
                   <MyInfoSpan>주문배송</MyInfoSpan>
                 </MyInfoB>
-                <MyA href="/order">주문내역</MyA>
-                <MyA href="/order/paymemt">취소/환불내역</MyA>
+                <MyAa href="/order">주문내역</MyAa>
+                <MyAa onClick={review}>취소/환불내역</MyAa>
 
-                <MyInfoB>
+                {/* <MyInfoB>
                   <MyInfoSpan>알림 및 메시지</MyInfoSpan>
                 </MyInfoB>
                 <MyA href="/notification">알림</MyA>
-                <MyA href="/message">메시지</MyA>
+                <MyA href="/message">메시지</MyA> */}
 
                 <MyInfoB>
                   <MyInfoSpan>나의 구매후기</MyInfoSpan>
                 </MyInfoB>
-                <MyA href="/notification">후기 쓰기</MyA>
-                <MyA href="/message">내가 쓴 후기</MyA>
+                <MyA type="button" onClick={review}>
+                  후기 쓰기
+                </MyA>
+                <MyA href="/message" type="button" onClick={review}>
+                  내가 쓴 후기
+                </MyA>
 
                 <MyInfoB>
                   <MyInfoSpan>관심 리스트</MyInfoSpan>
                 </MyInfoB>
-                <MyA href="/product/likelist">찜 목록</MyA>
-                <MyA href="/followingstore">팔로우하는 상점</MyA>
-                <MyA href="/recentproduct">최근 본 상품</MyA>
+                <MyA href="/likelist">찜 목록</MyA>
+                <MyA href="/followingstore" type="button" onClick={review}>
+                  팔로우하는 상점
+                </MyA>
+                <MyA href="/recentproduct" type="button" onClick={review}>
+                  최근 본 상품
+                </MyA>
               </MyInfoNav>
             </div>
           </MyInfo>
@@ -170,6 +179,7 @@ function Mypage(props) {
                     <LeftTd>
                       <InputText>
                         <InputFilldis
+                          placeholder={token.nickname}
                           type="text"
                           defaultValue={result.nickname || ""}
                           onChange={(e) => {
@@ -230,7 +240,7 @@ function Mypage(props) {
                           <DataAuthCodeB>
                             <ComboTypeStatic>
                               <InputTextSizeM>
-                                <InputTextInput></InputTextInput>
+                                <InputTextInput placeholder="개인 정보 처리법에 의해"></InputTextInput>
                                 <TimeLimit></TimeLimit>
                               </InputTextSizeM>
                               <AuthButton type="button">
@@ -243,7 +253,7 @@ function Mypage(props) {
                           <DataAuthCodeB>
                             <ComboTypeStatic>
                               <InputTextSizeM>
-                                <InputTextInput></InputTextInput>
+                                <InputTextInput placeholder="해당 기능은 준비중 입니다!"></InputTextInput>
                                 <TimeLimit></TimeLimit>
                               </InputTextSizeM>
                               <AuthButton type="button">확인</AuthButton>
@@ -296,7 +306,7 @@ function Mypage(props) {
                       </InputTextS>
                     </LeftTd>
                   </tr>
-
+                  {/* 
                   <tr>
                     <Leftth>알림설정</Leftth>
                     <LeftTd>
@@ -309,14 +319,15 @@ function Mypage(props) {
                         </div>
                       </Mt10>
                     </LeftTd>
-                  </tr>
+                  </tr> */}
                 </Tbody>
               </TableStyleHeadLeft>
-
+              {/* 
               <TarMt10>
                 <BtnSWhite href="/leave">회원탈퇴</BtnSWhite>
-              </TarMt10>
+              </TarMt10> */}
 
+              <br />
               <FormSubmitTac>
                 <BtnMPoint type="button" onClick={() => onModify()}>
                   회원 정보 수정하기
@@ -352,8 +363,8 @@ const CheckBox = styled.input`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     content: "v";
-    border: 1px solid #ff7b30;
-    background: #ff7b30;
+    border: 1px solid #f1c333;
+    background: #f1c333;
     color: #fff;
 
     cursor: pointer;
@@ -410,8 +421,8 @@ const RadioLabel = styled.label`
 const BtnMPoint = styled.button`
   width: 140px;
   color: #fff;
-  background: #ff7b30;
-  border: 1px solid #ff7b30;
+  background: #f1c333;
+  border: 1px solid #f1c333;
   height: 32px;
   padding: 15px 0;
   padding: 8px 15px;
@@ -464,7 +475,7 @@ const TimeLimit = styled.div`
   top: 2px;
   right: 20px;
   font-size: 14px;
-  color: #ff7b30;
+  color: #f1c333;
 `;
 
 const InputTextSizeM = styled.div`
@@ -582,7 +593,7 @@ const MyInfo = styled.aside`
 const ProfileArea = styled.div`
   padding: 25px 0 28px;
   width: 100%;
-  border: 1px solid #ff7b30;
+  border: 1px solid #f1c333;
 `;
 
 const Outline = styled.div`
@@ -653,7 +664,7 @@ const StrongName = styled.strong`
 
 const MyMenuEm = styled.em`
   display: block;
-  background: #ff7b30;
+  background: #f1c333;
   padding: 9px 16px;
   color: #fff;
   font-size: 13px;
@@ -682,7 +693,14 @@ const MyInfoSpan = styled.span`
   display: inline-block;
 `;
 
-const MyA = styled.a`
+const MyAa = styled.a`
+  padding-left: 16px;
+  color: #666;
+  display: block;
+  margin-top: 8px;
+`;
+
+const MyA = styled.button`
   padding-left: 16px;
   color: #666;
   display: block;
@@ -742,7 +760,7 @@ const LeftTd = styled.td`
 `;
 
 const Leftth = styled.td`
-  background: #f5f5f5;
+  background: #f7f3df;
   font-weight: normal;
   width: 120px;
   text-align: left;

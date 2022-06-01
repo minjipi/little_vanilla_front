@@ -81,8 +81,8 @@ const UiTitleSub = styled.div`
 const SegmentNospacing = styled.div`
   padding: 0;
   background: #fff;
-  box-shadow: 3px 3px 4px 0 #eaeaea80;
-  border: solid 1px #ebebeb;
+  box-shadow: 3px 3px 4px 0 #f1c333;
+  border: solid 1px #f1c333;
   &:first-child {
     margin-top: 0;
   }

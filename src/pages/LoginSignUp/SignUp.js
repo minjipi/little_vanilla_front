@@ -130,9 +130,9 @@ const LoginSns = styled.div`
       }
 
       ${Email} {
-        border: 2px solid #ff7b30;
+        border: 2px solid #f1c333;
         background: #fff;
-        color: #ff7b30;
+        color: #f1c333;
         line-height: 28px;
       }
       ${Twitter} {
@@ -185,8 +185,8 @@ const SignupStep = styled.div`
 
     ${IsActive} {
       color: #fff;
-      border-color: #ff7b30;
-      background: #ff7b30;
+      border-color: #f1c333;
+      background: #f1c333;
     }
 
     ul {

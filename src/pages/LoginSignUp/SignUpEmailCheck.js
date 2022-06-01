@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 function SignUpEmailCheck() {
-  const [emailVisible, setEmailVisible] = useState(false);
-
   return (
     <>
       <LoginWrap>
@@ -39,8 +37,8 @@ const SignupStep = styled.div`
 
     ${IsActive} {
       color: #fff;
-      border-color: #ff7b30;
-      background: #ff7b30;
+      border-color: #f1c333;
+      background: #f1c333;
     }
 
     ul {

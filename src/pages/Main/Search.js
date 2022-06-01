@@ -20,23 +20,20 @@ function Search() {
     if (params.word === null) {
       console.log("검색어 없음.");
     }
-    if (checked === "가격대 전체") {
-      const result = await axios.get(
-        "http://localhost:8080/product/search?word=" + params.word
-      );
-      setSearchData(result.data.result);
 
+    if (checked === "가격대 전체") {
+    }
+
+    if (checked === "가격대 전체") {
       if (priceChecked === "1만5천원이하") {
         console.log("priceChecked: " + priceChecked);
         const result = await axios.get(
           "http://localhost:8080/product/search?word=" +
             params.word +
-            "&gte=0&lte=300"
+            "&gte=0&lte=15000"
         );
         setSearchData(result.data.result);
-      }
-
-      if (priceChecked === "1만5천원3만원") {
+      } else if (priceChecked === "1만5천원3만원") {
         console.log("priceChecked: " + priceChecked);
         const result = await axios.get(
           "http://localhost:8080/product/search?word=" +
@@ -44,14 +41,37 @@ function Search() {
             "&gte=15000&lte=30000"
         );
         setSearchData(result.data.result);
+      } else {
+        const result = await axios.get(
+          "http://localhost:8080/product/search?word=" + params.word
+        );
+        setSearchData(result.data.result);
       }
     } else if (checked === "isDelFree") {
-      const result = await axios.get(
-        "http://localhost:8080/product/search?word=" +
-          params.word +
-          "&isDelFree=1"
-      );
-      setSearchData(result.data.result);
+      if (priceChecked === "1만5천원이하") {
+        console.log("priceChecked: " + priceChecked);
+        const result = await axios.get(
+          "http://localhost:8080/product/search?word=" +
+            params.word +
+            "&gte=0&lte=15000"
+        );
+        setSearchData(result.data.result);
+      } else if (priceChecked === "1만5천원3만원") {
+        console.log("priceChecked: " + priceChecked);
+        const result = await axios.get(
+          "http://localhost:8080/product/search?word=" +
+            params.word +
+            "&gte=15000&lte=30000"
+        );
+        setSearchData(result.data.result);
+      } else {
+        const result = await axios.get(
+          "http://localhost:8080/product/search?word=" +
+            params.word +
+            "&isDelFree=1"
+        );
+        setSearchData(result.data.result);
+      }
     }
   }
 
@@ -381,26 +401,27 @@ function Search() {
         {/*  */}
         <InnerW>
           <SearchResultList>
-            {searchData.map((product) => {
-              return (
-                <SearchResultList key={product.idx} className="grid">
-                  <SearchProductCard>
-                    <SearchProductCard className="verticalProduct">
-                      <CardThumbCover>
-                        <Link to={"/product/" + product.idx}>
-                          <CardThumbImg
-                            filename={product.filename.split(",")[0]}
-                          ></CardThumbImg>
-                        </Link>
-                        <CardInfoProductInfo>
-                          {product.name}
-                        </CardInfoProductInfo>
-                      </CardThumbCover>
+            {searchData &&
+              searchData.map((product) => {
+                return (
+                  <SearchResultList key={product.idx} className="grid">
+                    <SearchProductCard>
+                      <SearchProductCard className="verticalProduct">
+                        <CardThumbCover>
+                          <Link to={"/product/" + product.idx}>
+                            <CardThumbImg
+                              filename={product.filename.split(",")[0]}
+                            ></CardThumbImg>
+                          </Link>
+                          <CardInfoProductInfo>
+                            {product.name}
+                          </CardInfoProductInfo>
+                        </CardThumbCover>
+                      </SearchProductCard>
                     </SearchProductCard>
-                  </SearchProductCard>
-                </SearchResultList>
-              );
-            })}
+                  </SearchResultList>
+                );
+              })}
           </SearchResultList>
         </InnerW>
       </Contents>
@@ -570,7 +591,7 @@ const BaseSelectorOptionItemList = styled.ul`
   max-height: 400px;
   overflow-y: auto;
   background: #ffffff;
-  border: 1px solid #ff7b30;
+  border: 1px solid #f1c333;
   border-top: 0 none;
   border-bottom: 0 none;
   border-bottom-left-radius: 2px;
@@ -579,7 +600,7 @@ const BaseSelectorOptionItemList = styled.ul`
 
   &.active {
     height: auto;
-    border-bottom: 1px solid #ff7b30;
+    border-bottom: 1px solid #f1c333;
   }
 `;
 
@@ -649,7 +670,7 @@ const BaseRadioBtn = styled.input`
   &:before {
     width: 15px;
     height: 18px;
-    color: #ff7b30;
+    color: #f1c333;
   }
 `;
 const BaseRadio = styled.label``;

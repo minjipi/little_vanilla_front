@@ -1,6 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useEffect } from "react/cjs/react.development";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 function SignUpEmail() {
@@ -284,8 +283,8 @@ const BtnLogin = styled.button`
   display: inline-block;
   vertical-align: middle;
   color: #fff;
-  background: #ff7b30;
-  border: 1px solid #ff7b30;
+  background: #f1c333;
+  border: 1px solid #f1c333;
   width: 100%;
   height: 48px;
   line-height: 48px;
@@ -325,7 +324,7 @@ const Terms1Label = styled.label`
 
 const Terms1 = styled.input`
   // -webkit-appearance: none;
-  background: #ff7b30;
+  background: #f1c333;
   display: inline-block;
   position: relative;
   height: 18px;
@@ -382,8 +381,8 @@ const TermsLabel = styled.label`
 //     font-size: 16px;
 //     font-style: normal;
 //     content: "✓";
-//     border: 1px solid #ff7b30;
-//     background: #ff7b30;
+//     border: 1px solid #f1c333	;
+//     background: #f1c333	;
 //     color: #fff;
 //     cursor: pointer;
 //     display: inline-block;
@@ -507,8 +506,8 @@ const SignupStep = styled.div`
 
     ${IsActive} {
       color: #fff;
-      border-color: #ff7b30;
-      background: #ff7b30;
+      border-color: #f1c333;
+      background: #f1c333;
     }
 
     ul {

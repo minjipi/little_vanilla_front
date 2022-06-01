@@ -1,6 +1,5 @@
 import axios from "axios";
-import React from "react";
-import { useState } from "react/cjs/react.development";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 function Login() {
@@ -29,7 +28,6 @@ function Login() {
         localStorage.setItem("token", response.data.token);
         console.log("response.data.token:  " + response.data.token);
 
-        // 사용하려면 App.js에서 /로 라우팅해야 한다
         window.location.replace("/");
       } else {
         setEmail("");
@@ -161,7 +159,7 @@ const CommonButton = styled.button`
   height: 44px;
   border-radius: 2px;
   border: none;
-  background: #ff7b30;
+  background: #f1c333;
   color: #ffffff;
   font-size: 16px;
   line-height: 30px;
@@ -308,8 +306,8 @@ const BarButton = styled.a`
 
   &.email {
     background: #ffffff;
-    color: #ff7b30;
-    border: 1px solid #ff7b30;
+    color: #f1c333;
+    border: 1px solid #f1c333;
   }
 `;
 

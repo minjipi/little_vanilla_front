@@ -6,7 +6,11 @@ import axios from "axios";
 function CartList(props) {
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
-  const [cartItem, setCartItem] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [orderNames, setOrderNames] = useState("");
+  const [orderIdxs, setOrderIdxs] = useState([]);
+  const [check, setCheck] = useState("");
 
   const allAgreeHandler = (checked) => {
     setIsAllChecked(!isAllChecked);
@@ -33,9 +37,44 @@ function CartList(props) {
           "Content-Type": "application/json",
         },
       });
-      setCartItem(result.data.result);
+
+      setCartItems(result.data.result);
+
+      if (cartItems.length !== 0) {
+        setCheck(true);
+      } else {
+        setCheck(false);
+      }
+
+      let total = 0;
+      let orderName = "";
+      let orderIdxArray = [];
+
+      result.data.result.map((cartItem) => {
+        total += cartItem.salePrice;
+        orderName += cartItem.name + ",";
+        orderIdxArray = orderIdxArray.concat(cartItem.productIdx);
+      });
+      setOrderNames(orderName.substr(0, orderName.length - 1));
+      setTotalPrice(total);
+      setOrderIdxs(orderIdxArray);
     } catch (e) {
-      console.log("error... " + e);
+      console.log("list error... " + e);
+    }
+  };
+
+  const cancel = async (idx) => {
+    try {
+      await axios.get("http://localhost:8080/cart/cancel/" + idx, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+      });
+
+      window.location.reload();
+    } catch (e) {
+      console.log("cancel error... " + e);
     }
   };
 
@@ -51,7 +90,7 @@ function CartList(props) {
       document.head.removeChild(jquery);
       document.head.removeChild(iamport);
     };
-  }, []);
+  }, [check]);
 
   const createOrderNum = () => {
     const date = new Date();
@@ -69,7 +108,7 @@ function CartList(props) {
   const paymentCheck = async (data) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8080/pay/complete",
+        "http://localhost:8080/pay/complete",
         data,
         {
           headers: {
@@ -77,25 +116,28 @@ function CartList(props) {
           },
         }
       );
-      console.log(response);
 
       alert(response.data.message);
+
+      if (response.data.isSuccess === true) {
+        window.location.href = "/orderdone";
+      }
     } catch (e) {
       console.log(e);
     }
   };
 
   const onClickPayment = () => {
+    console.log(orderIdxs);
     const { IMP } = window;
     IMP.init("imp14112312");
     const data = {
       pg: "html5_inicis", // PG사 (필수항목)
       pay_method: "card", // 결제수단 (필수항목)
       merchant_uid: createOrderNum(),
-      name: props.data.name, // 주문명 (필수항목)
-      amount: props.data.salePrice, // 금액 (필수항목)
+      name: orderNames, // 주문명 (필수항목)
+      amount: totalPrice, // 금액 (필수항목)
       buyer_name: jwt_decode(localStorage.getItem("token")).nickname, // 구매자 이름
-      buyer_tel: "01077456981", // 구매자 전화번호 (필수항목)
       buyer_email: jwt_decode(localStorage.getItem("token")).sub,
       impUid: "",
     };
@@ -107,12 +149,11 @@ function CartList(props) {
         name: data.name,
         amount: data.amount,
         buyer_name: data.buyer_name,
-        buyer_tel: data.buyer_tel,
         buyer_email: data.buyer_email,
       },
       function callback(response) {
         if (response.success) {
-          data.idx = props.data.idx;
+          data.idxList = orderIdxs;
           data.impUid = response.imp_uid;
           data.merchant_uid = response.merchant_uid;
 
@@ -123,156 +164,161 @@ function CartList(props) {
       }
     );
   };
+
   return (
     <>
-      <div>
-        <StickyPlaceHolder />
-        <HandleChangeStickTop />
-        <CartArtistList>
-          <CartArtistItem>
-            <CartArtistItemHeader>
-              <CartArtistItemHLabel>
-                <CheckBox>
-                  <CheckBox>
-                    <Check
-                      type="checkbox"
-                      value="agree"
-                      onChange={(e) => {
-                        allAgreeHandler(e.currentTarget.checked);
-                      }}
-                      checked={isAllChecked}
-                    ></Check>
-                  </CheckBox>
-                </CheckBox>
-                {/* <CartArtistItemTitle>{props.data.brandIdx}</CartArtistItemTitle> */}
-              </CartArtistItemHLabel>
-            </CartArtistItemHeader>
+      {check ? (
+        <>
+          <div>
+            <StickyPlaceHolder />
+            <HandleChangeStickTop />
+            <CartArtistList>
+              <CartArtistItem>
+                <CartArtistItemHeader>
+                  <CartArtistItemHLabel>
+                    <CheckBox>
+                      <CheckBox>
+                        <Check
+                          type="checkbox"
+                          value="agree"
+                          onChange={(e) => {
+                            allAgreeHandler(e.currentTarget.checked);
+                          }}
+                          checked={isAllChecked}
+                        ></Check>
+                      </CheckBox>
+                    </CheckBox>
+                    {/* <CartArtistItemTitle>{props.data.brandIdx}</CartArtistItemTitle> */}
+                  </CartArtistItemHLabel>
+                </CartArtistItemHeader>
 
-            {cartItem.map((cartItem) => {
-              // console.log("#####: " + JSON.stringify(item));
-              return (
-                <div key={cartItem.idx}>
-                  <CartArtistItemList>
-                    <ul>
-                      <CartProductList>
-                        <CartProductListItem>
-                          <CartProductListItemPInfo>
-                            <CartProductListItemCheckboxG>
-                              <CartProductListItemCheckboxW>
-                                <CheckBox>
-                                  <CheckBox>
-                                    <Check
-                                      type="checkbox"
-                                      value="provision"
-                                      onChange={(e) => {
-                                        agreeHandler(
-                                          e.currentTarget.checked,
-                                          e.target.value
-                                        );
-                                      }}
-                                      checked={
-                                        checkedItems.includes("provision")
-                                          ? true
-                                          : false
+                {cartItems &&
+                  cartItems.map((cartItem) => {
+                    return (
+                      <div key={cartItem.idx}>
+                        <CartArtistItemList>
+                          <ul>
+                            <CartProductList>
+                              <CartProductListItem>
+                                <CartProductListItemPInfo>
+                                  <CartProductListItemCheckboxG>
+                                    <CartProductListItemCheckboxW>
+                                      <CheckBox>
+                                        <CheckBox>
+                                          <Check
+                                            type="checkbox"
+                                            value="provision"
+                                            onChange={(e) => {
+                                              agreeHandler(
+                                                e.currentTarget.checked,
+                                                e.target.value
+                                              );
+                                            }}
+                                            checked={
+                                              checkedItems.includes("provision")
+                                                ? true
+                                                : false
+                                            }
+                                          ></Check>
+                                        </CheckBox>
+                                      </CheckBox>
+                                    </CartProductListItemCheckboxW>
+                                    <CartProductListItemPI
+                                      src={
+                                        "http://localhost:8080/product/display?fileName=" +
+                                        cartItem.filename
                                       }
-                                    ></Check>
-                                  </CheckBox>
-                                </CheckBox>
-                              </CartProductListItemCheckboxW>
-                              <CartProductListItemPI
-                                src={
-                                  "http://localhost:8080/product/display?fileName=" +
-                                  cartItem.filename
-                                }
-                              />
-                            </CartProductListItemCheckboxG>
-                            <CartProductListItemPInfoTextGroup>
-                              <CartProductListItemPname>
-                                {cartItem.name}
-                              </CartProductListItemPname>
-                              <CartProductListItemC>
-                                주문시 제작
-                              </CartProductListItemC>
-                            </CartProductListItemPInfoTextGroup>
-                          </CartProductListItemPInfo>
-                          <CartProductListItemOI>
-                            <CartProductLists>
-                              <CartOptionListItem>
-                                <CartOptionListItemSplitL>
-                                  <CartOptionListItemOptionTxt>
-                                    • 엽서 동봉 • 무료배송
-                                  </CartOptionListItemOptionTxt>
-                                </CartOptionListItemSplitL>
-                                <CartOptionListItemSplitR>
-                                  <CartOptionListItemTotalP>
-                                    {cartItem.salePrice}원
-                                  </CartOptionListItemTotalP>
-                                  <CartOptionListItemBtnG>
-                                    <CartOptionEditingButtonGroup>
-                                      <CartOptionEditingButtonGroupL>
+                                    />
+                                  </CartProductListItemCheckboxG>
+                                  <CartProductListItemPInfoTextGroup>
+                                    <CartProductListItemPname>
+                                      {cartItem.name}
+                                    </CartProductListItemPname>
+                                    <CartProductListItemC>
+                                      주문시 제작
+                                    </CartProductListItemC>
+                                  </CartProductListItemPInfoTextGroup>
+                                </CartProductListItemPInfo>
+                                <CartProductListItemOI>
+                                  <CartProductLists>
+                                    <CartOptionListItem>
+                                      <CartOptionListItemSplitL>
+                                        <CartOptionListItemOptionTxt>
+                                          • 엽서 동봉 • 무료배송
+                                        </CartOptionListItemOptionTxt>
+                                      </CartOptionListItemSplitL>
+                                      <CartOptionListItemSplitR>
+                                        <CartOptionListItemTotalP>
+                                          {cartItem.salePrice}원
+                                        </CartOptionListItemTotalP>
+                                        <CartOptionListItemBtnG>
+                                          <CartOptionEditingButtonGroup>
+                                            {/* <CartOptionEditingButtonGroupL>
                                         <GroupLSet className="fas fa-solid fa-gear"></GroupLSet>
-                                      </CartOptionEditingButtonGroupL>
-                                      <CartOptionEditingButtonGroupR>
-                                        <GroupLSetX />
-                                      </CartOptionEditingButtonGroupR>
-                                    </CartOptionEditingButtonGroup>
-                                  </CartOptionListItemBtnG>
-                                </CartOptionListItemSplitR>
-                              </CartOptionListItem>
-                            </CartProductLists>
-                          </CartProductListItemOI>
+                                      </CartOptionEditingButtonGroupL> */}
+                                            <CartOptionEditingButtonGroupR>
+                                              <GroupLSetX
+                                                onClick={() =>
+                                                  cancel(cartItem.idx)
+                                                }
+                                              />
+                                            </CartOptionEditingButtonGroupR>
+                                          </CartOptionEditingButtonGroup>
+                                        </CartOptionListItemBtnG>
+                                      </CartOptionListItemSplitR>
+                                    </CartOptionListItem>
+                                  </CartProductLists>
+                                </CartProductListItemOI>
 
-                          <div>
-                            <EditorProductOrderMessage>
-                              <EditorProductForm autocomplete="off">
-                                <CommonTextEditor>
-                                  <CommonTextEditorTxt placeholder="주문 요청사항을 입력해주세요"></CommonTextEditorTxt>
-                                  <CommonTextEditorMaxLength>
-                                    500
-                                  </CommonTextEditorMaxLength>
-                                </CommonTextEditor>
-                              </EditorProductForm>
-                            </EditorProductOrderMessage>
-                            <CommonTextEditorMaxBtn>
-                              <CommonTextEditorMaxBtnM>
-                                저장
-                              </CommonTextEditorMaxBtnM>
-                            </CommonTextEditorMaxBtn>
-                          </div>
-                        </CartProductListItem>
-                      </CartProductList>
-                    </ul>
-                  </CartArtistItemList>
+                                <div>
+                                  <EditorProductOrderMessage>
+                                    <EditorProductForm autocomplete="off">
+                                      <CommonTextEditor>
+                                        <CommonTextEditorTxt placeholder="주문 요청사항을 입력해주세요"></CommonTextEditorTxt>
+                                        <CommonTextEditorMaxLength>
+                                          500
+                                        </CommonTextEditorMaxLength>
+                                      </CommonTextEditor>
+                                    </EditorProductForm>
+                                  </EditorProductOrderMessage>
+                                  <CommonTextEditorMaxBtn>
+                                    <CommonTextEditorMaxBtnM>
+                                      저장
+                                    </CommonTextEditorMaxBtnM>
+                                  </CommonTextEditorMaxBtn>
+                                </div>
+                              </CartProductListItem>
+                            </CartProductList>
+                          </ul>
+                        </CartArtistItemList>
 
-                  <VStickyPlaceholder />
-                  <CartListSticky>
-                    <br />
-                    <CartCheckout></CartCheckout>
-                  </CartListSticky>
-                </div>
-              );
-            })}
+                        <VStickyPlaceholder />
+                        <CartListSticky>
+                          <br />
+                          <CartCheckout></CartCheckout>
+                        </CartListSticky>
+                      </div>
+                    );
+                  })}
 
-            <CartArtistItemSec>
-              <CartArtistItemLab>상품가격</CartArtistItemLab>
-              <CartArtistItemPrice>
-                {/* {props.data.salePrice}원 */}
-              </CartArtistItemPrice>
-            </CartArtistItemSec>
-            <CartArtistItemSec>
-              <CartArtistItemLab>배송비</CartArtistItemLab>
-              <CartArtistItemPrice>
-                <ShippingPrice>
-                  <ShippingPriceP>0원</ShippingPriceP>
-                  <ShippingPriceDesc>30,000원 이상 무료배송</ShippingPriceDesc>
-                </ShippingPrice>
-              </CartArtistItemPrice>
-            </CartArtistItemSec>
-          </CartArtistItem>
-        </CartArtistList>
-        <VStickyPlaceholder />
-        <CartListSticky>
-          {/* <CartCheckboxControl>
+                <CartArtistItemSec>
+                  <CartArtistItemLab>상품가격</CartArtistItemLab>
+                  <CartArtistItemPrice>{totalPrice}원</CartArtistItemPrice>
+                </CartArtistItemSec>
+                <CartArtistItemSec>
+                  <CartArtistItemLab>배송비</CartArtistItemLab>
+                  <CartArtistItemPrice>
+                    <ShippingPrice>
+                      <ShippingPriceP>0원</ShippingPriceP>
+                      {/* <ShippingPriceDesc>30,000원 이상 무료배송</ShippingPriceDesc> */}
+                    </ShippingPrice>
+                  </CartArtistItemPrice>
+                </CartArtistItemSec>
+              </CartArtistItem>
+            </CartArtistList>
+            <VStickyPlaceholder />
+            <CartListSticky>
+              {/* <CartCheckboxControl>
             <CheckBox>
               <CheckBox>
                 <CartPAllCheckI type="checkbox" />
@@ -286,47 +332,122 @@ function CartList(props) {
             </CheckBox>
             <BtnM>선택삭제</BtnM>
           </CartCheckboxControl> */}
-          <br />
-          <CartCheckout>
-            <CartCheckoutDesktop>
-              <CartCheckoutDesktopItem>
-                <CartCheckoutDesktopLab>상품금액</CartCheckoutDesktopLab>
-                <CartCheckoutDesktopVal>
-                  {/* <span>{props.data.salePrice}</span> */}
-                  <CartCheckoutDesktopU>원</CartCheckoutDesktopU>
-                </CartCheckoutDesktopVal>
-              </CartCheckoutDesktopItem>
+              <br />
+              <CartCheckout>
+                <CartCheckoutDesktop>
+                  <CartCheckoutDesktopItem>
+                    <CartCheckoutDesktopLab>상품금액</CartCheckoutDesktopLab>
+                    <CartCheckoutDesktopVal>
+                      <span>{totalPrice}</span>
+                      <CartCheckoutDesktopU>원</CartCheckoutDesktopU>
+                    </CartCheckoutDesktopVal>
+                  </CartCheckoutDesktopItem>
 
-              <CartCheckoutDesktopFix>+</CartCheckoutDesktopFix>
-              <CartCheckoutDesktopItem>
-                <CartCheckoutDesktopLab>배송비</CartCheckoutDesktopLab>
-                <CartCheckoutDesktopVal>
-                  <span>0</span>
-                  <CartCheckoutDesktopU>원</CartCheckoutDesktopU>
-                </CartCheckoutDesktopVal>
-              </CartCheckoutDesktopItem>
+                  <CartCheckoutDesktopFix>+</CartCheckoutDesktopFix>
+                  <CartCheckoutDesktopItem>
+                    <CartCheckoutDesktopLab>배송비</CartCheckoutDesktopLab>
+                    <CartCheckoutDesktopVal>
+                      <span>0</span>
+                      <CartCheckoutDesktopU>원</CartCheckoutDesktopU>
+                    </CartCheckoutDesktopVal>
+                  </CartCheckoutDesktopItem>
 
-              <CartCheckoutDesktopFix>=</CartCheckoutDesktopFix>
-              <CartCheckoutDesktopItem>
-                <CartCheckoutDesktopLab>결제 예정금액</CartCheckoutDesktopLab>
-                <CartCheckoutDesktopH>
-                  {/* <span>{props.data.salePrice}</span> */}
-                  <CartCheckoutDesktopU>원</CartCheckoutDesktopU>
-                </CartCheckoutDesktopH>
-              </CartCheckoutDesktopItem>
-            </CartCheckoutDesktop>
-          </CartCheckout>
+                  <CartCheckoutDesktopFix>=</CartCheckoutDesktopFix>
+                  <CartCheckoutDesktopItem>
+                    <CartCheckoutDesktopLab>
+                      결제 예정금액
+                    </CartCheckoutDesktopLab>
+                    <CartCheckoutDesktopH>
+                      <span> {totalPrice}</span>
+                      <CartCheckoutDesktopU>원</CartCheckoutDesktopU>
+                    </CartCheckoutDesktopH>
+                  </CartCheckoutDesktopItem>
+                </CartCheckoutDesktop>
+              </CartCheckout>
 
-          <CartPageBottom>
-            <CartPageBottomR type="button" onClick={onClickPayment}>
-              주문하기
-            </CartPageBottomR>
-          </CartPageBottom>
-        </CartListSticky>
-      </div>
+              <CartPageBottom>
+                <CartPageBottomR type="button" onClick={onClickPayment}>
+                  주문하기
+                </CartPageBottomR>
+              </CartPageBottom>
+            </CartListSticky>
+          </div>
+        </>
+      ) : (
+        <>
+          <div>
+            <EmptyList>
+              <EmptyListLogo>
+                <LogoEmpty className="fa-solid fa-empty-set"></LogoEmpty>
+                <div>
+                  <EmptyListText>
+                    장바구니가 비었습니다.
+                    <br />
+                    다양한 상품을 담아보세요.
+                  </EmptyListText>
+                </div>
+                <EmptyCartBtn
+                  type="button"
+                  onClick={() => window.location.replace("/")}
+                >
+                  상품 구경하러 가기
+                </EmptyCartBtn>
+              </EmptyListLogo>
+            </EmptyList>
+          </div>
+        </>
+      )}
     </>
   );
 }
+
+const EmptyCartBtn = styled.button`
+  width: 246px;
+  margin-top: 36px;
+  background: #f1c333;
+  border: 1px solid transparent;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 46px;
+  padding: 0 24px;
+  display: inline-block;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px 0 rgb(220 220 220 / 30%);
+  box-sizing: border-box;
+  cursor: pointer;
+  font-weight: 400;
+  text-align: center;
+  text-decoration: none;
+  transition: border-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  vertical-align: middle;
+`;
+
+const EmptyListText = styled.p`
+  text-align: center;
+  font-size: 16px;
+  color: #666666;
+`;
+
+const LogoEmpty = styled.i`
+  vertical-align: middle;
+  color: #f1c333;
+  font-size: 120px !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  &:before {
+    content: "!";
+  }
+`;
+
+const EmptyListLogo = styled.div`
+  margin-bottom: 40px;
+`;
+
+const EmptyList = styled.div`
+  margin: 0 auto;
+  padding: 50px 0;
+  text-align: center;
+`;
 
 const CartPageBottom = styled.div`
   padding: 16px;
@@ -334,7 +455,7 @@ const CartPageBottom = styled.div`
 
 const CartPageBottomR = styled.button`
   width: 100%;
-  background: #ff7b30;
+  background: #f1c333;
   border: 1px solid transparent;
   color: #ffffff;
   font-size: 16px;
@@ -355,7 +476,7 @@ const CartPageBottomR = styled.button`
 const CartCheckoutDesktopH = styled.div`
   font-size: 24px;
   font-weight: bold;
-  color: #ff7b30;
+  color: #f1c333;
 `;
 
 const CartCheckoutDesktopFix = styled.div`
@@ -456,8 +577,8 @@ const CartPAllCheckI = styled.input`
   &:before {
     content: "v";
     font-size: 16px;
-    border: 1px solid #ff7b30;
-    background: #ff7b30;
+    border: 1px solid #f1c333;
+    background: #f1c333;
     color: #fff;
 
     cursor: pointer;

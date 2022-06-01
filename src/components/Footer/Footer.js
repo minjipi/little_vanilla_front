@@ -22,16 +22,14 @@ function Footer() {
         </NavLinks>
       </FullW>
       <InnerWClf>
-        <LogoFooter>
-          <LogoGray></LogoGray>
-        </LogoFooter>
+        <LogoFooter>{/* <LogoGray /> */}</LogoFooter>
         <Fl>
-          <FooterStrong>(주) 바닐라</FooterStrong>
+          <FooterStrong>(주) 어리틀바닐라</FooterStrong>
           <FooterUl>
             <FooterLi>대표이사 : 홍민지</FooterLi>
-            <FooterLi>서울특별시 마포구 동교로 19길 12</FooterLi>
+            {/* <FooterLi>서울특별시 마포구 동교로 19길 12</FooterLi>
             <FooterLi>사업자 등록번호 : 107-87-83297</FooterLi>
-            <FooterLi>통신판매업신고 : 2015-서울마포-0440</FooterLi>
+            <FooterLi>통신판매업신고 : 2015-서울마포-0440</FooterLi> */}
           </FooterUl>
           <NtFix1>
             어리틀 바닐라는 통신판매중개자이며 통신판매의 당사자가 아닙니다.
@@ -60,17 +58,17 @@ function Footer() {
         <Fr>
           <FooterStrong>Follow Us</FooterStrong>
           <NavList>
-            <LinkFacebook
+            {/* <LinkFacebook
               className="icon-facebook-c"
               src="https://www.facebook.com/idus.me"
             />
             <LinkInstagram
               className="icon-instagram-c"
               src="https://www.instagram.com/idus.me/"
-            />
+            /> */}
             <LinkNaverBlog
               className="icon-blog"
-              src="https://blog.naver.com/idus_me"
+              href="https://blog.naver.com/ghdalswl77"
             />
           </NavList>
         </Fr>
@@ -89,7 +87,7 @@ const FooterTag = styled.footer`
 const FullW = styled.div`
   width: 100%;
   border-bottom: 1px solid #acacac;
-  border-top: 3px solid #ff7b30;
+  border-top: 3px solid #f1c333;
 `;
 
 const NavLinks = styled.nav`

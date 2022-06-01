@@ -200,7 +200,7 @@ const ProductInfoBadgeGroup = styled.div`
 
 const BadgeFood = styled.div`
   margin-right: 0;
-  background-color: #e2fae6;
+  background-color: #f1c333;
   color: #39af4d;
   padding: 5px 6px 4px;
   height: 20px;

@@ -33,8 +33,8 @@ const BannerEmptyBtn = styled.button`
   line-height: 45px;
   padding: 0 24px;
   color: #fff;
-  background: #ff7b30;
-  border: 1px solid #ff7b30;
+  background: #f1c333;
+  border: 1px solid #f1c333;
   display: block;
   width: 246px;
   margin: 36px auto 0;
@@ -58,7 +58,7 @@ const BannerEmptyP = styled.p`
 
 const LogoEmpty = styled.i`
   vertical-align: middle;
-  color: #e1e1e1;
+  color: #f1c333;
   font-size: 120px !important;
   font-style: normal;
   -webkit-font-smoothing: antialiased;

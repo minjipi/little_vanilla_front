@@ -1,6 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useEffect } from "react/cjs/react.development";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 function SignUpEmail() {
@@ -27,6 +26,10 @@ function SignUpEmail() {
     }
   };
 
+  const fake = () => {
+    alert("현재 개인정보를 수집하고 있지 않습니다🙂 안심하고 테스트 해보세요.");
+  };
+
   useEffect(() => {
     if (checkedItems.length >= 2) {
       setIsAllChecked(true);
@@ -38,19 +41,11 @@ function SignUpEmail() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
-  // const [name, setName] = useState("");
-  // const [birthday, setBirthday] = useState("");
-  // const [gender, setGender] = useState("");
 
   let body = {
     email: email,
     password: password,
     nickname: nickname,
-  };
-
-  let loginBody = {
-    username: email,
-    password: password,
   };
 
   const onSubmit = async () => {
@@ -71,17 +66,17 @@ function SignUpEmail() {
     }
   };
 
-  const onEmailAuth = async () => {
-    console.log("onEmailAuth!");
+  // const onEmailAuth = async () => {
+  //   console.log("onEmailAuth!");
 
-    try {
-      const response = await axios.post("http://localhost:8080/member/", body, {
-        headers: { "Content-Type": "application/json" },
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  //   try {
+  //     const response = await axios.post("http://localhost:8080/member/", body, {
+  //       headers: { "Content-Type": "application/json" },
+  //     });
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   const emailCheck = async () => {
     if (email === "") {
@@ -234,7 +229,7 @@ function SignUpEmail() {
                       checked={isAllChecked}
                     />
                   </InputCheckBox>
-                  <TermsLabel>모두 동의합니다.</TermsLabel>
+                  <TermsLabel onClick={fake}>모두 동의합니다.</TermsLabel>
                 </TermsHead>
 
                 <TermsBody>
@@ -269,7 +264,7 @@ function SignUpEmail() {
                         }
                       />
                     </InputCheckBox>
-                    <Terms2A>이용약관 필수 동의</Terms2A>
+                    <Terms2A onClick={fake}>이용약관 필수 동의</Terms2A>
                   </TermsItem>
                   {/*  */}
                 </TermsBody>
@@ -334,8 +329,8 @@ const BtnLogin = styled.button`
   display: inline-block;
   vertical-align: middle;
   color: #fff;
-  background: #ff7b30;
-  border: 1px solid #ff7b30;
+  background: #f1c333;
+  border: 1px solid #f1c333;
   width: 100%;
   height: 48px;
   line-height: 48px;
@@ -375,7 +370,7 @@ const Terms1Label = styled.label`
 
 const Terms1 = styled.input`
   // -webkit-appearance: none;
-  background: #ff7b30;
+  background: #f1c333;
   display: inline-block;
   position: relative;
   height: 18px;
@@ -432,8 +427,8 @@ const TermsLabel = styled.label`
 //     font-size: 16px;
 //     font-style: normal;
 //     content: "✓";
-//     border: 1px solid #ff7b30;
-//     background: #ff7b30;
+//     border: 1px solid #f1c333	;
+//     background: #f1c333	;
 //     color: #fff;
 //     cursor: pointer;
 //     display: inline-block;
@@ -557,8 +552,8 @@ const SignupStep = styled.div`
 
     ${IsActive} {
       color: #fff;
-      border-color: #ff7b30;
-      background: #ff7b30;
+      border-color: #f1c333;
+      background: #f1c333;
     }
 
     ul {

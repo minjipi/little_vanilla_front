@@ -7,26 +7,10 @@ import axios from "axios";
 import CartList from "./CartList";
 
 function Cart() {
-  const location = useLocation();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phonenumber, setPhonenumber] = useState("");
-  const [gender, setGender] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [noti, setNoti] = useState("");
-
-  const handleRadioBtn = (e) => {
-    setGender(e.target.value);
-  };
-
-  let body = {
-    email: email,
-    nickname: name,
-    phoneNum: phonenumber,
-    gender: gender,
-    birthday: birthday,
-    notification: noti,
-  };
+  if (localStorage.getItem("token") === null) {
+    alert("로그인 후 이용해 보세요! 🛒");
+    document.location.href = "/login";
+  }
 
   // useEffect(() => {
   //   if (localStorage.getItem("token") === null) {

@@ -1,41 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
-import Header from "../../../components/Nav/Header";
-import OrderEmpty from "./OrderEmpty";
-import Footer from "../../../components/Footer/Footer";
+import React from "react";
+import styled from "styled-components";
+import Header from "../../components/Nav/Header";
+import Footer from "../../components/Footer/Footer";
+import SlideSection from "./SlideSection/SlideSection";
+import TodayProduct from "./SlideSection/TodayProduct";
+import productData from "../../data/productData.json";
+
 import jwt_decode from "jwt-decode";
-import OrderList from "./OrderList";
 import axios from "axios";
 
-function Order() {
-  const [selectYear, setSelectYear] = useState(false);
-  const [clickYear, setClickYear] = useState(false);
-  const [isOptionVisible, setIsOptionVisible] = useState(false);
-
-  let [res, setRes] = useState(null);
-  useEffect(() => {
-    async function fetchData() {
-      let response = await axios.get("http://localhost:8080/order/list/", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
-
-      let result = response.data.result;
-      setRes(result);
-
-      let productName = [];
-      // result.split(",").map((filename, idx) => {
-      //   const img = {
-      //     id: idx + 1,
-      //   };
-      //   productName.push(img);
-      // });
-    }
-    fetchData();
-  }, []);
+function Likelist() {
   return (
     <>
       <Header />
-      <DimmedBackground />
+      <DimmedBackground></DimmedBackground>
+
       <ContentDiv>
         <InnerwLayoutSplit>
           <MyInfo>
@@ -90,56 +69,14 @@ function Order() {
 
           {/*  */}
           <Section>
-            <TitleStyleNoMt>
-              <TitleStyleTxt>주문 내역</TitleStyleTxt>
-              <Fr>
-                <UiSelectboxS100
-                  onClick={() => {
-                    setIsOptionVisible(!isOptionVisible);
-                  }}
-                >
-                  <SortByYear>
-                    <UiOption
-                      value="2022"
-                      className={selectYear === true ? "active" : ""}
-                    >
-                      2022 년
-                    </UiOption>
-                    <UiOption value="2022">2021 년</UiOption>
-                  </SortByYear>
-                  {/* <SelectboxBtn
-                    type="button"
-                    className={isOptionVisible === true ? "active" : ""}
-                  >
-                    <UiSelected>2022 년</UiSelected>
-                    <ArroeDown
-                      className={
-                        isOptionVisible === true
-                          ? "fas fa-chevron-up"
-                          : "fas fa-chevron-down"
-                      }
-                    ></ArroeDown>
-                  </SelectboxBtn> */}
-                  <UiSelectedul>
-                    <UiOptionLi value="2022">2022 년</UiOptionLi>
-                    <UiOptionLi value="2021">2021 년</UiOptionLi>
-                  </UiSelectedul>
-                </UiSelectboxS100>
-              </Fr>
-            </TitleStyleNoMt>
             <UiTabGroupFavorite>
-              <UiTabGroupTab>상품</UiTabGroupTab>
-              {/* <UiTabGroupTabA>온라인 클래스</UiTabGroupTabA>
-              <UiTabGroupTabA>오프라인 클래스</UiTabGroupTabA> */}
+              <UiTabGroupTab>좋아요 목록</UiTabGroupTab>
             </UiTabGroupFavorite>
-            {/*  */}
-
-            {res ? (
-              res.map((item) => <OrderList key={item.idx} item={item} />)
-            ) : (
-              <OrderEmpty />
-            )}
-            {/*  */}
+            <Contents>
+              <SlideSection
+                contents={<TodayProduct productData={productData.results} />}
+              />
+            </Contents>
             <Paging>
               <PagingNav>
                 <Pagingnum>1</Pagingnum>
@@ -153,6 +90,7 @@ function Order() {
           </Section>
         </InnerwLayoutSplit>
       </ContentDiv>
+
       <Footer />
     </>
   );
@@ -207,20 +145,6 @@ const BannerTypeAroot = styled.div`
   margin-top: 40px;
 `;
 
-const UiTabGroupTabA = styled.a`
-  padding: 20px 0 17px;
-  display: inline-block;
-  vertical-align: middle;
-  width: 50%;
-  font-size: 16px;
-  text-align: center;
-  color: #acacac;
-  border: 1px solid #d9d9d9;
-  border-bottom-color: #d9d9d9;
-  background-color: #f5f5f5;
-  width: 33.33333%;
-`;
-
 const UiTabGroupTab = styled.span`
   padding: 20px 0 17px;
   display: inline-block;
@@ -249,148 +173,6 @@ const UiTabGroupFavorite = styled.div`
   width: 100%;
   color: #333;
   background: #f5f5f5;
-`;
-
-const UiOptionLi = styled.li`
-  &:last-child {
-    border-top: 0 none;
-  }
-  padding: 8px 12px;
-  border-bottom: 1px solid #d9d9d9;
-  -webkit-transition: background-color 0.3s ease;
-  transition: background-color 0.3s ease;
-  font-size: inherit;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-`;
-
-const UiSelectedul = styled.ul`
-  &.active {
-    height: auto;
-    border-bottom: 1px solid #8b4513;
-  }
-
-  z-index: 101;
-  position: absolute;
-  overflow: hidden;
-  width: 100%;
-  height: 0;
-  max-height: 400px;
-  overflow-y: auto;
-  background: #fff;
-  border: 1px solid #8b4513;
-  border-top: 0 none;
-  border-bottom: 0 none;
-  -webkit-border-bottom-left-radius: 2px;
-  border-bottom-left-radius: 2px;
-  -webkit-border-bottom-right-radius: 2px;
-  border-bottom-right-radius: 2px;
-  cursor: pointer;
-  font-size: inherit;
-  color: inherit;
-`;
-
-const ArroeDown = styled.i`
-  position: absolute;
-  right: 12px;
-  top: 8px;
-  font-size: 12px;
-  font-size: 18px;
-  margin-left: 8px;
-`;
-
-const UiSelected = styled.span`
-  font-size: inherit;
-  display: inline-block;
-  vertical-align: middle;
-  width: 90%;
-  padding-right: 12px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-`;
-
-const SelectboxBtn = styled.button`
-  padding: 0px 12px;
-  line-height: 30px;
-  margin: 0;
-  position: relative;
-  width: 100%;
-  border: 1px solid #b4b4b4;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -webkit-transition: border 0.2s;
-  transition: border 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  font-size: inherit;
-  color: inherit;
-`;
-
-const UiOption = styled.option`
-  padding: 8px 12px;
-  border-bottom: 1px solid #d9d9d9;
-  -webkit-transition: background-color 0.3s ease;
-  transition: background-color 0.3s ease;
-  font-size: inherit;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-`;
-
-const SortByYear = styled.select`
-  margin-top: 8px;
-  display: none !important;
-  font-size: inherit;
-  color: inherit;
-`;
-
-const UiSelectboxS100 = styled.div`
-  width: 100px;
-  -webkit-tap-highlight-color: transparent;
-  color: #333;
-  position: relative;
-  display: inline-block;
-  -webkit-transition: opacity 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
-  transition: opacity 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
-`;
-
-const Fr = styled.div`
-  display: block;
-  float: right;
-`;
-
-const TitleStyleTxt = styled.a`
-  font-size: 24px;
-  font-weight: bold;
-  vertical-align: middle;
-  color: #333;
-  display: block;
-  float: left;
-`;
-
-const TitleStyleNoMt = styled.div`
-  margin-top: 0;
-  padding-top: 0;
-  vertical-align: bottom;
-  padding-bottom: 4px;
-  margin-bottom: 32px;
-  position: relative;
-  vertical-align: middle;
-
-  &:after {
-    content: "";
-    display: block;
-    clear: both;
-  }
 `;
 
 const Section = styled.section`
@@ -543,4 +325,9 @@ const MyA = styled.a`
   margin-top: 8px;
 `;
 
-export default Order;
+const Contents = styled.div`
+  padding-bottom: 64px;
+  background: #fff;
+`;
+
+export default Likelist;
