@@ -43,13 +43,13 @@ function Likelist() {
                   <MyInfoSpan>주문배송</MyInfoSpan>
                 </MyInfoB>
                 <MyA href="/order">주문내역</MyA>
-                <MyA href="/order/paymemt">취소/환불내역</MyA>
+                <MyA>취소/환불내역</MyA>
 
                 <MyInfoB>
                   <MyInfoSpan>알림 및 메시지</MyInfoSpan>
                 </MyInfoB>
-                <MyA href="/notification">알림</MyA>
-                <MyA href="/message">메시지</MyA>
+                <MyA>알림</MyA>
+                <MyA>메시지</MyA>
 
                 <MyInfoB>
                   <MyInfoSpan>나의 구매후기</MyInfoSpan>

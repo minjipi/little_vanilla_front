@@ -4,6 +4,7 @@ import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
+import { useParams } from "react-router";
 
 function Mypage(props) {
   if (localStorage.getItem("token") === null) {
@@ -17,11 +18,10 @@ function Mypage(props) {
   const [gender, setGender] = useState("");
   const [birthday, setBirthday] = useState("");
   const [noti, setNoti] = useState("");
-
   const [emailChangeBtn, setEmailChangeBtn] = useState(true);
   const [phoneChangeBtn, setPhoneChangeBtn] = useState(false);
-
   const [result, setResult] = useState("");
+  const params = useParams();
 
   const handleRadioBtn = (e) => {
     setGender(e.target.value);
@@ -44,12 +44,15 @@ function Mypage(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get("http://localhost:8080/member/modify", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.get(
+        "http://www.alittlevanilla.kro.kr:8080/member/modify",
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       setResult(response.data.result);
       setName(result.nickname);
@@ -77,7 +80,7 @@ function Mypage(props) {
           document.location.href = "/login";
         } else {
           response = await axios.patch(
-            "http://localhost:8080/member/modify/" +
+            "http://www.alittlevanilla.kro.kr:8080/member/modify/" +
               jwt_decode(localStorage.getItem("token")).idx,
             body,
             {
@@ -99,6 +102,36 @@ function Mypage(props) {
       } catch (e) {
         console.log(e);
       }
+    }
+  };
+
+  const onLeave = async () => {
+    try {
+      let response = "";
+
+      response = await axios.patch(
+        "http://www.alittlevanilla.kro.kr:8080/member/delete/" +
+          jwt_decode(localStorage.getItem("token")).idx,
+        body,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log(response.data.code);
+
+      if (response.data.code === 1000) {
+        alert("회원 탈퇴처리 되었습니다. 다음에 또 만나요!😻");
+        localStorage.clear();
+        document.location.href = "/";
+      } else {
+        alert(response.data.message);
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -147,7 +180,7 @@ function Mypage(props) {
                 <MyA type="button" onClick={review}>
                   후기 쓰기
                 </MyA>
-                <MyA href="/message" type="button" onClick={review}>
+                <MyA type="button" onClick={review}>
                   내가 쓴 후기
                 </MyA>
 
@@ -322,10 +355,12 @@ function Mypage(props) {
                   </tr> */}
                 </Tbody>
               </TableStyleHeadLeft>
-              {/* 
+
               <TarMt10>
-                <BtnSWhite href="/leave">회원탈퇴</BtnSWhite>
-              </TarMt10> */}
+                <BtnSWhite href="/" onClick={() => onLeave()}>
+                  회원탈퇴
+                </BtnSWhite>
+              </TarMt10>
 
               <br />
               <FormSubmitTac>
