@@ -6,7 +6,7 @@
 > 현재 [I am port](https://www.iamport.kr/?gclid=CjwKCAjws8yUBhA1EiwAi_tpEawr0NbpwdG_4bW9KRPVRXXVEdwQ32yO8SyXEhMBfxiqHIml3c8uxhoC2nYQAvD_BwE, "Iamport link") 결제 API를 연동하여 실제 거래까지 이루어지지만, 현재 배포된 사이트에서는 당일 자정에 모두 환불됩니다.<br />
 > 안심하고 테스트 해보세요!
 <br />
-<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white">
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"><img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"><img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white">
 
 
 <br />
@@ -32,11 +32,6 @@
 | 정보수정 | GET | /modify | 회원 정보 수정을 위한 본인 확인 | ☑️ |
 | 정보수정 | PATCH | /modify/{idx} | 닉네임, 아이디, 비밀번호, 성별 등의 정보 수정 | ☑️ |
 | 회원탈퇴 | PATCH | /delete/{idx} | 회원 탈퇴 | ☑️ |
-
-
-[Spring Boot + JWT + Security + Security '회원가입/로그인'](https://blog.naver.com/ghdalswl77/222675846877) <br />
-[Spring Boot 카카오 로그인 하기 (JWT+OAuth2)](https://blog.naver.com/ghdalswl77/222711444513) <br />
-[springboot 구글 이메일 gmail 인증 회원가입 구현](https://blog.naver.com/ghdalswl77/222739067045) <br />
 <br />
 
 ### 🛍 상품
@@ -61,9 +56,6 @@
 | 서랍 상품 추가 | PATCH | /cabinet/update/{product_idx}/{cbn_idx} | 서랍에 상품 추가. | ☑️ |
 | 서랍 목록 | GET | /cabinet/cbnlist | 내 서랍 목록 조회 | ☑️ |
 | 서랍 내 상품 목록 | GET | /cabinet/{cabinet_idx} | 서랍idx를 통한 서랍 내 상품 조회 | ☑️ |
-
-
-
 <br />
 
 
