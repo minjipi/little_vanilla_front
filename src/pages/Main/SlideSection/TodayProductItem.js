@@ -1,65 +1,74 @@
 import react, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import axios from "axios";
-import TodayProductItem from "./TodayProductItem";
 
-function TodayProduct(props) {
-  const [productData, setProductData] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      let result = null;
-      if (localStorage.getItem("token") === null) {
-        result = await axios.get(
-          "http://www.alittlevanilla.kro.kr:8080/product/list"
-        );
-      } else {
-        result = await axios.get(
-          "http://www.alittlevanilla.kro.kr:8080/product/list",
+function TodayProductItem(props) {
+  const [like, setLike] = useState(false);
+  useEffect(() => {}, [like]);
+  const productLike = async (idx) => {
+    try {
+      if (localStorage.getItem("token") !== null) {
+        const response = await axios.get(
+          "http://www.alittlevanilla.kro.kr:8080/product/like/" + idx,
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
+      } else {
+        window.location.href = "/login";
       }
-
-      console.log(result.data);
-      setProductData(result.data.result);
+    } catch (e) {
+      window.location.href = "/login";
+      console.log(e);
     }
-    fetchData();
-  }, []);
+  };
 
   return (
-    <UiGrid>
-      <UiGridCols5>
-        {productData.map((product) => {
-          return <TodayProductItem key={product.idx} product={product} />;
-        })}
-      </UiGridCols5>
-    </UiGrid>
+    <UiGridItem key={props.product.idx}>
+      <UiCard>
+        <IconFavorite
+          className={
+            props.product.like_check === like
+              ? "icon-favorite"
+              : "icon-favorite active"
+          }
+          onClick={() => {
+            setLike(!like);
+            productLike(props.product.idx);
+          }}
+        />
+        <UiCardImgcover>
+          <UiCardImgcoverA
+            imageurl={
+              "http://www.alittlevanilla.kro.kr:8080/product/display?fileName=" +
+              props.product.filename.split(",")[0]
+            }
+            href={"/product/" + props.product.idx}
+          ></UiCardImgcoverA>
+        </UiCardImgcover>
+        <UiCardInfo>
+          <UiCardInfoLabel>{props.product.idx}</UiCardInfoLabel>
+          <UiCardInfoTitle>{props.product.name}</UiCardInfoTitle>
+          <UiCardInfoLabel>{props.product.salePrice}</UiCardInfoLabel>
+        </UiCardInfo>
+        <UiCardRating>
+          <UiCardVcenter>
+            <UiRating>
+              <IconStarFill className="fa fa-star" />
+              <IconStarFill className="fa fa-star" />
+              <IconStarFill className="fa fa-star" />
+              <IconStarFill className="fa fa-star" />
+              <IconStarFill className="fa fa-star" />
+            </UiRating>
+          </UiCardVcenter>
+          <UiCardComment>{props.product.comment}</UiCardComment>
+        </UiCardRating>
+      </UiCard>
+    </UiGridItem>
   );
 }
-
-const UiGrid = styled.li`
-  position: relative;
-  overflow: hidden;
-  list-style: none;
-  float: left;
-  width: 1056px;
-  display: list-item;
-`;
-
-const UiGridCols5 = styled.ul`
-  height: 100%;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  border: 0 none;
-  margin-left: -16px;
-  margin-top: -16px;
-`;
 
 const UiGridItem = styled.li`
   list-style: none;
@@ -88,6 +97,12 @@ const UiCard = styled.div`
 `;
 
 const IconFavorite = styled.button`
+  &.active {
+    background-position: -689px -430px;
+    width: 24px;
+    padding-top: 24px;
+  }
+
   text-align: left;
   box-sizing: border-box;
   position: absolute;
@@ -208,4 +223,4 @@ const UiCardComment = styled.span`
   text-overflow: ellipsis;
 `;
 
-export default TodayProduct;
+export default TodayProductItem;

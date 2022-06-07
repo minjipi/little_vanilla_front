@@ -1,25 +1,26 @@
 import React from "react";
 import styled from "styled-components";
+import mainad from "../../../Images/mainad.png";
 
 function MainTop() {
   return (
     <>
       <FullW>
         <BannerTitle>
-          <BannerImg
-            src="https://image.idus.com/image/files/21a2e3e78f25429d8aedb913e96b3d55.jpg"
-            alt="banner"
-          />
+          <BannerImg src={mainad} alt="banner" />
           <Col>
             <ShowroomArticle>
-              <Title>⏰마감임박⏰설 예약할인 기획전</Title>
-              <Desc>
-                아직 설날이 실감 나지 않으셨던 분도🙋‍♀️ 언제 선물을 준비해야 할지
-                고민이셨던 분도🙋‍♂️ ✨바로 바로~ 지금이 마지막 절호의 기회!✨ 지금
-                구매해야 설 전에 받을 수 있어요📢 오직 설 예약 할인전에서만 만날
-                수 있는 최대 85% 할인 혜택, 끝까지 놓치지 말고 지금 바로
-                만나보세요🚚🎁
-              </Desc>
+              <Title>
+                👋🏻 안녕하세요! <br />이 사이트는 실제 제품 판매 사이트가
+                아닙니다.
+                <br />
+                결제 기능은 자정에 모두 환불 되고 있으니,
+                <br />
+                편하게 모든 기능들을 테스트 해보세요.
+                <br />
+                사이트에 궁금한 점이 있다면 언제든 연락주세요.🥰
+              </Title>
+              <Desc></Desc>
             </ShowroomArticle>
           </Col>
         </BannerTitle>

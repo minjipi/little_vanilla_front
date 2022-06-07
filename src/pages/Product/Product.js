@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import Header from "../../components/Nav/Header";
 import Footer from "../../components/Footer/Footer";
-import Option from "./Option";
-import ProductDetail from "./ProductDetail";
 import SelectedOption from "./SelectedOption";
 import $ from "jquery";
 import axios from "axios";
@@ -15,6 +13,7 @@ function Product() {
   const [isTotalValue, setIsTotalValue] = useState([]);
   const [isSelectedValue, setIsSelectedValue] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPrice2, setTotalPrice2] = useState(0);
   const [isScroll, setIsScroll] = useState(false);
   const [selectedImg, setSelectedImg] = useState(0);
   const [imageShow, setImageShow] = useState([]);
@@ -24,23 +23,68 @@ function Product() {
   const [calSale, setCalSale] = useState(0);
   const params = useParams();
 
+  const [isCartClicked, setIsCartClicked] = useState(false);
+
+  const [loginCheck, SetLoginCheck] = useState("");
+
+  const [popup, setPopup] = useState(true);
+
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("token") !== null) {
+        SetLoginCheck(true);
+      } else {
+        SetLoginCheck(false);
+      }
+    } catch (error) {
+      console.log(
+        "문제가 생겼습니다.. "
+        // error: " + error + JSON.stringify(localStorage)
+      );
+      alert("문제가 생겼습니다..");
+      window.location.href = "/";
+    }
+  }, []);
+
+  const review = () => {
+    alert("기능 준비중입니다!");
+  };
+
+  const cartIn = async () => {
+    let body = {
+      productIdx: params.idx,
+      amount: 1,
+    };
+    // const result =
+    await axios.post("http://www.alittlevanilla.kro.kr:8080/cart/in", body, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
   useEffect(() => {
     async function fetchData() {
       const result = await axios.get(
-        "http://localhost:8080/product/" + params.idx
+        "http://www.alittlevanilla.kro.kr:8080/product/" + params.idx
       );
 
       let images = [];
       result.data.result.filename.split(",").map((filename, idx) => {
         const img = {
           id: idx + 1,
-          url: "http://localhost:8080/product/display?fileName=" + filename,
+          url:
+            "http://www.alittlevanilla.kro.kr:8080/product/display?fileName=" +
+            filename,
         };
         images.push(img);
       });
       setImageShow(images);
 
       setData(result.data.result);
+
+      setTotalPrice2(result.data.result.salePrice);
       setCalSale(
         ((result.data.result.price - result.data.result.salePrice) /
           result.data.result.price) *
@@ -49,6 +93,27 @@ function Product() {
     }
     fetchData();
   }, []);
+
+  // useEffect(() => {
+  //   let timer = setTimeout(() => {
+  //     setAlert(false);
+  //   }, 2000);
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // });
+
+  const inputPriceFormat = (str) => {
+    const comma = (str) => {
+      str = String(str);
+      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+    };
+    const uncomma = (str) => {
+      str = String(str);
+      return str.replace(/[^\d]+/g, "");
+    };
+    return comma(uncomma(str));
+  };
 
   const optionData = [
     {
@@ -144,7 +209,6 @@ function Product() {
       temp = temp * item.num;
       total += temp;
     });
-
     setTotalPrice(total);
   });
 
@@ -173,7 +237,7 @@ function Product() {
                           backgroundImage: "url(" + img.url + ")",
                         }}
                       >
-                        <WelcomeDeal src="https://image.idus.com/static/ticketdeal/badge_welcomedeal.png" />
+                        {/* <WelcomeDeal src="https://image.idus.com/static/ticketdeal/badge_welcomedeal.png" /> */}
                       </UiSlider>
                     );
                   })}
@@ -184,7 +248,6 @@ function Product() {
                   disabled={isClicked ? "disabled" : ""}
                   onClick={() => {
                     setIsClicked(true);
-                    console.log(imageShow);
 
                     setSelectedImg(
                       (selectedImg + data.filename.split(",").length - 1) %
@@ -265,7 +328,7 @@ function Product() {
                         key={index}
                         style={{
                           backgroundImage:
-                            "url(http://localhost:8080/product/display?fileName=" +
+                            "url(http://www.alittlevanilla.kro.kr:8080/product/display?fileName=" +
                             filename +
                             ")",
                         }}
@@ -312,7 +375,7 @@ function Product() {
                       <ArtistCardSplitA>
                         <ArtistCardImg />
                         <ArtistCardLabel>
-                          {data.idx}
+                          {data.brandIdx}
                           <ArrowR className="fas fa-chevron-right" />
                         </ArtistCardLabel>
                       </ArtistCardSplitA>
@@ -330,35 +393,40 @@ function Product() {
                             </ProductDetailStarTxt2>
                             <ProductDetailStarTxt3>
                               <ProductDetailStarTxt3P>
-                                {data.salePrice}
+                                {data.likeCount}
                               </ProductDetailStarTxt3P>
                             </ProductDetailStarTxt3>
                           </ProductDetailStarTxt1>
                         </LikeBtn>
-                        <ProductDetailShareBtn>
+                        {/* <ProductDetailShareBtn>
                           <ProductDetailShare>
                             <ShareIcon className="fas fa-share-alt" />
                           </ProductDetailShare>
-                        </ProductDetailShareBtn>
+                        </ProductDetailShareBtn> */}
                       </StickyAsideMRight>
 
                       <ProductDetailSpan>
                         <PriceTagHilight>
-                          <PriceTagHilightEm>{calSale}</PriceTagHilightEm>%
+                          <PriceTagHilightEm>
+                            {Math.ceil(calSale)}
+                          </PriceTagHilightEm>
+                          %
                         </PriceTagHilight>
                         <PriceTagStrong>
-                          <Strong>1,000</Strong>원
+                          <Strong>{inputPriceFormat(data.salePrice)}</Strong>원
                         </PriceTagStrong>
-                        <PriceTagCrossout>{data.price}</PriceTagCrossout>
+                        <PriceTagCrossout>
+                          {inputPriceFormat(data.price)}
+                        </PriceTagCrossout>
                       </ProductDetailSpan>
                       <Maker></Maker>
                     </PriceTagD>
-                    <PricetagD2>
+                    {/* <PricetagD2>
                       <MarkR>
                         <CountUp>750 명</CountUp>
                         <DarkSpan>구매</DarkSpan>
                       </MarkR>
-                    </PricetagD2>
+                    </PricetagD2> */}
                     <div>
                       <DataRow>
                         <DataRowTable>
@@ -369,7 +437,7 @@ function Product() {
                                 <span>
                                   최대 <DataRowSpan>35P</DataRowSpan>
                                 </span>
-                                <Balloon>
+                                <Balloon onClick={review} type="button">
                                   <BalloonIcon className="fas fa-info-circle"></BalloonIcon>
                                 </Balloon>
                               </ContenetTd>
@@ -399,13 +467,13 @@ function Product() {
                               </tbody>
                             </PointBalTable>
 
-                            <div>
+                            {/* <div>
                               <VipSection>
                                 <VipSectionDiv />
                                 <tbody>
                                   <VipSectionTr>
                                     <VipSectionTd>
-                                      <h4>아이디어스 VIP 클럽</h4>
+                                      <h4> VIP 클럽</h4>
                                     </VipSectionTd>
                                     <VipSectionTdR>
                                       <VipSectionA>더 알아보기</VipSectionA>
@@ -418,7 +486,7 @@ function Product() {
                                 서비스로 작품 금액의 1.0% 추가 적립 및 배송비
                                 무료 혜택을 제공합니다.
                               </VipSectionDesc>
-                            </div>
+                            </div> */}
                           </PointBal>
                         </BalloonContent>
                       </DataRow>
@@ -437,7 +505,7 @@ function Product() {
                                         <Star className="fas fa-star" />
                                       </ReviewRateSpan>
                                     </ReviewRateDiv>
-                                    <ReviewRateDivLeft>(116)</ReviewRateDivLeft>
+                                    <ReviewRateDivLeft>(1)</ReviewRateDivLeft>
                                     <ReviewRateDivTop>
                                       <ReviewRateDivTopI className="fas fa-chevron-right"></ReviewRateDivTopI>
                                     </ReviewRateDivTop>
@@ -456,15 +524,14 @@ function Product() {
                               <TitleTd>배송비</TitleTd>
                               <ContenetTd>
                                 <span>
-                                  2,500 원
-                                  <Subcontent>
-                                    {" "}
+                                  {data.deliveryType}
+                                  {/* <Subcontent>
                                     (8,000원 이상 무료배송)
-                                  </Subcontent>
+                                  </Subcontent> */}
                                 </span>
-                                <Balloon>
+                                {/* <Balloon onClick={review} type="button">
                                   <BalloonIcon className="fas fa-info-circle"></BalloonIcon>
-                                </Balloon>
+                                </Balloon> */}
                               </ContenetTd>
                             </DataRowTr>
                           </tbody>
@@ -491,7 +558,7 @@ function Product() {
                         </DataRowTable>
                       </DataRow>
 
-                      <DataRow>
+                      {/* <DataRow>
                         <DataRowTable>
                           <tbody>
                             <DataRowTr>
@@ -502,15 +569,29 @@ function Product() {
                             </DataRowTr>
                           </tbody>
                         </DataRowTable>
+                      </DataRow> */}
+
+                      <DataRow>
+                        <DataRowTable>
+                          <tbody>
+                            <DataRowTr>
+                              <TitleTd>제품 소개</TitleTd>
+                              <ContenetTd>
+                                <DeliveryHeaderDiv>
+                                  {data.contents}
+                                </DeliveryHeaderDiv>
+                              </ContenetTd>
+                            </DataRowTr>
+                          </tbody>
+                        </DataRowTable>
                       </DataRow>
                     </div>
                   </div>
-                  {/*  */}
+
                   <div>
                     <BuyScrollable>
                       <div>
-                        {/* mobile-show mobile-ui-close */}
-                        <SelectGroupTriggerBtn
+                        {/* <SelectGroupTriggerBtn
                           type="button"
                           onClick={() => {
                             setIsSelectVisible(0);
@@ -529,7 +610,7 @@ function Product() {
                         <OptionScrollableD isOptionVisible={isOptionVisible}>
                           <SelectGroupHeaderD>
                             <SelectGroupTitleS>
-                              전체 옵션 6개 중 0개 선택
+                              옵션을 모두 선택해주세요.
                             </SelectGroupTitleS>
 
                             <SelectGroupBtn
@@ -560,8 +641,7 @@ function Product() {
                               );
                             })}
                           </SelectGBodyD>
-                        </OptionScrollableD>
-
+                        </OptionScrollableD> */}
                         {isTotalValue.map((total, index) => {
                           return (
                             <SelectedOption
@@ -575,21 +655,67 @@ function Product() {
                             />
                           );
                         })}
-
                         <CheckoutProductCostDl>
                           <span>
                             <span>
                               배송비
-                              <b>2,500 원</b>
+                              <b>{data.price} 원</b>
                             </span>
                           </span>
 
                           <span>
                             <Subtitle>총 작품금액</Subtitle>
-                            {totalPrice}원
+                            {totalPrice2}원
                           </span>
                         </CheckoutProductCostDl>
                       </div>
+                      {/*  */}
+                      <CheckOutProduct>
+                        <Cart
+                          onClick={() => {
+                            cartIn();
+                            setIsCartClicked(!isCartClicked);
+                          }}
+                          type="button"
+                        >
+                          장바구니
+                        </Cart>
+                        {/* <Cart className="npay" type="button" onClick={review}>
+                          <NpayImg src="https://www.idus.com/resources/dist/images/npay.svg" />
+                        </Cart> */}
+                        {loginCheck ? (
+                          <>
+                            <Update onClick={() => {}} type="button">
+                              수정하기
+                            </Update>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+
+                        <RedBuy
+                          type="button"
+                          onClick={() => {
+                            cartIn();
+                            window.location.href = "/cart";
+                          }}
+                        >
+                          구매하기
+                        </RedBuy>
+                      </CheckOutProduct>
+
+                      <Alertmsg isCartClicked={isCartClicked}>
+                        <CloseBtn>
+                          <CloseI
+                            onClick={() => {
+                              setIsCartClicked(!isCartClicked);
+                            }}
+                            className="fa-solid fa-xmark"
+                          ></CloseI>
+                        </CloseBtn>
+                        <Ptag>장바구니에 작품이 담겼습니다.</Ptag>
+                        <Atag href="/cart">장바구니 가기</Atag>
+                      </Alertmsg>
                     </BuyScrollable>
                   </div>
                 </StickyAsideDiv>
@@ -597,12 +723,317 @@ function Product() {
             </div>
           </StickyAsideProductD>
         </InnerWMobileFull>
-        <ProductDetail />
+
+        <InnerWMobileFull>
+          <ProductDetailNoticeBox>
+            <VipBanner>
+              <BannerWrapper>
+                <BannerDesc>
+                  배송비 내지 마세요! <br />월 2,500원으로
+                  <strong>무제한 무료배송</strong>
+                </BannerDesc>
+                <VipCashback />
+                <TimeCounter />
+                <VipClubBtn onClick={review}>VIP 클럽</VipClubBtn>
+              </BannerWrapper>
+            </VipBanner>
+          </ProductDetailNoticeBox>
+
+          <PrdDetailSection>
+            <TabStyle>
+              <Split>
+                <Tab>
+                  <span>판매자 정보: </span>
+                  {data.brandIdx}
+                </Tab>
+              </Split>
+            </TabStyle>
+          </PrdDetailSection>
+        </InnerWMobileFull>
       </ContentRel>
       <Footer />
     </>
   );
 }
+
+const TabStyle = styled.div`
+  width: 100%;
+  font-size: 12px;
+  color: #999;
+  overflow: hidden;
+`;
+const Split = styled.div``;
+const Tab = styled.div`
+  position: relative;
+  padding: 18px 16px;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  border-top: 1px solid #d9d9d9;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+`;
+
+const PrdDetailSection = styled.div`
+  width: 560px;
+`;
+
+const InnerWMobileFull = styled.div`
+  width: 1056px;
+  margin: 0 auto;
+  position: relative;
+`;
+const ProductDetailNoticeBox = styled.div`
+  width: 560px;
+`;
+const VipBanner = styled.section`
+  padding: 0 12px 12px 12px;
+`;
+const BannerWrapper = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  width: 560px;
+  background: #f8f8f8;
+  border-radius: 4px;
+`;
+const BannerDesc = styled.span`
+  font-size: 14px;
+  color: #333333;
+  line-height: 1.5;
+
+  strong {
+    font-weight: bold;
+  }
+
+  br {
+    display: none;
+  }
+`;
+
+const VipCashback = styled.div``;
+const TimeCounter = styled.div`
+  display: none;
+`;
+const VipClubBtn = styled.button`
+  height: 36px;
+  border-radius: 4px;
+  border: 1px solid #f1c333;
+  background-color: #ffffff;
+  color: #f1c333;
+  padding: 0 24px;
+`;
+
+const Atag = styled.a`
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  font-size: 10px;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.4;
+
+  padding: 6px 12px;
+  font-size: 12px;
+
+  color: #fff;
+  background: #f1c333;
+  border: 1px solid #f1c333;
+
+  width: 80px;
+  font-size: 10px;
+  padding: 6px 10px;
+`;
+const Ptag = styled.p``;
+
+const CloseI = styled.i`
+  display: inline;
+  vertical-align: middle;
+  font-size: 10px;
+
+  &:before {
+    content: "X";
+  }
+`;
+
+const CloseBtn = styled.span`
+  position: absolute;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  right: 0;
+  top: 0;
+  line-height: 24px;
+  text-align: center;
+  font-size: 16px;
+`;
+
+const Alertmsg = styled.div`
+  ${Ptag} {
+    padding: 8px 0 16px;
+    font-size: 12px;
+  }
+
+  display: none;
+
+  ${(props) =>
+    props.isCartClicked &&
+    css`
+      display: block;
+      padding: 12px 18px;
+      position: absolute;
+      top: 0px;
+      left: -30px;
+      width: 202px;
+      -webkit-box-shadow: 0 4px 8px 0 #00000033;
+      box-shadow: 0 4px 8px 0 #00000033;
+      border: solid 1px #d9d9d9;
+      background: #fff;
+      text-align: center;
+
+      &:before {
+        content: "";
+        position: absolute;
+        bottom: -16px;
+        left: 50%;
+        margin-left: -8px;
+        border: 8px solid #fff;
+        border-bottom-color: transparent;
+        border-right-color: transparent;
+        border-left-color: transparent;
+      }
+    `};
+`;
+
+const RedBuy = styled.button`
+  box-shadow: 0 1px 3px 0 hsl(0deg 0% 86% / 30%);
+  font-weight: 400;
+  box-sizing: border-box;
+  display: inline-block;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  vertical-align: middle;
+  transition: background-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: border-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 16px;
+  line-height: 30px;
+  border-color: transparent;
+  background: #f1c333;
+  color: #fff;
+  display: block;
+  float: left;
+  padding: 0;
+  line-height: 44px;
+  font-size: 16px;
+  width: calc((97% - 46px) / 3);
+  margin-right: 1%;
+  height: 46px;
+`;
+
+const NpayImg = styled.img`
+  display: inline-block;
+  vertical-align: middle;
+  font-size: inherit;
+  color: inherit;
+  width: 52px;
+`;
+
+const Update = styled.button`
+  box-shadow: 0 1px 3px 0 hsl(0deg 0% 86% / 30%);
+  font-weight: 400;
+  box-sizing: border-box;
+  display: inline-block;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  vertical-align: middle;
+  transition: background-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: border-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 16px;
+  line-height: 30px;
+  border-color: #d9d9d9;
+  background: #ffecbb;
+  color: darkslategray;
+  display: block;
+  float: left;
+  padding: 0;
+  line-height: 44px;
+  font-size: 16px;
+  width: calc((97% - 46px) / 3);
+  margin-right: 1%;
+  height: 46px;
+`;
+
+const Cart = styled.button`
+  &.npay {
+    font-size: 12px;
+    padding: 0 16px;
+    line-height: 30px;
+    background: #30c612;
+    border-color: #30c612;
+  }
+
+  box-shadow: 0 1px 3px 0 hsl(0deg 0% 86% / 30%);
+  font-weight: 400;
+  box-sizing: border-box;
+  display: inline-block;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  vertical-align: middle;
+  transition: background-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: border-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+
+  font-size: 16px;
+  width: calc((97% - 46px) / 3);
+  margin-right: 1%;
+  height: 46px;
+
+  display: block;
+  float: left;
+  padding: 0;
+  line-height: 44px;
+`;
+
+const CheckOutProduct = styled.fieldset`
+  margin-top: 16px;
+  border: 0 none;
+
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+`;
 
 const DimmedBackground = styled.div`
   display: none;
@@ -622,12 +1053,6 @@ const ContentRel = styled.div`
 const StickyStart = styled.div`
   position: absolute;
   top: 25px;
-`;
-
-const InnerWMobileFull = styled.div`
-  width: 1056px;
-  margin: 0 auto;
-  position: relative;
 `;
 
 const ImgSection = styled.section`
@@ -763,7 +1188,7 @@ const ImgListIndicator = styled.ul`
     display: inline-block;
     margin-left: 2px;
     width: 56px;
-    height: 56px;
+    // height: 56px;
     background-repeat: no-repeat;
     background-position: center;
     -webkit-background-size: cover;
@@ -776,7 +1201,7 @@ const ImgListIndicator = styled.ul`
     }
 
     &.active {
-      border: 2px solid #ff7b30;
+      border: 2px solid #f1c333;
     }
   }
 `;
@@ -1048,7 +1473,7 @@ const DataRowSpan = styled.span`
   font-weight: bold;
 `;
 
-const Balloon = styled.div`
+const Balloon = styled.button`
   position: relative;
   display: inline-block;
   height: 18px;
@@ -1157,8 +1582,8 @@ const VipSectionTdR = styled.td`
 `;
 
 const VipSectionA = styled.a`
-  color: #ff7b30;
-  color: #ff7b30 !important;
+  color: #f1c333;
+  color: #f1c333 !important;
 `;
 
 const VipSectionDesc = styled.p`

@@ -1,16 +1,54 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  let body = {
+    username: email,
+    password: password,
+  };
+
+  const onSubmit = async () => {
+    try {
+      const response = await axios.post(
+        "http://www.alittlevanilla.kro.kr:8080/member/authenticate",
+        body,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      console.log(response.data.token);
+
+      if (response.data.token !== null) {
+        localStorage.clear();
+        localStorage.setItem("token", response.data.token);
+        console.log("response.data.token:  " + response.data.token);
+
+        window.location.replace("/");
+      } else {
+        setEmail("");
+        setPassword("");
+        localStorage.clear();
+      }
+    } catch (e) {
+      alert(
+        "회원 정보가 일치 하지 않습니다. 아이디와 비민번호를 다시 확인해 주세요!"
+      );
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <LoginWrap>
         <LoginContainer>
           <LoginHeadLogo>
             <h1>
-              <a>
-                <IconLogo />
-              </a>
+              <a>{/* <IconLogo /> */}</a>
             </h1>
           </LoginHeadLogo>
           <LoginHeadText>
@@ -29,11 +67,16 @@ function Login() {
             </BorderAndText>
 
             <VerticalButtons>
-              <BarButton className="kakao">
+              <BarButton
+                href="http://www.alittlevanilla.kro.kr:8080/oauth2/authorization/kakao"
+                className="kakao"
+              >
                 <SpIcon className="Kakaotalk"></SpIcon>
                 카카오로 3초만에 시작하기
               </BarButton>
-              <BarButton className="email">이메일로 가입하기</BarButton>
+              <BarButton className="email" href="/signupemail">
+                이메일로 가입하기
+              </BarButton>
             </VerticalButtons>
 
             <HorizontalButtons>
@@ -63,8 +106,26 @@ function Login() {
             </BorderAndText>
             <EmailLoginContainer>
               <div>
-                <EmailLoginInput placeholder="이메일" />
-                <EmailLoginInput placeholder="비밀번호" />
+                <EmailLoginInput
+                  id="email"
+                  type="email"
+                  value={email}
+                  placeholder="이메일"
+                  required
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+                <EmailLoginInput
+                  id="password"
+                  // type="password"
+                  value={password}
+                  placeholder="비밀번호"
+                  required
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
               </div>
               <EmailLoginOption>
                 <div>
@@ -76,7 +137,15 @@ function Login() {
                 <a>아이디 / 비밀번호 찾기</a>
               </EmailLoginOption>
             </EmailLoginContainer>
-            <CommonButton>로그인</CommonButton>
+            <CommonButton
+              type="button"
+              onClick={() => {
+                onSubmit();
+                console.log("body: " + email + ", " + password);
+              }}
+            >
+              로그인
+            </CommonButton>
           </LoginSigninContent>
         </LoginContainer>
       </LoginWrap>
@@ -90,7 +159,7 @@ const CommonButton = styled.button`
   height: 44px;
   border-radius: 2px;
   border: none;
-  background: #ff7b30;
+  background: #f1c333;
   color: #ffffff;
   font-size: 16px;
   line-height: 30px;
@@ -237,8 +306,8 @@ const BarButton = styled.a`
 
   &.email {
     background: #ffffff;
-    color: #ff7b30;
-    border: 1px solid #ff7b30;
+    color: #f1c333;
+    border: 1px solid #f1c333;
   }
 `;
 
@@ -262,7 +331,7 @@ const BorderAndText = styled.div`
 `;
 
 const SpIcon = styled.span`
-  background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070.png);
+  background-image: url("https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070.png");
   height: 0;
   overflow: hidden;
   display: inline-block;
@@ -363,28 +432,27 @@ const LoginHeadText = styled.div`
   }
 `;
 
-const IconLogo = styled.span`
-  background-position: -91px -488px;
-  width: 100px;
-  padding-top: 40px;
+// const IconLogo = styled.span`
+//   background-position: -91px -488px;
+//   width: 100px;
+//   padding-top: 40px;
+//   background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070.png);
+//   height: 0;
+//   overflow: hidden;
+//   display: inline-block;
+//   vertical-align: middle;
+//   font-size: 0;
+//   line-height: 0;
+//   letter-spacing: 0;
 
-  background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070.png);
-  height: 0;
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 0;
-  line-height: 0;
-  letter-spacing: 0;
-
-  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070@2x.png);
-    -webkit-background-size: 787px 736px;
-    -moz-background-size: 787px 736px;
-    -o-background-size: 787px 736px;
-    background-size: 787px 736px;
-  }
-`;
+//   @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+//     background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070@2x.png);
+//     -webkit-background-size: 787px 736px;
+//     -moz-background-size: 787px 736px;
+//     -o-background-size: 787px 736px;
+//     background-size: 787px 736px;
+//   }
+// `;
 
 const LoginHeadLogo = styled.div`
   text-align: center;

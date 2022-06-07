@@ -11,9 +11,7 @@ function SignUp() {
         <LoginSectionRoot>
           <LoginHeadLogo>
             <h1>
-              <a>
-                <IconLogo />
-              </a>
+              <a>{/* <IconLogo /> */}</a>
             </h1>
           </LoginHeadLogo>
           <LoginHeadText>
@@ -31,7 +29,7 @@ function SignUp() {
             </SignupStep>
             <LoginSns className="wrap">
               <Item>
-                <Kakaotalk>
+                <Kakaotalk href="http://www.alittlevanilla.kro.kr:8080/oauth2/authorization/kakao">
                   <SpIcon className="Kakaotalk" />
                   "카카오톡으로 가입하기"
                 </Kakaotalk>
@@ -71,12 +69,12 @@ function SignUp() {
                 </Item>
 
                 <Item>
-                  <Email>이메일로 가입하기</Email>
+                  <Email href="/signupemail">이메일로 가입하기</Email>
                 </Item>
               </Hidden>
               <AdditionTxt>
                 이미 가입하셨다면
-                <a href="">바로 로그인하기</a>
+                <a href="/login">바로 로그인하기</a>
               </AdditionTxt>
             </LoginSns>
           </LoginSection>
@@ -130,9 +128,9 @@ const LoginSns = styled.div`
       }
 
       ${Email} {
-        border: 2px solid #ff7b30;
+        border: 2px solid #f1c333;
         background: #fff;
-        color: #ff7b30;
+        color: #f1c333;
         line-height: 28px;
       }
       ${Twitter} {
@@ -185,8 +183,8 @@ const SignupStep = styled.div`
 
     ${IsActive} {
       color: #fff;
-      border-color: #ff7b30;
-      background: #ff7b30;
+      border-color: #f1c333;
+      background: #f1c333;
     }
 
     ul {

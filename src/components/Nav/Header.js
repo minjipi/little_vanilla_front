@@ -1,15 +1,79 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
+import jwt_decode from "jwt-decode";
+import asasasa from "../Nav/asasasa.png";
+import QR from "../../Images/QR.png";
 
 function Header() {
   const [isAppInstallHover, setIsAppInstallHover] = useState(false);
   const [isCallCenterHover, setIsCallCenterHover] = useState(false);
+  const [isMyInfoHover, setIsMyInfoHover] = useState(false);
   const [isCategoryHover, setIsCategoryHover] = useState(false);
+  const [isTopHover, setIsTopHover] = useState(false);
+
+  const [email, setEmail] = useState("");
+
+  const [cartnum, setCartnum] = useState("");
 
   const [word, setWord] = useState("");
+  const issueKeyword = "어버이날";
+
+  const [loginCheck, setLoginCheck] = useState("");
+  const goMypage = () => {
+    try {
+      if (localStorage.getItem("token") === null) {
+        alert("로그인 해주세요.");
+        document.location.href = "/login";
+      } else {
+        document.location.href = "/mypage";
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const logout = () => {
+    try {
+      localStorage.clear();
+      document.location.href = "/";
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // async function fetchData() {
+  //   const result = await axios.get("http://www.alittlevanilla.kro.kr:8080/cart/list", {
+  //     headers: {
+  //       Authorization: "Bearer " + localStorage.getItem("token"),
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   console.log(JSON.stringify(result.data.result));
+
+  //   setCartnum(result.data.result);
+  // }
+
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("token") !== null) {
+        setLoginCheck(true);
+        // console.log("로그인: " + loginCheck);
+        // console.log("token: " + localStorage.getItem("token"));
+      } else {
+        setLoginCheck(false);
+        // fetchData();
+      }
+    } catch (error) {
+      console.log("error: " + JSON.stringify(localStorage));
+    }
+  }, [loginCheck]);
 
   const onSubmit = async () => {
-    window.location.href = "/search/" + word;
+    if (word === "") {
+      window.location.href = "/search/" + issueKeyword;
+    } else {
+      window.location.href = "/search/" + word;
+    }
   };
 
   return (
@@ -21,7 +85,7 @@ function Header() {
               onMouseOver={() => setIsAppInstallHover(true)}
               onMouseOut={() => setIsAppInstallHover(false)}
               readOnly
-              value="아이디어스 앱 설치하기"
+              value="어리틀바닐라 앱 설치하기"
             />
             <MenuDropdownAppInstallGuide
               onMouseOver={() => setIsAppInstallHover(true)}
@@ -30,7 +94,7 @@ function Header() {
             >
               <MenuDropdownAppH1>
                 <SpIconImgAppicon />
-                아이디어스를 스마트폰으로 더욱 편리하게 사용하세요.
+                어리틀바닐라를 스마트폰으로 더욱 편리하게 사용하세요.
               </MenuDropdownAppH1>
               <MenuDropdownAppOl>
                 <MenuDropdownAppLi>
@@ -57,47 +121,123 @@ function Header() {
             </MenuDropdownAppInstallGuide>
           </NavBtnUiDropdown>
 
-          {/* 로그인 회원가입 */}
+          {/* 마이 페이지 */}
           <Fr>
-            <GnbLoginBtn>로그인</GnbLoginBtn>
-            <GnbLoginBtn>회원가입</GnbLoginBtn>
-            <NavBtnUiDropdown>
-              <BtnDropdown
-                onMouseOver={() => setIsCallCenterHover(true)}
-                onMouseOut={() => setIsCallCenterHover(false)}
-              >
-                고객센터
-              </BtnDropdown>
-              <MenuDropdown
-                onMouseOver={() => setIsCallCenterHover(true)}
-                onMouseOut={() => setIsCallCenterHover(false)}
-                isCallCenterHover={isCallCenterHover}
-              >
-                <CustomerLi>
-                  <CustomerA>공지사항</CustomerA>
-                </CustomerLi>
-                <CustomerLi>
-                  <CustomerA>자주 묻는 질문</CustomerA>
-                </CustomerLi>
-                <CustomerLi>
-                  <CustomerA>메일로 문의</CustomerA>
-                </CustomerLi>
-              </MenuDropdown>
-            </NavBtnUiDropdown>
+            {loginCheck ? (
+              <>
+                <NavBtnUiDropdown>
+                  <BtnDropdown
+                    onMouseOver={() => setIsMyInfoHover(true)}
+                    onMouseOut={() => setIsMyInfoHover(false)}
+                  >
+                    {jwt_decode(localStorage.getItem("token")).nickname}님
+                  </BtnDropdown>
+                  <MyDropdown
+                    onMouseOver={() => setIsMyInfoHover(true)}
+                    onMouseOut={() => setIsMyInfoHover(false)}
+                    isMyInfoHover={isMyInfoHover}
+                  >
+                    <CustomerLi>
+                      <CustomerA
+                        onMouseOver={() => setIsTopHover(true)}
+                        onMouseOut={() => setIsTopHover(false)}
+                        isTopHover={isTopHover}
+                      >
+                        주문배송
+                      </CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA
+                        onMouseOver={() => setIsTopHover(true)}
+                        onMouseOut={() => setIsTopHover(false)}
+                        isTopHover={isTopHover}
+                      >
+                        관심리스트
+                      </CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA>쿠폰함</CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA href="/mypage">회원 정보관리</CustomerA>
+                    </CustomerLi>
+                    <AddBorder
+                      onClick={() => {
+                        logout();
+                        console.log("로그아웃! body: " + email);
+                      }}
+                    >
+                      로그아웃
+                    </AddBorder>
+                  </MyDropdown>
+                </NavBtnUiDropdown>
+
+                {/* <GnbLoginBtn href="/signup">알림</GnbLoginBtn>
+                <GnbLoginBtn href="/signup">메시지</GnbLoginBtn> */}
+                <NavBtnUiDropdown>
+                  <BtnDropdown
+                    onMouseOver={() => setIsCallCenterHover(true)}
+                    onMouseOut={() => setIsCallCenterHover(false)}
+                  >
+                    고객센터
+                  </BtnDropdown>
+                  <MenuDropdown
+                    onMouseOver={() => setIsCallCenterHover(true)}
+                    onMouseOut={() => setIsCallCenterHover(false)}
+                    isCallCenterHover={isCallCenterHover}
+                  >
+                    <CustomerLi>
+                      <CustomerA href="https://blog.naver.com/ghdalswl77">
+                        공지사항
+                      </CustomerA>
+                    </CustomerLi>
+                    {/* <CustomerLi>
+                      <CustomerA>자주 묻는 질문</CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA>메일로 문의</CustomerA>
+                    </CustomerLi> */}
+                  </MenuDropdown>
+                </NavBtnUiDropdown>
+              </>
+            ) : (
+              <>
+                <GnbLoginBtn href="/signup">회원가입</GnbLoginBtn>
+                <GnbLoginBtn href="/login">로그인</GnbLoginBtn>
+
+                <NavBtnUiDropdown>
+                  고객센터
+                  <MenuDropdown
+                    onMouseOver={() => setIsCallCenterHover(true)}
+                    onMouseOut={() => setIsCallCenterHover(false)}
+                    isCallCenterHover={isCallCenterHover}
+                  >
+                    <CustomerLi>
+                      <CustomerA>공지사항</CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA>자주 묻는 질문</CustomerA>
+                    </CustomerLi>
+                    <CustomerLi>
+                      <CustomerA>메일로 문의</CustomerA>
+                    </CustomerLi>
+                  </MenuDropdown>
+                </NavBtnUiDropdown>
+              </>
+            )}
           </Fr>
         </InnerW>
       </TopNavigation>
       <SearchHeaderDesktop>
         <SearchHeaderDesktopBar>
           <SearchHeaderDesktopLogo>
-            <IconIduslogo>
-              <Iduslogo src="https://www.idus.com/resources/dist/images/logo.svg" />
-              {/* <Iduslogo src={require("./logo.png")} /> */}
+            <IconIduslogo to="/">
+              <Iduslogo src={require("./logo.png")} />
             </IconIduslogo>
           </SearchHeaderDesktopLogo>
           {/* 작품, 클래스 */}
           <SearchHeaderDesktopServiceNav>
-            <ServiceActive>작품</ServiceActive>
+            <ServiceActive>상품</ServiceActive>
             <Service>클래스</Service>
           </SearchHeaderDesktopServiceNav>
           {/* 검색바 */}
@@ -112,7 +252,7 @@ function Header() {
               <SearchRelated>
                 <SearchResultUl>
                   <SearchResultLi>
-                    <SearchResultLiKeyword>첫번재 검색어</SearchResultLiKeyword>
+                    <SearchResultLiKeyword>첫번째 검색어</SearchResultLiKeyword>
                   </SearchResultLi>
                 </SearchResultUl>
               </SearchRelated>
@@ -134,17 +274,17 @@ function Header() {
             <TrendingWordSlider>
               <TrendingSlideWordA>
                 <TrendingSlideWordEm>1</TrendingSlideWordEm>
-                민지쿠키
+                리틀 자수정 목걸이
               </TrendingSlideWordA>
             </TrendingWordSlider>
           </KeywordTrendingDesktop>
           {/* 내 정보 */}
           <SearchHeaderProfileLinkNav>
-            <ProfileA>
+            <ProfileA type="button" onClick={() => goMypage()}>
               <IconMypage className="far fa-user" />내 정보
             </ProfileA>
-            <ProfileCartA>
-              <ProfileBadge>0</ProfileBadge>
+            <ProfileCartA href="/cart">
+              {/* <ProfileBadge>0</ProfileBadge> */}
               <IdusIconCart className="fas fa-shopping-cart">
                 {/* <i class="fas fa-shopping-cart"></i> */}
               </IdusIconCart>
@@ -217,14 +357,14 @@ function Header() {
             </UiGnbMenuLi>
 
             <UiGnbMenuLi>
-              <MenuA>홈</MenuA>
+              <MenuA to="/">홈</MenuA>
             </UiGnbMenuLi>
 
-            <UiGnbMenuLi>
-              <MenuA>오늘의 작품</MenuA>
-            </UiGnbMenuLi>
+            {/* <UiGnbMenuLi>
+              <MenuA >오늘의 작품</MenuA>
+            </UiGnbMenuLi> */}
 
-            <UiGnbMenuLi>
+            {/* <UiGnbMenuLi>
               <MenuA>실시간 구매</MenuA>
             </UiGnbMenuLi>
 
@@ -238,7 +378,7 @@ function Header() {
 
             <UiGnbMenuLi>
               <MenuA>실시간 추천</MenuA>
-            </UiGnbMenuLi>
+            </UiGnbMenuLi> */}
           </UiGnbUl>
         </InnerContainerGnb>
       </FullGnbScrollDiv>
@@ -355,16 +495,9 @@ const SpIconImgAppicon = styled.span`
   overflow: hidden;
   display: inline-block;
   vertical-align: middle;
-  font-size: 0;
-  line-height: 0;
-  letter-spacing: 0;
-  background-size: 787px 736px;
-  background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070@2x.png);
-  background-position: -689px -141px;
+  background-image: url(${asasasa});
   width: 32px;
-  padding-top: 32px;
-  font-size: 10px;
-  color: #666;
+  padding-top: 30px;
   margin-right: 8px;
 `;
 
@@ -430,8 +563,8 @@ const BtnPoint = styled.button`
   padding: 6px 12px;
   font-size: 12px;
   color: #fff;
-  background: #ff7b30;
-  border: 1px solid #ff7b30;
+  background: #f1c333;
+  border: 1px solid #f1c333;
 `;
 
 const MenuDropdownAppSpan = styled.span`
@@ -451,7 +584,8 @@ const QrImgicon = styled.img`
   display: block;
   width: 112px;
   height: 112px;
-  background-image: url(https://www.idus.com/resources/dist/images/qrcode.png);
+  // background-image: url(https://www.idus.com/resources/dist/images/qrcode.png);
+  background-image: url(${QR});
 `;
 
 const Fr = styled.nav`
@@ -477,16 +611,16 @@ const BtnDropdown = styled.button`
   justify-content: center;
 `;
 
-// 고객센터drop
+// 고객센터 drop
 const MenuDropdown = styled.ul`
   display: none;
   position: absolute;
   width: auto;
   margin-top: 3px;
   margin-left: -33px;
+  padding-: 8px 12px;
   padding: 8px 12px;
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 10%);
-
   border-radius: 4px;
   border: solid 1px #d9d9d9;
   z-index: 111;
@@ -523,6 +657,60 @@ const MenuDropdown = styled.ul`
   }
 `;
 
+// 마이페이지 drop
+const MyDropdown = styled.ul`
+  display: none;
+  position: absolute;
+  width: auto;
+  // margin-top: 3px;
+  margin-left: -33px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 10%);
+  border-radius: 4px;
+  border: solid 1px #d9d9d9;
+  z-index: 111;
+  background: #fff;
+
+  ${(props) =>
+    props.isMyInfoHover &&
+    css`
+      display: block;
+    `}
+
+  &:before {
+    content: "";
+    position: absolute;
+    border: 6px solid #d9d9d9;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    top: -12px;
+    left: 50%;
+    margin-left: -6px;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    border: 4px solid #fff;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    top: -8px;
+    left: 50%;
+    margin-left: -4px;
+  }
+`;
+
+const AddBorder = styled.li`
+  border-top: 1px solid #d9d9d9;
+  padding: 4px 0;
+  width: 80px;
+  font-size: 11px;
+  color: #666;
+  list-style: none;
+`;
+
 const CustomerLi = styled.li`
   padding: 4px 0;
   width: 80px;
@@ -535,6 +723,10 @@ const CustomerA = styled.a`
   padding: 0 !important;
   width: 100%;
   height: 100%;
+
+  &:hover {
+    color: #f1c333;
+  }
 `;
 
 const SearchHeaderDesktop = styled.div`
@@ -553,7 +745,7 @@ const SearchHeaderDesktopLogo = styled.h1`
   vertical-align: middle;
   margin-top: -8px;
 `;
-const IconIduslogo = styled.a`
+const IconIduslogo = styled(Link)`
   width: 74px;
   height: 29px;
   text-decoration: none;
@@ -561,7 +753,7 @@ const IconIduslogo = styled.a`
 const Iduslogo = styled.img`
   display: block;
   width: 72.5px;
-  height: 29px;
+  // height: 29px;
 `;
 
 const SearchHeaderDesktopServiceNav = styled.nav`
@@ -570,7 +762,7 @@ const SearchHeaderDesktopServiceNav = styled.nav`
 `;
 
 const ServiceActive = styled.a`
-  color: #ff7b30;
+  color: #f1c333;
   font-weight: bold;
   font-size: 18px;
   margin-right: 30px;
@@ -589,7 +781,7 @@ const SearchInputDesktop = styled.div`
   margin-right: 24px;
   display: inline-block;
   vertical-align: middle;
-  border: 1px solid #ff7b30;
+  border: 1px solid #f1c333;
   border-radius: 4px;
   height: 40px;
 `;
@@ -673,7 +865,7 @@ const SearchInputDesktopSearchButton = styled.button`
   vertical-align: middle;
 `;
 const IdusIconSearch = styled.i`
-  color: #ff7b30;
+  color: #f1c333;
   font-size: 24px;
   line-height: 38px;
 `;
@@ -716,7 +908,7 @@ const SearchHeaderProfileLinkNav = styled.nav`
   display: inline-block;
   margin-left: 74px;
 `;
-const ProfileA = styled.a`
+const ProfileA = styled.button`
   margin-left: 0;
   display: inline-block;
   position: relative;
@@ -757,7 +949,7 @@ const ProfileBadge = styled.span`
   height: 17px;
   border-radius: 50%;
   color: #ffffff;
-  background: #ff7b30;
+  background: #f1c333;
   text-align: center;
   line-height: 18px;
   right: -3px;
@@ -830,7 +1022,7 @@ const MenuSpan = styled.span`
   color: #666;
 
   &:hover {
-    color: #ff7b30;
+    color: #f1c333;
   }
 `;
 
@@ -907,14 +1099,14 @@ const CategorySubmenuA = styled.a`
   width: 100%;
 `;
 
-const MenuA = styled.a`
+const MenuA = styled(Link)`
   display: inline-block;
   vertical-align: middle;
   padding: 10px 11px;
   color: #666;
 
   &:hover {
-    color: #ff7b30;
+    color: #f1c333;
   }
 `;
 

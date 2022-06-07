@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import axios from "axios";
 import Header from "../../components/Nav/Header";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 function Search() {
   const [searchData, setSearchData] = useState([]);
@@ -10,39 +11,73 @@ function Search() {
   const [sort, setSort] = useState("");
   const [extend, setExtend] = useState(false);
   const [checked, setChecked] = useState("가격대 전체");
+  const [catechecked, setCateChecked] = useState("가격대 전체");
   const [priceChecked, setPriceChecked] = useState("");
 
   const params = useParams();
 
   async function fetchData() {
-    if (checked === "가격대 전체") {
-      const result = await axios.get(
-        "http://localhost:8080/product/search?word=" + params.word
-      );
-      setSearchData(result.data.result);
+    if (params.word === null) {
+      console.log("검색어 없음.");
+    }
 
+    if (checked === "가격대 전체") {
+    }
+
+    if (checked === "가격대 전체") {
       if (priceChecked === "1만5천원이하") {
         console.log("priceChecked: " + priceChecked);
         const result = await axios.get(
-          "http://localhost:8080/product/search?word=" +
+          "http://www.alittlevanilla.kro.kr:8080/product/search?word=" +
             params.word +
-            "&gte=0&lte=300"
+            "&gte=0&lte=15000"
+        );
+        setSearchData(result.data.result);
+      } else if (priceChecked === "1만5천원3만원") {
+        console.log("priceChecked: " + priceChecked);
+        const result = await axios.get(
+          "http://www.alittlevanilla.kro.kr:8080/product/search?word=" +
+            params.word +
+            "&gte=15000&lte=30000"
+        );
+        setSearchData(result.data.result);
+      } else {
+        const result = await axios.get(
+          "http://www.alittlevanilla.kro.kr:8080/product/search?word=" +
+            params.word
         );
         setSearchData(result.data.result);
       }
     } else if (checked === "isDelFree") {
-      const result = await axios.get(
-        "http://localhost:8080/product/search?word=" +
-          params.word +
-          "&isDelFree=1"
-      );
-      setSearchData(result.data.result);
+      if (priceChecked === "1만5천원이하") {
+        console.log("priceChecked: " + priceChecked);
+        const result = await axios.get(
+          "http://www.alittlevanilla.kro.kr:8080/product/search?word=" +
+            params.word +
+            "&gte=0&lte=15000"
+        );
+        setSearchData(result.data.result);
+      } else if (priceChecked === "1만5천원3만원") {
+        console.log("priceChecked: " + priceChecked);
+        const result = await axios.get(
+          "http://www.alittlevanilla.kro.kr:8080/product/search?word=" +
+            params.word +
+            "&gte=15000&lte=30000"
+        );
+        setSearchData(result.data.result);
+      } else {
+        const result = await axios.get(
+          "http://www.alittlevanilla.kro.kr:8080/product/search?word=" +
+            params.word +
+            "&isDelFree=1"
+        );
+        setSearchData(result.data.result);
+      }
     }
   }
 
   useEffect(() => {
     fetchData();
-    console.log("useEffect");
   }, [checked, priceChecked]);
 
   const handleClickRadioButton = () => {
@@ -128,8 +163,6 @@ function Search() {
                     </DesktopRadioFilterRow>
                     {/*  */}
                     {/*  */}
-                    {/*  */}
-                    {/*  */}
                     <DesktopRadioFilterRow>
                       <DesktopRadioFilterRowHead>
                         가격대
@@ -161,20 +194,17 @@ function Search() {
                                   type="checkbox"
                                   autoComplete="off"
                                   onChange={() => {
-                                    setPriceChecked("2만원이상");
+                                    setPriceChecked("1만5천원3만원");
                                   }}
-                                  checked={priceChecked === "2만원이상"}
+                                  checked={priceChecked === "1만5천원3만원"}
                                 />
                               </InputCheckBox>
-                              <CheckBoxLabel>2만원 이상</CheckBoxLabel>
+                              <CheckBoxLabel>1만5천원~3만원</CheckBoxLabel>
                             </CheckBox>
                           </FilterItem>
                         </DesktopRadioFilterRowItem>
                       </DesktopRadioFilterRowBody>
                     </DesktopRadioFilterRow>
-
-                    {/*  */}
-                    {/*  */}
 
                     <DesktopCheckBoxFilterRow
                       className={extend === true ? "extend" : ""}
@@ -202,6 +232,10 @@ function Search() {
                                 <CheckcheckBox
                                   type="checkbox"
                                   autoComplete="off"
+                                  onChange={() => {
+                                    setCateChecked("디저트베이커리떡");
+                                  }}
+                                  checked={catechecked === "디저트베이커리떡"}
                                 />
                               </InputCheckBox>
                               <CheckBoxLabel>
@@ -218,9 +252,13 @@ function Search() {
                                 <CheckcheckBox
                                   type="checkbox"
                                   autoComplete="off"
+                                  onChange={() => {
+                                    setCateChecked("음료");
+                                  }}
+                                  checked={catechecked === "음료"}
                                 />
                               </InputCheckBox>
-                              <CheckBoxLabel>음료()</CheckBoxLabel>
+                              <CheckBoxLabel>음료(커피, 차 등)</CheckBoxLabel>
                             </CheckBox>
                           </FilterItem>
                         </DesktopRadioFilterRowItem>
@@ -364,26 +402,27 @@ function Search() {
         {/*  */}
         <InnerW>
           <SearchResultList>
-            {searchData.map((product) => {
-              return (
-                <SearchResultList key={product.idx} className="grid">
-                  <SearchProductCard>
-                    <SearchProductCard className="verticalProduct">
-                      <a href="">
+            {searchData &&
+              searchData.map((product) => {
+                return (
+                  <SearchResultList key={product.idx} className="grid">
+                    <SearchProductCard>
+                      <SearchProductCard className="verticalProduct">
                         <CardThumbCover>
-                          <CardThumbImg
-                            filename={product.filename.split(",")[0]}
-                          ></CardThumbImg>
+                          <Link to={"/product/" + product.idx}>
+                            <CardThumbImg
+                              filename={product.filename.split(",")[0]}
+                            ></CardThumbImg>
+                          </Link>
                           <CardInfoProductInfo>
                             {product.name}
                           </CardInfoProductInfo>
                         </CardThumbCover>
-                      </a>
+                      </SearchProductCard>
                     </SearchProductCard>
-                  </SearchProductCard>
-                </SearchResultList>
-              );
-            })}
+                  </SearchResultList>
+                );
+              })}
           </SearchResultList>
         </InnerW>
       </Contents>
@@ -425,7 +464,7 @@ const CardThumbImg = styled.div`
   height: auto;
   display: block;
   position: relative;
-  background-image: url(http://localhost:8080/product/display?fileName=${(
+  background-image: url(http://www.alittlevanilla.kro.kr:8080/product/display?fileName=${(
     props
   ) => props.filename});
 `;
@@ -553,7 +592,7 @@ const BaseSelectorOptionItemList = styled.ul`
   max-height: 400px;
   overflow-y: auto;
   background: #ffffff;
-  border: 1px solid #ff7b30;
+  border: 1px solid #f1c333;
   border-top: 0 none;
   border-bottom: 0 none;
   border-bottom-left-radius: 2px;
@@ -562,7 +601,7 @@ const BaseSelectorOptionItemList = styled.ul`
 
   &.active {
     height: auto;
-    border-bottom: 1px solid #ff7b30;
+    border-bottom: 1px solid #f1c333;
   }
 `;
 
@@ -632,7 +671,7 @@ const BaseRadioBtn = styled.input`
   &:before {
     width: 15px;
     height: 18px;
-    color: #ff7b30;
+    color: #f1c333;
   }
 `;
 const BaseRadio = styled.label``;
