@@ -22,7 +22,7 @@ function Main() {
           contents={<WelcomeDeal welcomeDealData={welcomeDealData.results} />}
         /> */}
         <SlideSection
-          title="오늘의 작품"
+          title="상품"
           contents={<TodayProduct productData={productData.results} />}
         />
       </Contents>

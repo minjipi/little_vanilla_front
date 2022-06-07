@@ -11,9 +11,7 @@ function SignUp() {
         <LoginSectionRoot>
           <LoginHeadLogo>
             <h1>
-              <a>
-                <IconLogo />
-              </a>
+              <a>{/* <IconLogo /> */}</a>
             </h1>
           </LoginHeadLogo>
           <LoginHeadText>
@@ -31,7 +29,7 @@ function SignUp() {
             </SignupStep>
             <LoginSns className="wrap">
               <Item>
-                <Kakaotalk href="http://localhost:8080/oauth2/authorization/kakao">
+                <Kakaotalk href="http://www.alittlevanilla.kro.kr:8080/oauth2/authorization/kakao">
                   <SpIcon className="Kakaotalk" />
                   "카카오톡으로 가입하기"
                 </Kakaotalk>

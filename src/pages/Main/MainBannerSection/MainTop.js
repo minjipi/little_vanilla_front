@@ -10,7 +10,16 @@ function MainTop() {
           <BannerImg src={mainad} alt="banner" />
           <Col>
             <ShowroomArticle>
-              <Title>📒 이 페이지는 실제 쇼핑몰 페이지가 아닙니다! </Title>
+              <Title>
+                👋🏻 안녕하세요! <br />이 사이트는 실제 제품 판매 사이트가
+                아닙니다.
+                <br />
+                결제 기능은 자정에 모두 환불 되고 있으니,
+                <br />
+                편하게 모든 기능들을 테스트 해보세요.
+                <br />
+                사이트에 궁금한 점이 있다면 언제든 연락주세요.🥰
+              </Title>
               <Desc></Desc>
             </ShowroomArticle>
           </Col>

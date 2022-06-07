@@ -15,9 +15,12 @@ function Order() {
   let [res, setRes] = useState(null);
   useEffect(() => {
     async function fetchData() {
-      let response = await axios.get("http://localhost:8080/order/list/", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      let response = await axios.get(
+        "http://www.alittlevanilla.kro.kr:8080/order/list/",
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
 
       let result = response.data.result;
       setRes(result);
@@ -56,7 +59,7 @@ function Order() {
                 </StrongName>
               </AreaText>
             </ProfileArea>
-            {/*  */}
+
             <div>
               <MyMenuEm>MY MENU</MyMenuEm>
               <MyInfoNav>
@@ -64,13 +67,13 @@ function Order() {
                   <MyInfoSpan>주문배송</MyInfoSpan>
                 </MyInfoB>
                 <MyA href="/order">주문내역</MyA>
-                <MyA href="/order/paymemt">취소/환불내역</MyA>
+                <MyA>취소/환불내역</MyA>
 
                 <MyInfoB>
                   <MyInfoSpan>알림 및 메시지</MyInfoSpan>
                 </MyInfoB>
-                <MyA href="/notification">알림</MyA>
-                <MyA href="/message">메시지</MyA>
+                <MyA>알림</MyA>
+                <MyA>메시지</MyA>
 
                 <MyInfoB>
                   <MyInfoSpan>나의 구매후기</MyInfoSpan>

@@ -27,7 +27,7 @@ function OrderList(props) {
             <Td>
               <ListItem>
                 <AreaImg>
-                  <ImgBg src="https://image.idus.com/image/files/bc09c140accc4c5d8ca5c51878ca9dbc_320.png"></ImgBg>
+                  <ImgBg filename={props.item.filename}></ImgBg>
                 </AreaImg>
                 <AreaTxt>
                   <ListHead>
@@ -57,7 +57,7 @@ function OrderList(props) {
                 <span>{props.item.brandIdx}</span>
               </div>
               <Col5>
-                <TdConA href="/message">메시지로 문의</TdConA>
+                <TdConA>메시지로 문의</TdConA>
               </Col5>
             </TdControllWow>
 
@@ -238,7 +238,9 @@ const ImgBg = styled.div`
   background-repeat: no-repeat;
   background-position: center;
 
-  background-image: url("https://image.idus.com/image/files/bc09c140accc4c5d8ca5c51878ca9dbc_320.png");
+  background-image: url("http://www.alittlevanilla.kro.kr:8080/product/display?fileName=${(
+    props
+  ) => props.filename}");
 `;
 
 const AreaImg = styled.div`

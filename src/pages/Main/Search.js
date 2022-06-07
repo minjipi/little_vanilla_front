@@ -28,7 +28,7 @@ function Search() {
       if (priceChecked === "1만5천원이하") {
         console.log("priceChecked: " + priceChecked);
         const result = await axios.get(
-          "http://localhost:8080/product/search?word=" +
+          "http://www.alittlevanilla.kro.kr:8080/product/search?word=" +
             params.word +
             "&gte=0&lte=15000"
         );
@@ -36,14 +36,15 @@ function Search() {
       } else if (priceChecked === "1만5천원3만원") {
         console.log("priceChecked: " + priceChecked);
         const result = await axios.get(
-          "http://localhost:8080/product/search?word=" +
+          "http://www.alittlevanilla.kro.kr:8080/product/search?word=" +
             params.word +
             "&gte=15000&lte=30000"
         );
         setSearchData(result.data.result);
       } else {
         const result = await axios.get(
-          "http://localhost:8080/product/search?word=" + params.word
+          "http://www.alittlevanilla.kro.kr:8080/product/search?word=" +
+            params.word
         );
         setSearchData(result.data.result);
       }
@@ -51,7 +52,7 @@ function Search() {
       if (priceChecked === "1만5천원이하") {
         console.log("priceChecked: " + priceChecked);
         const result = await axios.get(
-          "http://localhost:8080/product/search?word=" +
+          "http://www.alittlevanilla.kro.kr:8080/product/search?word=" +
             params.word +
             "&gte=0&lte=15000"
         );
@@ -59,14 +60,14 @@ function Search() {
       } else if (priceChecked === "1만5천원3만원") {
         console.log("priceChecked: " + priceChecked);
         const result = await axios.get(
-          "http://localhost:8080/product/search?word=" +
+          "http://www.alittlevanilla.kro.kr:8080/product/search?word=" +
             params.word +
             "&gte=15000&lte=30000"
         );
         setSearchData(result.data.result);
       } else {
         const result = await axios.get(
-          "http://localhost:8080/product/search?word=" +
+          "http://www.alittlevanilla.kro.kr:8080/product/search?word=" +
             params.word +
             "&isDelFree=1"
         );
@@ -463,7 +464,7 @@ const CardThumbImg = styled.div`
   height: auto;
   display: block;
   position: relative;
-  background-image: url(http://localhost:8080/product/display?fileName=${(
+  background-image: url(http://www.alittlevanilla.kro.kr:8080/product/display?fileName=${(
     props
   ) => props.filename});
 `;

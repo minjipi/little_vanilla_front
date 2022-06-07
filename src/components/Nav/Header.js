@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import jwt_decode from "jwt-decode";
 import asasasa from "../Nav/asasasa.png";
+import QR from "../../Images/QR.png";
 
 function Header() {
   const [isAppInstallHover, setIsAppInstallHover] = useState(false);
@@ -41,7 +42,7 @@ function Header() {
   };
 
   // async function fetchData() {
-  //   const result = await axios.get("http://localhost:8080/cart/list", {
+  //   const result = await axios.get("http://www.alittlevanilla.kro.kr:8080/cart/list", {
   //     headers: {
   //       Authorization: "Bearer " + localStorage.getItem("token"),
   //       "Content-Type": "application/json",
@@ -583,7 +584,8 @@ const QrImgicon = styled.img`
   display: block;
   width: 112px;
   height: 112px;
-  background-image: url(https://www.idus.com/resources/dist/images/qrcode.png);
+  // background-image: url(https://www.idus.com/resources/dist/images/qrcode.png);
+  background-image: url(${QR});
 `;
 
 const Fr = styled.nav`

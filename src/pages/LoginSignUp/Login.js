@@ -14,7 +14,7 @@ function Login() {
   const onSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/member/authenticate",
+        "http://www.alittlevanilla.kro.kr:8080/member/authenticate",
         body,
         {
           headers: { "Content-Type": "application/json" },
@@ -35,8 +35,10 @@ function Login() {
         localStorage.clear();
       }
     } catch (e) {
+      alert(
+        "회원 정보가 일치 하지 않습니다. 아이디와 비민번호를 다시 확인해 주세요!"
+      );
       console.log(e);
-      // document.location.href = "/";
     }
   };
 
@@ -46,9 +48,7 @@ function Login() {
         <LoginContainer>
           <LoginHeadLogo>
             <h1>
-              <a>
-                <IconLogo />
-              </a>
+              <a>{/* <IconLogo /> */}</a>
             </h1>
           </LoginHeadLogo>
           <LoginHeadText>
@@ -68,7 +68,7 @@ function Login() {
 
             <VerticalButtons>
               <BarButton
-                href="http://localhost:8080/oauth2/authorization/kakao"
+                href="http://www.alittlevanilla.kro.kr:8080/oauth2/authorization/kakao"
                 className="kakao"
               >
                 <SpIcon className="Kakaotalk"></SpIcon>
@@ -432,27 +432,27 @@ const LoginHeadText = styled.div`
   }
 `;
 
-const IconLogo = styled.span`
-  background-position: -91px -488px;
-  width: 100px;
-  padding-top: 40px;
-  background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070.png);
-  height: 0;
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 0;
-  line-height: 0;
-  letter-spacing: 0;
+// const IconLogo = styled.span`
+//   background-position: -91px -488px;
+//   width: 100px;
+//   padding-top: 40px;
+//   background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070.png);
+//   height: 0;
+//   overflow: hidden;
+//   display: inline-block;
+//   vertical-align: middle;
+//   font-size: 0;
+//   line-height: 0;
+//   letter-spacing: 0;
 
-  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070@2x.png);
-    -webkit-background-size: 787px 736px;
-    -moz-background-size: 787px 736px;
-    -o-background-size: 787px 736px;
-    background-size: 787px 736px;
-  }
-`;
+//   @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+//     background-image: url(https://www.idus.com/resources/dist/images/sp/sp-icon_1634026706070@2x.png);
+//     -webkit-background-size: 787px 736px;
+//     -moz-background-size: 787px 736px;
+//     -o-background-size: 787px 736px;
+//     background-size: 787px 736px;
+//   }
+// `;
 
 const LoginHeadLogo = styled.div`
   text-align: center;

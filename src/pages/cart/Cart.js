@@ -18,7 +18,7 @@ function Cart() {
   //     document.location.href = "/";
   //   } else {
   //     async function fetchData() {
-  //       const response = await axios.get("http://localhost:8080/order/list", {
+  //       const response = await axios.get("http://www.alittlevanilla.kro.kr:8080/order/list", {
   //         headers: {
   //           Authorization: "Bearer " + localStorage.getItem("token"),
   //           "Content-Type": "application/json",

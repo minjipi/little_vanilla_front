@@ -11,14 +11,14 @@
 //   // useEffect(() => {
 //   //   async function fetchData() {
 //   //     const result = await axios.get(
-//   //       "http://localhost:8080/product/" + params.idx
+//   //       "http://www.alittlevanilla.kro.kr:8080/product/" + params.idx
 //   //     );
 
 //   //     let images = [];
 //   //     result.data.result.filename.split(",").map((filename, idx) => {
 //   //       const img = {
 //   //         id: idx + 1,
-//   //         url: "http://localhost:8080/product/display?fileName=" + filename,
+//   //         url: "http://www.alittlevanilla.kro.kr:8080/product/display?fileName=" + filename,
 //   //       };
 //   //       images.push(img);
 //   //     });
