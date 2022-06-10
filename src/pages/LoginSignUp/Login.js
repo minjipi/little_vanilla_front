@@ -14,7 +14,7 @@ function Login() {
   const onSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://www.alittlevanilla.kro.kr:8080/member/authenticate",
+        "http://3.39.23.145:8080/member/authenticate",
         body,
         {
           headers: { "Content-Type": "application/json" },
@@ -68,7 +68,7 @@ function Login() {
 
             <VerticalButtons>
               <BarButton
-                href="http://www.alittlevanilla.kro.kr:8080/oauth2/authorization/kakao"
+                href="http://3.39.23.145:8080/oauth2/authorization/kakao"
                 className="kakao"
               >
                 <SpIcon className="Kakaotalk"></SpIcon>

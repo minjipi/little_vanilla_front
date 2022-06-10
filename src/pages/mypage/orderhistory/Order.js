@@ -15,12 +15,9 @@ function Order() {
   let [res, setRes] = useState(null);
   useEffect(() => {
     async function fetchData() {
-      let response = await axios.get(
-        "http://www.alittlevanilla.kro.kr:8080/order/list/",
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
+      let response = await axios.get("http://3.39.23.145:8080/order/list/", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
 
       let result = response.data.result;
       setRes(result);

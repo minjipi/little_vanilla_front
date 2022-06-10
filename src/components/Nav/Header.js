@@ -42,7 +42,7 @@ function Header() {
   };
 
   // async function fetchData() {
-  //   const result = await axios.get("http://www.alittlevanilla.kro.kr:8080/cart/list", {
+  //   const result = await axios.get("http://3.39.23.145:8080/cart/list", {
   //     headers: {
   //       Authorization: "Bearer " + localStorage.getItem("token"),
   //       "Content-Type": "application/json",
