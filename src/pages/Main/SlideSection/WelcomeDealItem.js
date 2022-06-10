@@ -8,7 +8,7 @@ function WelcomeDealItem(props) {
   const productLike = async (idx) => {
     try {
       const response = await axios.get(
-        "http://www.alittlevanilla.kro.kr:8080/product/like/" + idx,
+        "http://3.39.23.145:8080/product/like/" + idx,
 
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
