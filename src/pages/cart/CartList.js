@@ -31,7 +31,7 @@ function CartList(props) {
 
   const showList = async () => {
     try {
-      const result = await axios.get("http://localhost:8080/cart/list", {
+      const result = await axios.get("http://3.39.23.145:8080/cart/list", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-Type": "application/json",
@@ -65,7 +65,7 @@ function CartList(props) {
 
   const cancel = async (idx) => {
     try {
-      await axios.get("http://localhost:8080/cart/cancel/" + idx, {
+      await axios.get("http://3.39.23.145:8080/cart/cancel/" + idx, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-Type": "application/json",
@@ -108,7 +108,7 @@ function CartList(props) {
   const paymentCheck = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/pay/complete",
+        "http://3.39.23.145:8080/pay/complete",
         data,
         {
           headers: {
@@ -225,7 +225,7 @@ function CartList(props) {
                                     </CartProductListItemCheckboxW>
                                     <CartProductListItemPI
                                       src={
-                                        "http://localhost:8080/product/display?fileName=" +
+                                        "http://3.39.23.145:8080/product/display?fileName=" +
                                         cartItem.filename
                                       }
                                     />
