@@ -20,7 +20,7 @@
 <br />
 
 ## 상세 기능
-> [A Little Vanilla](http://www.alittlevanilla.kro.kr, "alittlevanilla") 사이트에서 실제 기능 확인 하실 수 있습니다. <br />
+> [A Little Vanilla](http://www.alittlevanilla.kro.kr , "a") 사이트에서 실제 기능 확인 하실 수 있습니다. <br />
 
 ### 📍 일반 회원가입 <br />
 ![회원가입](https://user-images.githubusercontent.com/68539040/174229163-87deaa3e-713b-428f-8bce-c2c0478e492d.gif) <br />  <br />
