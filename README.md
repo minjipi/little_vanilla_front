@@ -19,29 +19,21 @@
 
 <br />
 
-## API 설계 및 진행상황
+## 상세 기능
+> [A Little Vanilla](http://www.alittlevanilla.kro.kr, "Iamport link") 사이트에서 실제 기능 확인 하실 수 있습니다. <br />
 
 ### 📍 일반 회원가입 <br />
 ![회원가입](https://user-images.githubusercontent.com/68539040/174229163-87deaa3e-713b-428f-8bce-c2c0478e492d.gif) <br />  <br />
 
-### 📍 <br />
+### 📍 회원 정보 변경 <br />
 ![정보변경](https://user-images.githubusercontent.com/68539040/174230527-aedc5dc0-8883-4a3e-bac6-e682ff4d28fc.gif)  <br />  <br />
 
 
-### 🛍 상품
+### 🛍 상품 업로드
+상품 업로드는 회원 가입 후 가능합니다. <br />
+실제 쇼핑몰에서는 일반 회원가 아닌 판매자 role만 가능한 기능이지만 원활한 테스트의 진행을 위해 일반 회원도 글 작성이 가능하게 구현했습니다. <br />
 
-| Feature    | Request | API                   | 설명                                                                                                                                                              | 체크 |
-| ---------- | ------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
-| 상품작성   | POST    | /product/create       | 상품 1개 작성. 일반 회원이 아닌, 판매자 회원만 글 작성 가능.                                                                                                      | ☑️   |
-| 상품조회   | GET     | /product/{idx}        | 상품 idx를 통한 상품 1개 조회. 본인이 작성한 글만 수정 가능.                                                                                                      | ☑️   |
-| 상품삭제   | PATCH   | /product/delete/{idx} | 상품 idx를 통한 상품 1개 삭제. delete 문으로 글을 삭제하는 방식 대신 update 문으로 글의 status를 변경하여 비공개 처리 합니다. 본인이 작성한 글만 삭제 가능.       | ☑️   |
-| 상품수정   | PATCH   | /product/{idx}        | 상품 정보 수정                                                                                                                                                    | ☑️   |
-| 상품목록   | GET     | /product/list         | 모든 상품 목록 조회. 상품명, 판매자, 상품 사진 등 정보 포함.                                                                                                      | ☑️   |
-| 상품검색   | GET     | /product/search       | 상품 검색. 가격대, 배송타입, 이미지만 보기 등 정렬 검색 기능. 상품명, 판매자, 상품 사진 등 정보 포함. [검색 기능](https://blog.naver.com/ghdalswl77/222661721733) | ☑️   |
-| 좋아요     | GET     | /product/like/{idx}   | 상품 idx를 통한 상품 좋아요/좋아요 취소 기능. [Spring Boot 게시글 좋아요 기능](https://blog.naver.com/ghdalswl77/222686567891)                                    | ☑️   |
-| 좋아요목록 | GET     | /product/likelist     | 회원 idx를 통한 상품 좋아요 목록 조회                                                                                                                             | ☑️   |
-
-<br />
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/68539040/174232925-6e9cb0d1-d92c-46bc-8f24-d53ba1322936.gif)  <br />  <br />
 
 ### 🧺 서랍
 
