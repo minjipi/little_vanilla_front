@@ -65,10 +65,10 @@
 
 ### 💳 결제
 상품결제 시연 영상 입니다. <br />
-https://user-images.githubusercontent.com/68539040/174537846-1ae2891e-dee2-42e8-8196-93af8656267d.MP4 <br /> <hr />
+https://user-images.githubusercontent.com/68539040/174537846-1ae2891e-dee2-42e8-8196-93af8656267d.MP4 <br /> <hr /> <br /> <br />
 
 ### 📝 후기 및 개선방향
-+ redux
++ redux  <br />
 프로젝트에 조금씩 살이 붙으며, 상태관리 라이브러리인 redux에 대해 알게 되었다.  <br />
 여러 컴포넌트가 공통으로 사용할 상태를 서로 공유해야 할 시점에서 복잡한 구조와 계층이 생겨날 때였다.  <br />
 고민 끝에 일단 state와 useref와 같은 hook으로 구현해보고, 코드가 정말 너무 복잡해진다 싶을 때 리덕스를 쓰자 생각했고  <br />
