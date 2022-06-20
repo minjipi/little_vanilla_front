@@ -9,7 +9,7 @@
 
 ## 사용 기술 스택
 
-- **React**
+- **React** <img src="https://img.shields.io/badge/React-F7DF1E?style=flat-square&logo=React&logoColor=white"/>
   - Spring Framework에서 클래스패스의 라이브러리를 자동으로 인식하여 설정해주고 내장 서버를 제공하는 등 많은 편의성을 제공하기 때문에 빠른 개발이 가능하다고 생각하여 Spring Boot를 사용했습니다.
     서비스에서 회원 기능을 지원하기 때문에 이에 필수적인 인증, 인가 기능을 적용하기 위해 사용했습니다.
 - JWT
