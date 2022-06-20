@@ -13,20 +13,23 @@
   - 토큰 기반 인증을 구현하기 위해 사용하였습니다. Session 방식보다 확장성이 높고, 자원낭비가 덜하다고 생각해 (세션 클러스터링 등) 로그인 방식으로 JWT를 사용했습니다. [JWT](https://blog.naver.com/ghdalswl77/222517833354)
 - **MySQL 8.0.26**
   - 상품 검색 기능을 지원하기 때문에 보다 편리한 검색을 위해 문자열 비교에서 대소 문자를 구분하지 않는다는 장점이 있는 MySQL을 사용했습니다.
+-  **AWS EC2 배포**
+  - 스프링부트 프로젝트와 AWS RDS 연동으로 'A Little Vanilla' 에 웹사이트를 배포했습니다.
+- **Jenkins CI/CD**
+  - git push가 발생 할 때마다 빌드와 테스트를 자동화 하여 개발 효율성을 높일 수 있도록 젠킨스를 활용하였습니다.  
 
 <br />
 
 ## 상세 기능
 > [A Little Vanilla](http://www.alittlevanilla.kro.kr) 사이트에서 실제 기능 확인 하실 수 있습니다. <br />
 
-## 1. 공통 <br />
-
+## 1.📍 공통 <br />
 + JWT를 활용한 로그인 토큰 발행
 + 일반 회원가입 / 로그인
 + 카카오 소셜 로그인
 + 이메일 유효성 검사
 
-### 📍 일반 회원가입 <br />
+### 일반 회원가입 <br />
 ![회원가입](https://user-images.githubusercontent.com/68539040/174229163-87deaa3e-713b-428f-8bce-c2c0478e492d.gif) <br />
 소셜 로그인(카카오)으로 회원 가입을 진행할 수 있습니다.  <br /> <br />
 
@@ -41,7 +44,7 @@
 
 <br /> <br />
 
-### 📍 회원 정보 변경 <br />
+### 회원 정보 변경 <br />
 ![정보변경](https://user-images.githubusercontent.com/68539040/174230527-aedc5dc0-8883-4a3e-bac6-e682ff4d28fc.gif)  <br />  <br />
 
 
@@ -54,10 +57,7 @@
 
 ### 💓 좋아요
 상품 목록에서 개별 좋아요/좋아요 취소 <br />
-<img width="800" alt="좋아요" src="https://user-images.githubusercontent.com/68539040/174553331-3d8a952e-4d02-4371-b492-82836a7995bd.png">
-
-<br /> <br />
-
+<img width="800" alt="좋아요" src="https://user-images.githubusercontent.com/68539040/174553331-3d8a952e-4d02-4371-b492-82836a7995bd.png"> <br /> <br />
 
 ### 🛒 장바구니
 상품 1개 장바구니 담기, 내 장바구니 목록 조회, 장바구니 개별 취소 <br />
