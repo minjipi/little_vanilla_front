@@ -1,8 +1,7 @@
 # 🍦 A Little Vanilla : Frontend 
 
 > 👉🏻 Summary <br />
-> 이 프로젝트는 스프링부트와 리액트로 회원가입, 로그인, 카카오로그인, 상품 등록/조회/수정/삭제/좋아요/장바구니/구매 등 다양한 쇼핑몰 서비스를 제공하기 위해 만들어졌습니다. <br />
-> 현재 [I am port](https://www.iamport.kr/?gclid=CjwKCAjws8yUBhA1EiwAi_tpEawr0NbpwdG_4bW9KRPVRXXVEdwQ32yO8SyXEhMBfxiqHIml3c8uxhoC2nYQAvD_BwE, "Iamport link") 결제 API를 연동하여 실제 거래까지 이루어지지만, 현재 배포된 사이트에서는 당일 자정에 모두 환불됩니다.<br />
+> 이 프로젝트는 스프링부트와 리액트로 회원가입, 로그인, 카카오로그인, 상품 등록/조회/수정/삭제/좋아요/장바구니/구매 등 다양한 쇼핑몰 서비스를 제공하기 위해 만들어졌습니다. 현재 [I am port](https://www.iamport.kr/?gclid=CjwKCAjws8yUBhA1EiwAi_tpEawr0NbpwdG_4bW9KRPVRXXVEdwQ32yO8SyXEhMBfxiqHIml3c8uxhoC2nYQAvD_BwE, "Iamport link") 결제 API를 연동하여 실제 거래까지 이루어지지만, 현재 배포된 사이트에서는 당일 자정에 모두 환불됩니다.<br />
 > 안심하고 테스트 해보세요!
 <br />
 
@@ -47,9 +46,7 @@
 
 ### 🛒 장바구니
 상품 1개 장바구니 담기, 내 장바구니 목록 조회, 장바구니 개별 취소 <br />
-![2022-06-20-151633-1960221706](https://user-images.githubusercontent.com/68539040/174537326-5f740810-66bf-40af-a4a4-9c9b02e29437.gif)
-<br />
-<br />
+![2022-06-20-151633-1960221706](https://user-images.githubusercontent.com/68539040/174537326-5f740810-66bf-40af-a4a4-9c9b02e29437.gif) <br /> <br />
 
 ### 💳 결제
 상품결제 시연 영상 입니다. <br />
