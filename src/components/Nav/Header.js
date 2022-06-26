@@ -206,20 +206,32 @@ function Header() {
                 <GnbLoginBtn href="/login">로그인</GnbLoginBtn>
 
                 <NavBtnUiDropdown>
-                  고객센터
+                  <BtnDropdown
+                    onMouseOver={() => setIsCallCenterHover(true)}
+                    onMouseOut={() => setIsCallCenterHover(false)}
+                    isCallCenterHover={isCallCenterHover}
+                  >
+                    고객센터
+                  </BtnDropdown>
                   <MenuDropdown
                     onMouseOver={() => setIsCallCenterHover(true)}
                     onMouseOut={() => setIsCallCenterHover(false)}
                     isCallCenterHover={isCallCenterHover}
                   >
                     <CustomerLi>
-                      <CustomerA>공지사항</CustomerA>
+                      <CustomerA href="https://github.com/minjipi/little_vanilla_front">
+                        공지사항
+                      </CustomerA>
                     </CustomerLi>
                     <CustomerLi>
-                      <CustomerA>자주 묻는 질문</CustomerA>
+                      <CustomerA href="https://github.com/minjipi/little_vanilla_front/issues">
+                        자주 묻는 질문
+                      </CustomerA>
                     </CustomerLi>
                     <CustomerLi>
-                      <CustomerA>메일로 문의</CustomerA>
+                      <CustomerA href="https://blog.naver.com/ghdalswl77">
+                        블로그
+                      </CustomerA>
                     </CustomerLi>
                   </MenuDropdown>
                 </NavBtnUiDropdown>
