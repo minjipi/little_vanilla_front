@@ -14,6 +14,8 @@ import SignUpEmailSeller from "./pages/LoginSignUp/SignUpEmailSeller";
 import KakaoLoginRedirect from "./pages/LoginSignUp/KakaoLoginRedirect";
 import SignUpEmailCheck from "./pages/LoginSignUp/SignUpEmailCheck";
 import SignUpEmailConfirm from "./pages/LoginSignUp/SignUpEmailConfirm";
+import EmailCertError from "./pages/LoginSignUp/EmailCertError";
+
 import Cart from "./pages/cart/Cart";
 import CartOrder from "./pages/cart/CartOrder";
 import OrderDone from "./pages/cart/OrderDone";
@@ -46,6 +48,7 @@ class Routing extends React.Component {
           <Route path="/cartorder" element={<CartOrder />} />
           <Route path="/orderdone" element={<OrderDone />} />
           <Route path="/likelist" element={<Likelist />} />
+          <Route path="/emailCertError" element={<EmailCertError />} />
 
           <Route
             path="/oauth2/redirect/:token"
