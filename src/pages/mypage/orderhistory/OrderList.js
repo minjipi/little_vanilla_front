@@ -238,7 +238,7 @@ const ImgBg = styled.div`
   background-repeat: no-repeat;
   background-position: center;
 
-  background-image: url("http://3.39.23.145:8080/product/display?fileName=${(
+  background-image: url("https://backend.alittlevanilla.kro.kr:8080/product/display?fileName=${(
     props
   ) => props.filename}");
 `;

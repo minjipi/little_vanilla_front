@@ -31,12 +31,15 @@ function CartList(props) {
 
   const showList = async () => {
     try {
-      const result = await axios.get("http://3.39.23.145:8080/cart/list", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-          "Content-Type": "application/json",
-        },
-      });
+      const result = await axios.get(
+        "https://backend.alittlevanilla.kro.kr:8080/cart/list",
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       setCartItems(result.data.result);
 
@@ -65,12 +68,15 @@ function CartList(props) {
 
   const cancel = async (idx) => {
     try {
-      await axios.get("http://3.39.23.145:8080/cart/cancel/" + idx, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.get(
+        "https://backend.alittlevanilla.kro.kr:8080/cart/cancel/" + idx,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       window.location.reload();
     } catch (e) {
@@ -108,7 +114,7 @@ function CartList(props) {
   const paymentCheck = async (data) => {
     try {
       const response = await axios.post(
-        "http://3.39.23.145:8080/pay/complete",
+        "https://backend.alittlevanilla.kro.kr:8080/pay/complete",
         data,
         {
           headers: {
@@ -225,7 +231,7 @@ function CartList(props) {
                                     </CartProductListItemCheckboxW>
                                     <CartProductListItemPI
                                       src={
-                                        "http://3.39.23.145:8080/product/display?fileName=" +
+                                        "https://backend.alittlevanilla.kro.kr:8080/product/display?fileName=" +
                                         cartItem.filename
                                       }
                                     />

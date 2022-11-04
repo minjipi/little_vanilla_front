@@ -51,7 +51,7 @@ function SignUpEmail() {
   const onSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://3.39.23.145:8080/member/signup",
+        "https://backend.alittlevanilla.kro.kr:8080/member/signup",
         body,
         {
           headers: { "Content-Type": "application/json" },
@@ -70,7 +70,7 @@ function SignUpEmail() {
   //   console.log("onEmailAuth!");
 
   //   try {
-  //     const response = await axios.post("http://3.39.23.145:8080/member/", body, {
+  //     const response = await axios.post("https://backend.alittlevanilla.kro.kr:8080/member/", body, {
   //       headers: { "Content-Type": "application/json" },
   //     });
   //   } catch (e) {
@@ -89,7 +89,7 @@ function SignUpEmail() {
       if (regex.test(email)) {
         try {
           const response = await axios.get(
-            "http://3.39.23.145:8080/member/" + email
+            "https://backend.alittlevanilla.kro.kr:8080/member/" + email
           );
           if (response.data === true) {
             setCheckedEmail("이미 존재하는 이메일 입니다.");

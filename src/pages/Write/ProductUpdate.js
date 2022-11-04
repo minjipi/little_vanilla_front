@@ -33,14 +33,16 @@ function ProductUpdate() {
     async function fetchData() {
       console.log(result);
       const result = await axios.get(
-        "http://3.39.23.145:8080/product/" + useParams.idx
+        "https://backend.alittlevanilla.kro.kr:8080/product/" + useParams.idx
       );
 
       let images = [];
       result.data.result.filename.split(",").map((filename, idx) => {
         const img = {
           id: idx + 1,
-          url: "http://3.39.23.145:8080/product/display?fileName=" + filename,
+          url:
+            "https://backend.alittlevanilla.kro.kr:8080/product/display?fileName=" +
+            filename,
         };
         images.push(img);
       });
@@ -95,7 +97,7 @@ function ProductUpdate() {
         document.location.href = "/login";
       } else {
         response = await axios.post(
-          "http://3.39.23.145:8080/product/create",
+          "https://backend.alittlevanilla.kro.kr:8080/product/create",
           formData,
           {
             headers: {
