@@ -16,7 +16,7 @@ function Order() {
   useEffect(() => {
     async function fetchData() {
       let response = await axios.get(
-        "https://backend.alittlevanilla.kro.kr:8080/order/list/",
+        "https://backend.alittlevanilla.kro.kr/order/list/",
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }

@@ -9,7 +9,7 @@ function TodayProductItem(props) {
     try {
       if (localStorage.getItem("token") !== null) {
         const response = await axios.get(
-          "https://backend.alittlevanilla.kro.kr:8080/product/like/" + idx,
+          "https://backend.alittlevanilla.kro.kr/product/like/" + idx,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -42,7 +42,7 @@ function TodayProductItem(props) {
         <UiCardImgcover>
           <UiCardImgcoverA
             imageurl={
-              "https://backend.alittlevanilla.kro.kr:8080/product/display?fileName=" +
+              "https://backend.alittlevanilla.kro.kr/product/display?fileName=" +
               props.product.filename.split(",")[0]
             }
             href={"/product/" + props.product.idx}
