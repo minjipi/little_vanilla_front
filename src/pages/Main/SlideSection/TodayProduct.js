@@ -10,14 +10,19 @@ function TodayProduct(props) {
     async function fetchData() {
       let result = null;
       if (localStorage.getItem("token") === null) {
-        result = await axios.get("http://3.39.23.145:8080/product/list");
+        result = await axios.get(
+          "https://backend.alittlevanilla.kro.kr:8080/product/list"
+        );
       } else {
-        result = await axios.get("http://3.39.23.145:8080/product/list", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-            "Content-Type": "application/json",
-          },
-        });
+        result = await axios.get(
+          "https://backend.alittlevanilla.kro.kr:8080/product/list",
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+              "Content-Type": "application/json",
+            },
+          }
+        );
       }
 
       console.log(result.data);

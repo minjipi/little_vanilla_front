@@ -56,25 +56,31 @@ function Product() {
       amount: 1,
     };
     // const result =
-    await axios.post("http://3.39.23.145:8080/cart/in", body, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-        "Content-Type": "application/json",
-      },
-    });
+    await axios.post(
+      "https://backend.alittlevanilla.kro.kr:8080/cart/in",
+      body,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+      }
+    );
   };
 
   useEffect(() => {
     async function fetchData() {
       const result = await axios.get(
-        "http://3.39.23.145:8080/product/" + params.idx
+        "https://backend.alittlevanilla.kro.kr:8080/product/" + params.idx
       );
 
       let images = [];
       result.data.result.filename.split(",").map((filename, idx) => {
         const img = {
           id: idx + 1,
-          url: "http://3.39.23.145:8080/product/display?fileName=" + filename,
+          url:
+            "https://backend.alittlevanilla.kro.kr:8080/product/display?fileName=" +
+            filename,
         };
         images.push(img);
       });
@@ -326,7 +332,7 @@ function Product() {
                         key={index}
                         style={{
                           backgroundImage:
-                            "url(http://3.39.23.145:8080/product/display?fileName=" +
+                            "url(https://backend.alittlevanilla.kro.kr:8080/product/display?fileName=" +
                             filename +
                             ")",
                         }}
