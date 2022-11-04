@@ -11,14 +11,14 @@
 //   // useEffect(() => {
 //   //   async function fetchData() {
 //   //     const result = await axios.get(
-//   //       "https://backend.alittlevanilla.kro.kr:8080/product/" + params.idx
+//   //       "https://backend.alittlevanilla.kro.kr/product/" + params.idx
 //   //     );
 
 //   //     let images = [];
 //   //     result.data.result.filename.split(",").map((filename, idx) => {
 //   //       const img = {
 //   //         id: idx + 1,
-//   //         url: "https://backend.alittlevanilla.kro.kr:8080/product/display?fileName=" + filename,
+//   //         url: "https://backend.alittlevanilla.kro.kr/product/display?fileName=" + filename,
 //   //       };
 //   //       images.push(img);
 //   //     });

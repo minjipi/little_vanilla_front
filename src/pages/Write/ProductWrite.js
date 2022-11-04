@@ -68,7 +68,7 @@ function ProductWrite() {
         document.location.href = "/login";
       } else {
         response = await axios.post(
-          "https://backend.alittlevanilla.kro.kr:8080/product/create",
+          "https://backend.alittlevanilla.kro.kr/product/create",
           formData,
           {
             headers: {

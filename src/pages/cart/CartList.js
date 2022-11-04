@@ -32,7 +32,7 @@ function CartList(props) {
   const showList = async () => {
     try {
       const result = await axios.get(
-        "https://backend.alittlevanilla.kro.kr:8080/cart/list",
+        "https://backend.alittlevanilla.kro.kr/cart/list",
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -69,7 +69,7 @@ function CartList(props) {
   const cancel = async (idx) => {
     try {
       await axios.get(
-        "https://backend.alittlevanilla.kro.kr:8080/cart/cancel/" + idx,
+        "https://backend.alittlevanilla.kro.kr/cart/cancel/" + idx,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -114,7 +114,7 @@ function CartList(props) {
   const paymentCheck = async (data) => {
     try {
       const response = await axios.post(
-        "https://backend.alittlevanilla.kro.kr:8080/pay/complete",
+        "https://backend.alittlevanilla.kro.kr/pay/complete",
         data,
         {
           headers: {
@@ -231,7 +231,7 @@ function CartList(props) {
                                     </CartProductListItemCheckboxW>
                                     <CartProductListItemPI
                                       src={
-                                        "https://backend.alittlevanilla.kro.kr:8080/product/display?fileName=" +
+                                        "https://backend.alittlevanilla.kro.kr/product/display?fileName=" +
                                         cartItem.filename
                                       }
                                     />

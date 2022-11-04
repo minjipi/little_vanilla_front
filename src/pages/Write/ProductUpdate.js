@@ -33,7 +33,7 @@ function ProductUpdate() {
     async function fetchData() {
       console.log(result);
       const result = await axios.get(
-        "https://backend.alittlevanilla.kro.kr:8080/product/" + useParams.idx
+        "https://backend.alittlevanilla.kro.kr/product/" + useParams.idx
       );
 
       let images = [];
@@ -41,7 +41,7 @@ function ProductUpdate() {
         const img = {
           id: idx + 1,
           url:
-            "https://backend.alittlevanilla.kro.kr:8080/product/display?fileName=" +
+            "https://backend.alittlevanilla.kro.kr/product/display?fileName=" +
             filename,
         };
         images.push(img);
@@ -97,7 +97,7 @@ function ProductUpdate() {
         document.location.href = "/login";
       } else {
         response = await axios.post(
-          "https://backend.alittlevanilla.kro.kr:8080/product/create",
+          "https://backend.alittlevanilla.kro.kr/product/create",
           formData,
           {
             headers: {

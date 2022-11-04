@@ -11,11 +11,11 @@ function TodayProduct(props) {
       let result = null;
       if (localStorage.getItem("token") === null) {
         result = await axios.get(
-          "https://backend.alittlevanilla.kro.kr:8080/product/list"
+          "https://backend.alittlevanilla.kro.kr/product/list"
         );
       } else {
         result = await axios.get(
-          "https://backend.alittlevanilla.kro.kr:8080/product/list",
+          "https://backend.alittlevanilla.kro.kr/product/list",
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),

@@ -45,7 +45,7 @@ function Mypage(props) {
   useEffect(() => {
     async function fetchData() {
       const response = await axios.get(
-        "https://backend.alittlevanilla.kro.kr:8080/member/modify",
+        "https://backend.alittlevanilla.kro.kr/member/modify",
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -80,7 +80,7 @@ function Mypage(props) {
           document.location.href = "/login";
         } else {
           response = await axios.patch(
-            "https://backend.alittlevanilla.kro.kr:8080/member/modify/" +
+            "https://backend.alittlevanilla.kro.kr/member/modify/" +
               jwt_decode(localStorage.getItem("token")).idx,
             body,
             {
@@ -110,7 +110,7 @@ function Mypage(props) {
       let response = "";
 
       response = await axios.patch(
-        "https://backend.alittlevanilla.kro.kr:8080/member/delete/" +
+        "https://backend.alittlevanilla.kro.kr/member/delete/" +
           jwt_decode(localStorage.getItem("token")).idx,
         body,
         {
